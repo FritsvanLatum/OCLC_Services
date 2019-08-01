@@ -16,9 +16,9 @@ class NCIP_Service extends OCLC_PPL_Service{
 
   public $lookup_url = "";
   public $lookup_headers = ['Accept: application/xml',
-                           // 'Content-Type: application/xml'
+                            'Content-Type: application/xml'
                             ];
-  public $lookup_method = 'PUT';
+  public $lookup_method = 'POST';
 
   public $patron = null;
 
@@ -59,8 +59,8 @@ class NCIP_Service extends OCLC_PPL_Service{
 
     //doe iets slims met het invullen van het ppid in lookup.xml
     //for now:
+    $xml = file_get_contents('ncip_templates/frits.xml');
     
-    $xml = file_get_contents('frits.xml');
     //CURL
     $curl = curl_init();
 
@@ -94,6 +94,7 @@ class NCIP_Service extends OCLC_PPL_Service{
         if ($error_number) {
           $this->log_entry('Error','lookup_patron_ppid',"Result but still cUrl error [$error_number]: $error_msg");
         }
+        
         $this->patron = $result;
       }
     }
