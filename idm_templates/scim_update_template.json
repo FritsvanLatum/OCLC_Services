@@ -1,0 +1,85 @@
+{
+  "schemas": [
+  "urn:ietf:params:scim:schemas:core:2.0:User",
+  "urn:mace:oclc.org:eidm:schema:persona:additionalinfo:20180501",
+  "urn:mace:oclc.org:eidm:schema:persona:correlationinfo:20180101",
+  "urn:mace:oclc.org:eidm:schema:persona:persona:20180305",
+  "urn:mace:oclc.org:eidm:schema:persona:wmscircpatroninfo:20180101",
+  "urn:mace:oclc.org:eidm:schema:persona:wsillinfo:20180101",
+  "urn:mace:oclc.org:eidm:schema:persona:messages:20180305"
+  ],
+
+  {% if person.firstName|length > 0 %}  
+  "name": {
+    "familyName": "{{person.lastName}}",
+    "givenName": "{{person.firstName}}"
+  },
+  {% else %}
+  "name": {
+    "familyName": "{{person.lastName}}"
+  },
+  {% endif %}
+
+  "emails": [
+  {
+    "value": "{{person.email}}",
+    "type": "work",
+    "primary": true
+  }
+  ],
+  
+  {% if person.tel|length > 0 %}  
+  "phoneNumbers": [
+  {
+    "value": "{{person.tel}}",
+    "type": "home",
+    "primary": true
+  }
+  ],
+  {% endif %}
+  
+  "addresses": [
+  {
+    "streetAddress": "{{address.address1}}",
+    "locality": "{{address.city}}",
+    {% if address.state|length > 0 %}
+    "region": "{{address.state}}",
+    {% endif %}
+    "postalCode": "{{address.postcode}}",
+    {% if extra.country|length > 0 %}
+    "country": "{{extra.country}}",
+    {% endif %}
+    "type": "home",
+    "primary": true
+  }
+  ],
+  "urn:mace:oclc.org:eidm:schema:persona:additionalinfo:20180501": {
+    "oclcKeyValuePairs": [
+    {
+      "businessContext": "Circulation_Info",
+      "key": "customdata1",
+      "value": "{{inst.instType}}"
+    },
+    {
+      "businessContext": "Circulation_Info",
+      "key": "customdata2",
+      "value": "{{inst.instName}}"
+    },
+    {
+      "businessContext": "Circulation_Info",
+      "key": "customdata3",
+      "value": "{{inst.research}}"
+    }
+    ]
+  },
+  "urn:mace:oclc.org:eidm:schema:persona:persona:20180305": {
+    "institutionId": "57439",
+    "oclcNamespace": "urn:oclc:platform:57439",
+    "oclcUsername": "{{id.userName}}",
+    "oclcPassword": "{{id.password}}"{% if person.dateBirth|length > 0 %},
+    "dateOfBirth": "{{person.dateBirth}}"{% endif %}{% if person.gender|length > 0 %},
+    "gender": {% if person.gender == "male" %} "MALE" {% elseif person.gender == 'female' %} "FEMALE" {% else %} "UNKNOWN" {% endif %}{% endif %}
+  }
+}
+
+

@@ -9,7 +9,7 @@ require_once './OCLC/User.php';
 class OCLC_PPL_Service {
 
   public $errors = [];
-  private $error_log = __DIR__.'/../service_error';
+  private $error_log = __DIR__.'/service_errors';
   private $logging = 'all'; //'none','errors','all' (not yet implemented
 
   //must be provided as parameters in $patron = new Patron($wskey,$secret,$ppid), see __construct
