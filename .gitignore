@@ -3,6 +3,6 @@
 *.log
 *.zip
 *.tgz
-idm_keys.php
-ncip_keys.php
-some_keys.php
+keys_idm.php
+keys_ncip.php
+keys_some.php
