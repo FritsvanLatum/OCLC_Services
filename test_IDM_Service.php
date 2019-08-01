@@ -9,7 +9,7 @@
     <pre>
     <?php
     require_once './IDM_Service.php';
-    $service = new patron('idm_keys.php');
+    $service = new patron('keys_idm.php');
     
     $service->read_patron_ppid('1a4f4dbb-375a-4363-8792-3aaa95fd9bad');
     echo $service;

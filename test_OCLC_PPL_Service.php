@@ -9,7 +9,7 @@
     <pre>
     <?php
     require_once './OCLC_PPL_Service.php';
-    require_once './some_keys.php';
+    require_once './keys_some.php';
     $service = new OCLC_PPL_Service('test_keys.php');
     $service->get_auth_header('some_url','GET');
     $service->get_access_token_authorization("some_scope");

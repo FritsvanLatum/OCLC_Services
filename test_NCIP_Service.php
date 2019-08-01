@@ -9,7 +9,7 @@
     <pre>
     <?php
     require_once './NCIP_Service.php';
-    $service = new NCIP_Service('ncip_keys.php');
+    $service = new NCIP_Service('keys_ncip.php');
     
     
     $service->lookup_patron_ppid('b420b91d-b3d9-4501-9ccd-99ed44984908');
