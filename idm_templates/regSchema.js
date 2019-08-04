@@ -33,8 +33,8 @@ regSchemaObj =
           format: "datebirth"
         },
         gender: {
-          type: "select",
           title: "Gender",
+          type: "select",
           enum: ["","male","female"]
         },
         tel: {
