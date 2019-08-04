@@ -53,25 +53,34 @@
     "primary": true
   }
   ],
+  
+  {% if (inst.instType|length > 0) or (inst.instName|length > 0) or (inst.research|length > 0) or (inst.to_be_defined|length > 0) %}    
   "urn:mace:oclc.org:eidm:schema:persona:additionalinfo:20180501": {
     "oclcKeyValuePairs": [
     {
       "businessContext": "Circulation_Info",
       "key": "customdata1",
-      "value": "{{inst.instType}}"
-    },
+      "value": {% if inst.instType|length > 0 %} "{{inst.instType}}" {% else %} "unknown" {% endif %}
+    }{% if inst.instName|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata2",
       "value": "{{inst.instName}}"
-    },
+    }{% endif %}{% if inst.research|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata3",
       "value": "{{inst.research}}"
-    }
+    }{% endif %}{% if inst.to_be_defined|length > 0 %},
+    {
+      "businessContext": "Circulation_Info",
+      "key": "customdata4",
+      "value": "{{inst.to_be_defined}}"
+    }{% endif %}
     ]
   },
+  {% endif %}
+  
   "urn:mace:oclc.org:eidm:schema:persona:persona:20180305": {
     "institutionId": "57439",
     "oclcNamespace": "urn:oclc:platform:57439",

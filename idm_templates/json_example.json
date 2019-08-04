@@ -1,0 +1,40 @@
+{
+  "person": {
+    "firstName": "Frits",
+    "lastName": "van Latum",
+    "email": "f.a.vanlatum@vlfg.nl",
+    "dateBirth": "1991-11-11",
+    "gender": "male",
+    "tel": "061a345678"
+  },
+  "id": {
+    "userName": "f.a.vanlatum@vlfg.nl",
+    "password": "Some9password",
+    "confpw": "Some9password"
+  },
+  "inst": {
+    "instType": "court",
+    "instName": "VLFG",
+    "research": "peace",
+    "to_be_defined": "to_be_defined"
+  },
+  "address": {
+    "address1": "Straat 1",
+    "postcode": "2806 CG",
+    "city": "Gouda",
+    "state": "Zuid Holland",
+    "country": "Netherlands"
+  },
+  "services": {
+    "membership": "Yes",
+    "membershipPeriod": "year",
+    "receiveAlerts": "Yes",
+    "alertSubjects": {
+      "pubIntLaw": ["Food; Health", "something"],
+      "privIntLaw": [],
+      "munCompLaw": [],
+      "special": [],
+      "other": []
+    }
+  }
+}
