@@ -24,6 +24,7 @@ create_patron: creates a patron in WMS
 
 
 require_once './OCLC_PPL_Service.php';
+require_once './vendor/autoload.php';
 
 /**
 * A class that represents the IDM Service
@@ -34,23 +35,21 @@ class IDM_Service extends OCLC_PPL_Service{
   public $idm_url = "share.worldcat.org/idaas/scim/v2/Users";
 
   public $read_url = "";
-  public $read_headers = ['Accept: application/scim+json'];
+  public $read_headers = ['Accept' => 'application/scim+json'];
 
   public $search_url = "";
-  public $search_headers = ['Accept: application/scim+json',
-  'Content-Type: application/scim+json'];
+  public $search_headers = ['Accept' => 'application/scim+json',
+                            'Content-Type' => 'application/scim+json'];
   public $search_method = 'POST';
   public $search_POST = true;
 
   public $create_url = "";
-  public $create_headers = [
-  'Content-Type: application/scim+json'];
+  public $create_headers = ['Content-Type' => 'application/scim+json'];
   public $create_method = 'POST';
   public $create_POST = true;
 
   public $update_url = "";
-  public $update_headers = [
-  'Content-Type: application/scim+json'];
+  public $update_headers = ['Content-Type' => 'application/scim+json'];
   public $update_method = 'PUT';
 
 
@@ -90,6 +89,9 @@ class IDM_Service extends OCLC_PPL_Service{
     $json['update_url'] = $this->update_url;
     $json['update_headers'] = $this->update_headers;
     $json['update_method'] = $this->update_method;
+    $json['create_url'] = $this->create_url;
+    $json['create_headers'] = $this->create_headers;
+    $json['create_method'] = $this->create_method;
 
     $json['patron'] = $this->patron;
     $json['search'] = $this->search;
@@ -119,21 +121,19 @@ class IDM_Service extends OCLC_PPL_Service{
 
   public function read_patron_ppid($id) {
     //authorization
-    $token_authorization = $this->get_access_token_authorization('SCIM');
-    if (strlen($token_authorization) > 0) {
-      array_push($this->read_headers,$token_authorization);
-    }
-    else {
-      $this->log_entry('Error','read_patron_ppid','No token authorization header created!');
-    }
-
+    $this->read_headers['Authorization'] = $this->get_access_token_authorization('SCIM');
 
     $url = $this->read_url.'/'.$id;
+
+    $header_array = [];
+    foreach ($this->read_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
+
     //CURL
     $curl = curl_init();
-
     curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->read_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     //curl_setopt($curl, CURLOPT_, );
     //curl_setopt($curl, CURLOPT_, );
@@ -208,14 +208,14 @@ class IDM_Service extends OCLC_PPL_Service{
     $search = '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"], '.
               ' "filter": "External_ID eq \"'.$barcode.'\""}';
     $result = $this->search_patron($search);
-    if $result {
-      //TODO: copy patron data to $this->patron
-      
-      
-      
-      
+    if ($result) {
+      //search has an answer
+      if ($this->search["totalResults"] > 0) {
+        $this->patron = $this->search["Resources"][0];
+        $this->search["Resources"] = [];
+      }
     }
-    returm $result;
+    return $result;
   }
 
   /*     public function search_patron($search)
@@ -229,14 +229,18 @@ class IDM_Service extends OCLC_PPL_Service{
   */
   public function search_patron($search) {
     //authorization
-    $token_authorization = $this->get_access_token_authorization('SCIM');
-    array_push($this->search_headers,$token_authorization);
+    $this->search_headers['Authorization'] = $this->get_access_token_authorization('SCIM');
+
+    $header_array = [];
+    foreach ($this->search_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
 
     //CURL
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $this->search_url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->search_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_POST, $this->search_POST);
     curl_setopt($curl, CURLOPT_POSTFIELDS,$search);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -278,7 +282,7 @@ class IDM_Service extends OCLC_PPL_Service{
   */
   public function wms_update($ppid, $barcode, $json) {
     $json['extra'] = array(
-    'country' => get_countrycode($json['address']['country']),
+    'country' => $this->get_countrycode($json['address']['country']),
     'date' => date("Y-m-d")
     );
     //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
@@ -288,14 +292,13 @@ class IDM_Service extends OCLC_PPL_Service{
     //specify a cache directory only in a production setting
     //'cache' => './compilation_cache',
     ));
-    $scim_json = $twig->render('scim_update_template.json', $json);
+    $scim_json = $twig->render('./idm_templates/scim_update_template.json', $json);
     //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
 
-    $patron = new Patron();
-    $patron->update_patron($ppid,$scim_json);
+    $this->update_patron($ppid,$scim_json);
     //file_put_contents('form_response.json',json_encode($patron->update, JSON_PRETTY_PRINT));
 
-    return array_key_exists('id',$patron->update) ? TRUE : FALSE;
+    return array_key_exists('id',$this->update) ? TRUE : FALSE;
   }
 
   /*
@@ -321,11 +324,10 @@ class IDM_Service extends OCLC_PPL_Service{
     //specify a cache directory only in a production setting
     //'cache' => './compilation_cache',
     ));
-    $scim_json = $twig->render('scim_activate_template.json', $json);
+    $scim_json = $twig->render('./idm_templates/scim_activate_template.json', $json);
     //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
 
-    $patron = new Patron();
-    $patron->update_patron($ppid,$scim_json);
+    $this->update_patron($ppid,$scim_json);
     //file_put_contents('form_response.json',json_encode($patron->update, JSON_PRETTY_PRINT));
 
     return array_key_exists('id',$patron->update) ? TRUE : FALSE;
@@ -335,15 +337,18 @@ class IDM_Service extends OCLC_PPL_Service{
     //$ppid must be the value of the "id" key in scim json
 
     //authorization
-    $token_authorization = $this->get_access_token_authorization('SCIM');
-    //echo $token_authorization;
-    array_push($this->update_headers,$token_authorization);
+    $this->update_headers['Authorization'] = $this->get_access_token_authorization('SCIM');
+
+    $header_array = [];
+    foreach ($this->update_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
 
     //CURL
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $this->update_url.'/'.$ppid);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->update_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->update_method);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $scim_json);
 
@@ -492,27 +497,26 @@ class IDM_Service extends OCLC_PPL_Service{
     $ppid = '';
     $json['extra'] = array(
     'barcode' => $barcode,
-    'country' => get_countrycode($json['address']['country']),
+    'country' => $this->get_countrycode($json['address']['country']),
     'date' => date("Y-m-d"),
     'expDate' => date('Y-m-d\TH:i:s\Z'),
     'blocked' => 'true',
     'verified' => 'false'
     );
-    file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
+    //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
 
     $loader = new Twig_Loader_Filesystem(__DIR__);
     $twig = new Twig_Environment($loader, array(
     //specify a cache directory only in a production setting
     //'cache' => './compilation_cache',
     ));
-    $scim_json = $twig->render('scim_create_template.json', $json);
-    file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
+    $scim_json = $twig->render('./idm_templates/scim_create_template.json', $json);
+    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
 
-    $patron = new Patron();
-    $patron->create_patron($scim_json);
-    file_put_contents('form_response.json',json_encode($patron->create, JSON_PRETTY_PRINT));
+    $this->create_patron($scim_json);
+    //file_put_contents('form_response.json',json_encode($patron->create, JSON_PRETTY_PRINT));
 
-    return array_key_exists('id',$patron->create) ? $patron->create['id'] : '';
+    return array_key_exists('id',$this->create) ? $this->create['id'] : '';
   }
 
   /*
@@ -529,15 +533,18 @@ class IDM_Service extends OCLC_PPL_Service{
   private function create_patron($scim_json) {
 
     //authorization
-    $token_authorization = $this->get_access_token_authorization('SCIM');
-    //echo $token_authorization;
-    array_push($this->create_headers,$token_authorization);
+    $this->create_headers['Authorization'] = $this->get_access_token_authorization('SCIM');
 
+    $header_array = [];
+    foreach ($this->create_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
+echo json_encode($header_array,JSON_PRETTY_PRINT);
     //CURL
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $this->create_url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->create_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_POST, $this->create_POST);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $scim_json);
 

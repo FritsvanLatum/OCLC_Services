@@ -29,7 +29,7 @@ class OCLC_PPL_Service {
   public $token_url = 'https://authn.sd00.worldcat.org/oauth2/accessToken';
   public $token_method = 'POST';
   public $token_POST = true;
-  public $token_headers = ['Accept: application/json'];
+  public $token_headers = ['Accept' => 'application/json'];
 
   public $token_params = [
   'grant_type' => 'client_credentials',
@@ -97,8 +97,6 @@ class OCLC_PPL_Service {
         $wskeyObj = new WSKey($config['wskey'], $config['secret'],null);
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, null);
       }
-      //check??
-      $authorizationHeader = 'Authorization: '.$authorizationHeader;
     }
     else {
       $this->log_entry('Error','get_pulllist_auth_header','No wskey and/or no secret!');
@@ -112,17 +110,23 @@ class OCLC_PPL_Service {
     
     $token_authorization = "";
     $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method);
+
     if (strlen($authorizationHeader) > 0) {
-      array_push($this->token_headers,$authorizationHeader);
+      $this->token_headers['Authorization'] = $authorizationHeader;
     }
     else {
       $this->log_entry('Error','get_access_token_authorization','No authorization header created!');
     }
 
     $curl = curl_init();
-
+    
+    $header_array = [];
+    foreach ($this->token_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
+    
     curl_setopt($curl, CURLOPT_URL, $this->token_url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->token_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_POST, $this->token_POST);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($this->token_params));
     //echo http_build_query($this->token_params);
@@ -157,7 +161,7 @@ class OCLC_PPL_Service {
         $json_errmsg = json_last_error_msg();
         if ($json_errno == JSON_ERROR_NONE) {
           if (array_key_exists('access_token',$token_array)){
-            $token_authorization = 'Authorization: Bearer '.$token_array['access_token'];
+            $token_authorization = 'Bearer '.$token_array['access_token'];
           }
           else {
             $this->log_entry('Error','get_access_token_authorization',"No access_token returned (curl result: ".$result.")");

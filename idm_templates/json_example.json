@@ -1,14 +1,14 @@
 {
   "person": {
-    "firstName": "Frits",
-    "lastName": "van Latum",
-    "email": "f.a.vanlatum@vlfg.nl",
+    "firstName": "Test",
+    "lastName": "van TestCreate2",
+    "email": "TestCreate2@test.nl",
     "dateBirth": "1991-11-11",
     "gender": "male",
     "tel": "061a345678"
   },
   "id": {
-    "userName": "f.a.vanlatum@vlfg.nl",
+    "userName": "TestCreate2@test.nl",
     "password": "Some9password",
     "confpw": "Some9password"
   },
