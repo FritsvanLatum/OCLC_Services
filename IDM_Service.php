@@ -23,7 +23,7 @@ create_patron: creates a patron in WMS
 */
 
 
-require_once './OCLC_PPL_Service.php';
+require_once './OCLC_Service.php';
 require_once './vendor/autoload.php';
 
 /**
