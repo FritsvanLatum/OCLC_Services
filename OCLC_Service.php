@@ -44,7 +44,7 @@ class OCLC_PPL_Service {
     require(__DIR__.'/'.$key_file);
     $this->wskey = $config['wskey'];
     $this->secret = $config['secret'];
-    $this->ppid = $config['ppid'];
+    if (array_key_exists('ppid',$config)) $this->ppid = $config['ppid'];
 
     $this->ppid_namespace = $this->ppid_namespace.$this->institution;
   }
@@ -94,7 +94,7 @@ class OCLC_PPL_Service {
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, $options);
       }
       else {
-        $wskeyObj = new WSKey($config['wskey'], $config['secret'],null);
+        $wskeyObj = new WSKey($this->wskey, $this->secret,null);
         $authorizationHeader = $wskeyObj->getHMACSignature($method, $url, null);
       }
     }

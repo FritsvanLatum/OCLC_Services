@@ -6,16 +6,17 @@ require_once './OCLC_Service.php';
 */
 class Availability_Service extends OCLC_PPL_Service {
 
-  //https://worldcat.org/circ/availability/sru/service?x-registryId=57439&query=no:ocm1024083487
+  //please note that the calculation of the authorization header uses the "http://..." url
   private $avail_url_auth = "http://worldcat.org/circ/availability/sru/service";
-
+  //the url that the service needs to get the data is the "https://..." url
   private $avail_url = "https://worldcat.org/circ/availability/sru/service";
+
   private $avail_method = 'GET';
-  private $avail_params = array();
+  private $avail_params = ['x-registryId' => '',
+                           'query' => '',
+                           'x-return-group-availability' => 0];
   private $avail_headers = ['Accept' => 'text/xml'];
 
-  private $ocn = array();
-  private $ns = array();
   public $avail = null;
   
   public function __construct($key_file) {
@@ -32,51 +33,33 @@ class Availability_Service extends OCLC_PPL_Service {
     $json['avail_headers'] = $this->avail_headers;
     $json['avail_params'] = $this->avail_params;
     $json['avail'] = $this->avail;
-    $json['ocn'] = $this->ocn;
     $json['ns'] = $this->ns;
 
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
-  private function get_avail_auth_header($url,$method) {
-    //get an authorization header
-    //  with wskey, secret and if necessary user data from $config
-    //  for the $method and $url provided as parameters
-
-    $authorizationHeader = '';
-    if ($this->wskey && $this->secret) {
-      $user = null;
-      $opts = null;
-      $wskeyObj = new WSKey($this->wskey, $this->secret,$opts);
-      $authorizationHeader = $wskeyObj->getHMACSignature($method, $url);
-      $authorizationHeader = 'Authorization: '.$authorizationHeader;
-    }
-    else {
-      $this->log_entry('Error','get_avail_auth_header','No wskey and/or no secret!');
-    }
-    return $authorizationHeader;
+  public function get_availabilty_of_ocn($ocn) {
+    return $this->get_availabilty_query('no:ocm'.$ocn); 
   }
-
-  public function get_avail($ocn) {
-    
-    $this->ocn = $ocn;
-    $this->avail_params['query']='no:ocm'.$ocn;
+   
+  public function get_availabilty_query($query) {
+    //$query has to be a CQL query
+    $this->avail_params['query'] = $query;
     $av_url = $this->avail_url.'?'.http_build_query($this->avail_params);
     $av_url_auth = $this->avail_url_auth.'?'.http_build_query($this->avail_params);
 
     //authorization
-    $authorizationHeader = $this->get_avail_auth_header($av_url_auth,$this->avail_method);
-    if (strlen($authorizationHeader) > 0) {
-      array_push($this->avail_headers,$authorizationHeader);
+    $this->avail_headers['Authorization'] = $this->get_auth_header($av_url_auth,$this->avail_method);
+    $header_array = [];
+    foreach ($this->avail_headers as $k => $v) {
+      $header_array[] = "$k: $v";
     }
-    else {
-      $this->log_entry('Error','get_avail','No authorization header created!');
-    }
+
     //CURL
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $av_url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->avail_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
