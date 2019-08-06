@@ -2,6 +2,8 @@
 *.zip
 *.log
 *.zip
+*.doc
+*.txt
 *.tgz
 keys_idm.php
 keys_ncip.php

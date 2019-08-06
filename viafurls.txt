@@ -1,3 +1,0 @@
-http://isni.oclc.nl/sru/?query=pica.nw+=+maloy+rebecca&operation=searchRetrieve&recordSchema=isni-b
-http://isni.oclc.nl/sru/?query=pica.nw+=+latum&operation=searchRetrieve&recordSchema=isni-b
-
