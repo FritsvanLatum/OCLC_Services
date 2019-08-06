@@ -6,7 +6,7 @@ require_once './vendor/autoload.php';
 /**
 * A class that represents the NCIP Service
 */
-class NCIP_Service extends OCLC_PPL_Service{
+class NCIP_Service extends OCLC_Service{
 
   //urls are extended in __construct
   public $ncip_url = "share.worldcat.org/ncip";

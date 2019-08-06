@@ -29,7 +29,7 @@ require_once './vendor/autoload.php';
 /**
 * A class that represents the IDM Service
 */
-class IDM_Service extends OCLC_PPL_Service{
+class IDM_Service extends OCLC_Service{
 
   //$read_url and search_url are extended in __construct
   public $idm_url = "share.worldcat.org/idaas/scim/v2/Users";

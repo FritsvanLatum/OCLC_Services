@@ -4,7 +4,7 @@ require_once './OCLC_Service.php';
 /**
 * A class that represents availability
 */
-class Availability_Service extends OCLC_PPL_Service {
+class Availability_Service extends OCLC_Service {
 
   //please note that the calculation of the authorization header uses the "http://..." url
   private $avail_url_auth = "http://worldcat.org/circ/availability/sru/service";

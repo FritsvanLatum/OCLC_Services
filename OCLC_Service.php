@@ -6,14 +6,14 @@ require_once './OCLC/User.php';
 /**
 * A class that represents a patron
 */
-class OCLC_PPL_Service {
+class OCLC_Service {
 
   public $errors = [];
   private $error_log = __DIR__.'/service_errors';
   private $logging = 'all'; //'none','errors','all' (not yet implemented
 
   //must be provided as parameters in $patron = new Patron($wskey,$secret,$ppid), see __construct
-  private $wskey = null;
+  public $wskey = null;
   private $secret = null;
   private $ppid = null;
   
@@ -43,7 +43,7 @@ class OCLC_PPL_Service {
 
     require(__DIR__.'/'.$key_file);
     $this->wskey = $config['wskey'];
-    $this->secret = $config['secret'];
+    if (array_key_exists('secret',$config)) $this->secret = $config['secret'];
     if (array_key_exists('ppid',$config)) $this->ppid = $config['ppid'];
 
     $this->ppid_namespace = $this->ppid_namespace.$this->institution;
