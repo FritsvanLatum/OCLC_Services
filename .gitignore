@@ -4,10 +4,5 @@
 *.doc
 *.txt
 *.tgz
-keys_availability.php
-keys_discovery.php
-keys_worldcat_kb.php
-keys_idm.php
-keys_ncip.php
-keys_some.php
+keys_*.php
 vendor/
