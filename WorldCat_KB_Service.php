@@ -49,7 +49,7 @@ class WorldCat_KB_Service extends OCLC_Service{
     $this->search_params['oclcnum'] = $ocn;
     $this->search_params['wskey'] = $this->wskey;
     $src_url = $this->search_url.'?'.http_build_query($this->search_params);
-    echo $src_url;
+    //echo $src_url;
     //CURL
     $curl = curl_init();
 

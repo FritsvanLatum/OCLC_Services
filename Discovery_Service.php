@@ -6,11 +6,11 @@ require_once './OCLC_Service.php';
 */
 class Discovery_Service extends OCLC_Service {
 
-  
+
   private $read_url = "https://beta.worldcat.org/discovery/bib/data";
-  private $read_headers = ['Accept' => 'application/json'];
+  public $read_headers = ['Accept' => 'application/json'];
   public $record;
-  
+
   private $search_url = "https://beta.worldcat.org/discovery/bib/search";
   public $search_params = [];
   private $search_method = 'GET';
@@ -30,14 +30,14 @@ class Discovery_Service extends OCLC_Service {
     $json['read_url'] = $this->read_url;
     $json['read_headers'] = $this->read_headers;
     $json['record'] = $this->record;
-    
+
     $json['search_url'] = $this->search_url;
     $json['search_params'] = $this->search_params;
     $json['search_method'] = $this->search_method;
     $json['search_headers'] = $this->search_headers;
     $json['is_json'] = $this->is_json;
     $json['search_result'] = $this->search_result;
-    
+
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
@@ -81,23 +81,54 @@ class Discovery_Service extends OCLC_Service {
         if ($error_number) {
           $this->log_entry('Error','read_patron_ppid',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $received = json_decode($result,TRUE);
-        $json_errno = json_last_error();
-        $json_errmsg = json_last_error_msg();
-        if ($json_errno == JSON_ERROR_NONE) {
-          //store result in this object as an array
-          $this->record = $received;
+        //which response format
+        /*
+        application/rdf+xml
+        text/plain
+        text/turtle
+        application/ld+json
+        application/json
+        */
+        if (($this->read_headers['Accept'] == 'application/ld+json') || ($this->read_headers['Accept'] == 'application/json')) {
+          $received = json_decode($result,TRUE);
+          $json_errno = json_last_error();
+          $json_errmsg = json_last_error_msg();
+          if ($json_errno == JSON_ERROR_NONE) {
+            //store result in this object as an array
+            $this->record = $received;
+            return TRUE;
+          }
+          else {
+            $this->log_entry('Error','read_patron_ppid',"json_decode error [$json_errno]: $json_errmsg");
+            return FALSE;
+          }
+        }
+        else if ($this->read_headers['Accept'] == 'application/rdf+xml') {
+          $result = str_replace(array("\n", "\r", "\t"), '', $result);
+          $result = trim(str_replace('"', "'", $result));
+          $this->record = $result;
+/*          $simpleXml = new SimpleXMLElement($result);
+          $this->ns = $simpleXml->getDocNamespaces(TRUE,TRUE);
+          foreach ($this->ns as $prefix => $namespace) {
+            if (strlen($prefix) == 0) $prefix = 'x';
+            $simpleXml->registerXPathNamespace($prefix,$namespace);
+          }
+          $this->record = $simpleXml;
+*/
           return TRUE;
+          
         }
         else {
-          $this->log_entry('Error','read_patron_ppid',"json_decode error [$json_errno]: $json_errmsg");
-          return FALSE;
+          $result = str_replace(array("\n", "\r", "\t"), '', $result);
+          $result = trim(str_replace('"', "'", $result));
+          $this->record = $result;
+          return TRUE;
         }
       }
     }
   }
-   
-  
+
+
 
   public function wcds_search_request($headers,$params) {
 
@@ -109,10 +140,10 @@ class Discovery_Service extends OCLC_Service {
       $header_array[] = "$k: $v";
     }
 
-    
-    
+
+
     foreach ($params as $k => $v) $this->search_params[$k] = $v;
-    
+
     $urlparts = array();
     foreach ($this->search_params as $k => $v) {
       if (is_array($v)) {
@@ -122,12 +153,12 @@ class Discovery_Service extends OCLC_Service {
         $urlparts[] = $k.'='.urlencode($v);
       }
     }
-    
+
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $this->search_url.'?'.implode('&',$urlparts));
-    
+
     echo '<pre>'.$this->search_url.'?'.implode('&',$urlparts).'</pre>';
-    
+
     curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
@@ -143,9 +174,9 @@ class Discovery_Service extends OCLC_Service {
     //file_put_contents("result.json",$result);
     if ($this->is_json) $result = json_decode($result,TRUE);
     $this->search_result = $result;
-    
+
     //debug:
-    
+
   }
 
   public function wcds_db_list() {
@@ -177,9 +208,9 @@ class Discovery_Service extends OCLC_Service {
     file_put_contents("result.json",$result);
     if ($this->is_json) $result = json_decode($result,TRUE);
     $this->list = $result;
-    
+
     //debug:
-    
+
   }
 }
 

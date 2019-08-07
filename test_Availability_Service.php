@@ -9,11 +9,23 @@
     <?php
     require_once './Availability_Service.php';
     $avail = new Availability_Service('keys_availability.php');
-    $avail->get_availabilty_of_ocn('1024083487');
+    $ocn = isset($_POST['ocn']) ? $_POST['ocn'] : '887933119';
+    $avail->get_availabilty_of_ocn($ocn);
     //$avail->get_availabilty_of_ocn('402543568');
     //$avail->get_availabilty_of_ocn('887933119');
     //$avail->get_availabilty_of_ocn('1019254132');
     ?>
+
+    <form method="post">
+        OCLC number (ocn): <input name="ocn" value="<?php echo $ocn; ?>"/><br/>
+        <input type="submit"/>
+    </form>
+
+    <p>Result of circulations:
+      <pre>
+        <?php echo json_encode($avail->get_circulation_info(),JSON_PRETTY_PRINT);?>
+      </pre>
+    </p>
 
     <p>Result of availability request:
       <pre>
@@ -24,11 +36,6 @@
       </pre>
     </p>
 
-    <p>Result of circulations:
-      <pre>
-        <?php echo json_encode($avail->get_circulation_info(),JSON_PRETTY_PRINT);?>
-      </pre>
-    </p>
 
   </body>
 
