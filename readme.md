@@ -27,5 +27,10 @@ The class IDM_Service, defined in IDM_Service.php contains the following functio
 |wms_create |  generates SCIM json with new user data, calls create_patron | 
 |create_patron |  creates a patron in WMS | 
 
+TODO
+
+add function wms_delete (not a real delete but a change of data like "isCircBlocked", "isVerified" and "oclcExpirationDate"
+
+
 ## NCIP
 

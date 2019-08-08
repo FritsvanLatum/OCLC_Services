@@ -17,7 +17,7 @@
       <ApplicationProfileType ncip:Scheme="http://oclc.org/ncip/schemes/application-profile/wcl.scm">Version 2011</ApplicationProfileType>
     </InitiationHeader>
     <UserId>
-      <UserIdentifierValue>b420b91d-b3d9-4501-9ccd-99ed44984908</UserIdentifierValue>
+      <UserIdentifierValue>{{ppid}}</UserIdentifierValue>
     </UserId>
     <LoanedItemsDesired/>
     <RequestedItemsDesired/>
