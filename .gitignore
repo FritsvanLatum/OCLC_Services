@@ -4,5 +4,6 @@
 *.doc
 *.txt
 *.tgz
+*.~vsdx
 keys_*.php
 vendor/
