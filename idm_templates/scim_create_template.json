@@ -93,7 +93,7 @@
   "urn:mace:oclc.org:eidm:schema:persona:wmscircpatroninfo:20180101": {
     "circulationInfo": {
       "barcode": "{{extra.barcode}}",
-      "borrowerCategory": "Website",
+      "borrowerCategory": "{{extra.patron_type}}",
       "homeBranch": "262638",
       "circRegistrationDate": "{{extra.date}}",
       "isCircBlocked": {{extra.blocked}},

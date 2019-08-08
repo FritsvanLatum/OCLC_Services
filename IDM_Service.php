@@ -10,7 +10,7 @@ read_patron_barcode: gets patron data with a given barcode
 search_patron: search a patron in WMS using a SCIM search string, used by read_patron_barcode and wms_barcode_exists
 
 wms_update: generates SCIM json with changed user data, calls update_patron
-wms_activate: generates SCIM json only to activate a user, calls update_patron
+wms_activate: generates SCIM json in order to activate a user, calls update_patron
 update_patron: updates a patron in WMS
 
 wms_new_barcode: generates a new and not already existing barcode in WMS, uses new_barcode and wms_barcode_exists
@@ -493,15 +493,20 @@ class IDM_Service extends OCLC_Service{
   *
   * returns the new ppid or an empty string
   */
-  public function wms_create($barcode,$json) {
+  public function wms_create($barcode,$patron_type,$json) {
     $ppid = '';
     $json['extra'] = array(
     'barcode' => $barcode,
     'country' => $this->get_countrycode($json['address']['country']),
     'date' => date("Y-m-d"),
     'expDate' => date('Y-m-d\TH:i:s\Z'),
-    'blocked' => 'true',
-    'verified' => 'false'
+    'patron_type' => $patron_type,
+    /*
+     de gebruiker wordt direct actief, als dat anders moet kan wms_activate gebruikt worden
+     om een gebruiker te activeren
+    */
+    'blocked' => 'false',
+    'verified' => 'true'
     );
     //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
 
@@ -539,7 +544,7 @@ class IDM_Service extends OCLC_Service{
     foreach ($this->create_headers as $k => $v) {
       $header_array[] = "$k: $v";
     }
-echo json_encode($header_array,JSON_PRETTY_PRINT);
+//echo json_encode($header_array,JSON_PRETTY_PRINT);
     //CURL
     $curl = curl_init();
 

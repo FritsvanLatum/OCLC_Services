@@ -38,8 +38,8 @@
     //create new barcode
     $barcode = $service->wms_new_barcode($json["id"]["userName"]);
     echo "\n\nBarcode: $barcode\n\n";
-    //create in WMS
-    $service->wms_create($barcode,$json);
+    //create in WMS (patron type 'website'
+    $service->wms_create($barcode,'website',$json);
     echo $service;
     */
     ?>
