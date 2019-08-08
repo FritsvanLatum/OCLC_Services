@@ -34,3 +34,22 @@ add function wms_delete (not a real delete but a change of data like "isCircBloc
 
 ## NCIP
 
+The class NCIP_Service, defined in NCIP_Service.php contains the following functions 
+
+| function |  description | 
+|---|---| 
+| lookup_patron_ppid($ppid) | gets the circulation information of a patron, uses the ppid of the patron |
+| request_biblevel($ppid, $ocn) | adds a hold to WMS of the patron on the publication with the ocn provided, returns a requestId |
+| cancel_request($ppid, $request_id | cancels the request with the given requestId |
+| renew_item_of_patron($ppid, $itemid) |  |
+| renew_all_items_of_patron($ppid) |  |
+
+## Availability
+
+The class Availability_Service, defined in Availability_Service.php contains the following functions 
+
+| function |  description | 
+|---|---| 
+
+
+
