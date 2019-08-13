@@ -25,7 +25,7 @@
     <p>Link to digital publication:
       </pre>
       <?php 
-         $href = $KB->getlink('887933119');
+         $href = $KB->getlink($ocn);
          echo '<a href="'.$href.'">'.$href."</a></br>\n";
       ?>
     </p>

@@ -17,7 +17,7 @@
     <?php
     $service->lookup_patron_ppid($ppid);
     echo $service;
-    file_put_contents('./output_examples/test_NCIP_lookup_response'.$ppid.'_1.xml',$service->patron);
+    //file_put_contents('./output_examples/test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
     ?>
     </pre>
     <p>Request</p>
@@ -25,7 +25,7 @@
     <?php
     $service->request_biblevel($ppid,$ocn);
     echo $service;
-    file_put_contents('./output_examples/test_NCIP_request_response'.$ppid.'.xml',$service->request);
+    //file_put_contents('./output_examples/test_NCIP_request_response'.$ppid.'.xml',json_encode($service->request,JSON_PRETTY_PRINT));
     ?>
     </pre>
         <p>Lookup</p>
@@ -33,7 +33,7 @@
     <?php
     $service->lookup_patron_ppid($ppid);
     echo $service;
-    file_put_contents('./output_examples/test_NCIP_lookup_response'.$ppid.'_2.xml',$service->patron);
+    //file_put_contents('./output_examples/test_NCIP_lookup_response'.$ppid.'_2.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
     ?>
     </pre>
 

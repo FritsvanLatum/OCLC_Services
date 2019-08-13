@@ -96,18 +96,10 @@ class NCIP_Service extends OCLC_Service{
         }
         $result = str_replace(array("\n", "\r", "\t"), '', $result);
         $result = trim(str_replace('"', "'", $result));
-        //file_put_contents('./output_examples/test_NCIP_lookup_response.xml',$result );
-
-        /*$simpleXml = new SimpleXMLElement($result);
         
-        $this->ns = $simpleXml->getDocNamespaces(TRUE,TRUE);
-        foreach ($this->ns as $prefix => $namespace) {
-          if (strlen($prefix) == 0) $prefix = 'x';
-          $simpleXml->registerXPathNamespace($prefix,$namespace);
-        }
-        $this->patron = $simpleXml;
-        */
-        $this->patron = $result;
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->loadXML($result);
+        $this->patron = $this->xml2json($xmlDoc);
         return TRUE;
       }
     }
@@ -163,17 +155,10 @@ class NCIP_Service extends OCLC_Service{
         $result = str_replace(array("\n", "\r", "\t"), '', $result);
         $result = trim(str_replace('"', "'", $result));
 
-/*        $simpleXml = new SimpleXMLElement($result);
-        $this->ns = $simpleXml->getDocNamespaces(TRUE,TRUE);
-        foreach ($this->ns as $prefix => $namespace) {
-          if (strlen($prefix) == 0) $prefix = 'x';
-          $simpleXml->registerXPathNamespace($prefix,$namespace);
-        }
-        $this->request = $simpleXml;*/
-        $this->request = $result;
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->loadXML($result);
+        $this->request = $this->xml2json($xmlDoc);
         
-        //TODO bewaar het RequestIdentifierValue
-       
         return TRUE;
       }
     }
@@ -229,14 +214,9 @@ class NCIP_Service extends OCLC_Service{
         $result = str_replace(array("\n", "\r", "\t"), '', $result);
         $result = trim(str_replace('"', "'", $result));
 
-/*        $simpleXml = new SimpleXMLElement($result);
-        $this->ns = $simpleXml->getDocNamespaces(TRUE,TRUE);
-        foreach ($this->ns as $prefix => $namespace) {
-          if (strlen($prefix) == 0) $prefix = 'x';
-          $simpleXml->registerXPathNamespace($prefix,$namespace);
-        }
-        $this->request = $simpleXml;*/
-        $this->cancel = $result;
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->loadXML($result);
+        $this->cancel = $this->xml2json($xmlDoc);
         
         //TODO bewaar het RequestIdentifierValue
        

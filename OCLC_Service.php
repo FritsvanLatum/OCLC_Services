@@ -16,10 +16,10 @@ class OCLC_Service {
   public $wskey = null;
   private $secret = null;
   private $ppid = null;
-  
+
   private $authorizationHeader = '';
   private $token_authorization = '';
-  
+
   public $institution = "57439";
   public $defaultBranch = "262638";
 
@@ -107,7 +107,7 @@ class OCLC_Service {
 
   public function get_access_token_authorization($scope) {
     $this->token_params['scope'] = $scope;
-    
+
     $token_authorization = "";
     $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method);
 
@@ -119,12 +119,12 @@ class OCLC_Service {
     }
 
     $curl = curl_init();
-    
+
     $header_array = [];
     foreach ($this->token_headers as $k => $v) {
       $header_array[] = "$k: $v";
     }
-    
+
     curl_setopt($curl, CURLOPT_URL, $this->token_url);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_POST, $this->token_POST);
@@ -178,6 +178,48 @@ class OCLC_Service {
     return $token_authorization;
   }
 
+  public function xml2json($node,$remove_namespaces = TRUE,$remove_attributes = TRUE) {
+    //echo '<pre>'.$node->nodeName." : ".$node->getNodePath()."</pre>\n";
+    $result = array();
+    if (($node->nodeType == XML_ELEMENT_NODE) || ($node->nodeType == XML_DOCUMENT_NODE)) {
+      if ($node->hasChildNodes()) {
+        foreach ($node->childNodes as $child) {
+          if ($child->nodeType == XML_ELEMENT_NODE) {
+            $ckey = $child->nodeName;
+            if ($remove_namespaces) {
+              $parts = explode(':',$ckey);
+              if (count($parts) > 1) $ckey = $parts[1];
+            }
+
+            if ($remove_attributes) {
+              $result[$ckey][] = $this->xml2json($child);
+            }
+            /*          else {
+            if ($node->hasAttributes()){
+            foreach ($node->attributes as $attribute) {
+
+            }
+            }
+            else {
+            $result[$ckey][] = xml2json($child);
+            }
+            */
+          }
+          else if ($child->nodeType == XML_TEXT_NODE) $result[] = $child->textContent;
+        }
+
+        if (array_keys($result) === range(0, count($result) - 1)) {
+          if (count($result) == 1) $result = $result[0];
+        }
+        else {
+          foreach ($result as $k=>$v) {
+            if (count($v) == 1) $result[$k] = $v[0];
+          }
+        }
+      }
+    }
+    return $result;
+  }
 
 
 }

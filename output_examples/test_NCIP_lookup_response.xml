@@ -1,1 +1,26 @@
-<?xml version='1.0' encoding='UTF-8' standalone='yes'?><ns1:NCIPMessage xmlns:ns1='http://www.niso.org/2008/ncip' xmlns:ns2='http://www.oclc.org/ncip/renewall/2014' xmlns:ns3='http://www.oclc.org/ncip/relatedsystemrequestid/2018' xmlns='http://oclc.org/WCL/ncip/2011/extensions' xmlns:ns5='http://www.oclc.org/ncip/usernote/2012' ns1:version='http://www.niso.org/schemas/ncip/v2_0/imp1/xsd/ncip_v2_01.xsd'><ns1:LookupUserResponse><ns1:UserId><ns1:UserIdentifierType>EIDM</ns1:UserIdentifierType><ns1:UserIdentifierValue>c86b71cd-3017-4699-b80b-66702dd47e7b</ns1:UserIdentifierValue></ns1:UserId><ns1:RequestedItemsCount><ns1:CirculationStatus ns1:Scheme='http://worldcat.org/ncip/schemes/v2/extensions/circulationstatus.scm'>On Hold</ns1:CirculationStatus><ns1:RequestedItemCountValue>0</ns1:RequestedItemCountValue></ns1:RequestedItemsCount><ns1:RequestedItemsCount><ns1:CirculationStatus ns1:Scheme='http://worldcat.org/ncip/schemes/v2/extensions/circulationstatus.scm'>Recently Received</ns1:CirculationStatus><ns1:RequestedItemCountValue>0</ns1:RequestedItemCountValue></ns1:RequestedItemsCount><ns1:Ext><UserFiscalAccountSummary><ChargesCount>0</ChargesCount><ns1:AccountBalance><ns1:CurrencyCode ns1:Scheme='http://www.bsi-global.com/Technical+Information/Publications/_Publications/tig90x.doc'>EUR</ns1:CurrencyCode><ns1:MonetaryValue>0</ns1:MonetaryValue></ns1:AccountBalance></UserFiscalAccountSummary></ns1:Ext></ns1:LookupUserResponse></ns1:NCIPMessage>
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<ns1:NCIPMessage xmlns:ns1='http://www.niso.org/2008/ncip' xmlns:ns2='http://www.oclc.org/ncip/renewall/2014' xmlns:ns3='http://www.oclc.org/ncip/relatedsystemrequestid/2018' xmlns='http://oclc.org/WCL/ncip/2011/extensions' xmlns:ns5='http://www.oclc.org/ncip/usernote/2012' ns1:version='http://www.niso.org/schemas/ncip/v2_0/imp1/xsd/ncip_v2_01.xsd'>
+  <ns1:LookupUserResponse>
+    <ns1:UserId>
+      <ns1:UserIdentifierType>EIDM</ns1:UserIdentifierType>
+      <ns1:UserIdentifierValue>c86b71cd-3017-4699-b80b-66702dd47e7b</ns1:UserIdentifierValue>
+    </ns1:UserId>
+    <ns1:RequestedItemsCount>
+      <ns1:CirculationStatus ns1:Scheme='http://worldcat.org/ncip/schemes/v2/extensions/circulationstatus.scm'>On Hold</ns1:CirculationStatus>
+      <ns1:RequestedItemCountValue>0</ns1:RequestedItemCountValue>
+    </ns1:RequestedItemsCount>
+    <ns1:RequestedItemsCount>
+      <ns1:CirculationStatus ns1:Scheme='http://worldcat.org/ncip/schemes/v2/extensions/circulationstatus.scm'>Recently Received</ns1:CirculationStatus>
+      <ns1:RequestedItemCountValue>0</ns1:RequestedItemCountValue>
+    </ns1:RequestedItemsCount>
+    <ns1:Ext>
+      <UserFiscalAccountSummary>
+        <ChargesCount>0</ChargesCount>
+        <ns1:AccountBalance>
+          <ns1:CurrencyCode ns1:Scheme='http://www.bsi-global.com/Technical+Information/Publications/_Publications/tig90x.doc'>EUR</ns1:CurrencyCode>
+          <ns1:MonetaryValue>0</ns1:MonetaryValue>
+        </ns1:AccountBalance>
+      </UserFiscalAccountSummary>
+    </ns1:Ext>
+  </ns1:LookupUserResponse>
+</ns1:NCIPMessage>
