@@ -178,111 +178,113 @@ class OCLC_Service {
     return $token_authorization;
   }
 
-/*
+  /*
   parameters:
-    $node : must be a DOMNode
-    
-    $options : associative array, with zero, one, two or all three of these elements:    
-    [
-      'remove_namespaces' => TRUE,
-      'remove_attributes' => TRUE,
-      'remove_arrays_one_element' => FALSE,
-    ]
-    with default values as shown
-        
-    returns an associative array. 
-    
-    Please note that with the default value of remove_arrays_one_element (FALSE) all values in the resulting associative array
-    are itself arrays. This is because this is valid XML:
-      ...
-      <author>Jack</author>
-      <author>John</author>
-      ...
-    But this is not allowed in an associative array:
-      [
-        ...
-        'author' => 'Jack',
-        'author' => 'John',
-        ...
-      ]
-      
-    So this is changed in:
-      [
-        ...
-        'author' => ['Jack', 'John'],
-        ...
-      ]
-    
-    Also if there is only one author.
-    If remove_arrays_one_element is set to TRUE: always check whether a value is an array or a string
-    
-    If remove_attributes is set to FALSE, then for each XML element an extra layer is added. The attribute key - value pairs are added and 
-    the content of the XML element is added as:
-       '_content_' => ...
-    
-    Set remove_namespaces to FALSE when there will be element name confusions otherwise.
+  $node : must be a DOMNode
 
-*/
+  $options : associative array, with zero, one, two or all three of these elements:
+  [
+  'remove_namespaces' => TRUE,
+  'remove_attributes' => TRUE,
+  'remove_arrays_one_element' => FALSE,
+  ]
+  the default values are as shown
+
+  returns an associative array.
+
+  remove_arrays_one_element:
+  Please note that with the default value of remove_arrays_one_element (FALSE) all values in the resulting associative array
+  are itself arrays. This is because this is valid XML:
+  ...
+  <author>Jack</author>
+  <author>John</author>
+  ...
+  But this is not allowed in an associative array:
+  [
+  ...
+  'author' => 'Jack',
+  'author' => 'John',
+  ...
+  ]
+
+  Should be:
+  [
+  ...
+  'author' => ['Jack', 'John'],
+  ...
+  ]
+  So each element becomes an array, also when there is only one value...
+  If remove_arrays_one_element is set to TRUE: always check whether a value is an array or a string
+
+  remove_attributes:
+  If remove_attributes is set to FALSE, then for each XML element an extra layer is added. The attribute key - value pairs are added and
+  the content of the XML element is added as:
+  '_content_' => ...
+
+  remove_namespaces:
+  Set remove_namespaces to FALSE when there will be element name confusions otherwise.
+
+  */
 
   public function xml2json($node,$options) {
-  //echo '<pre>'.$node->nodeName." : ".$node->getNodePath()."</pre>\n";
-  $remove_namespaces = array_key_exists('remove_namespaces',$options) ? $options['remove_namespaces'] : TRUE;
-  $remove_attributes = array_key_exists('remove_attributes',$options) ? $options['remove_attributes'] : TRUE;
-  $remove_arrays_one_element = array_key_exists('remove_arrays_one_element',$options) ? $options['remove_arrays_one_element'] : FALSE;
-  $options = [
-  'remove_namespaces' => $remove_namespaces,
-  'remove_attributes' => $remove_attributes,
-  'remove_arrays_one_element' => $remove_arrays_one_element,
-  ];
+    //echo '<pre>'.$node->nodeName." : ".$node->getNodePath()."</pre>\n";
+    $remove_namespaces = array_key_exists('remove_namespaces',$options) ? $options['remove_namespaces'] : TRUE;
+    $remove_attributes = array_key_exists('remove_attributes',$options) ? $options['remove_attributes'] : TRUE;
+    $remove_arrays_one_element = array_key_exists('remove_arrays_one_element',$options) ? $options['remove_arrays_one_element'] : FALSE;
+    $options = [
+    'remove_namespaces' => $remove_namespaces,
+    'remove_attributes' => $remove_attributes,
+    'remove_arrays_one_element' => $remove_arrays_one_element,
+    ];
 
-  $result = array();
-  if (($node->nodeType == XML_ELEMENT_NODE) || ($node->nodeType == XML_DOCUMENT_NODE)) {
-    if ($node->hasChildNodes()) {
-      foreach ($node->childNodes as $child) {
-        if ($child->nodeType == XML_ELEMENT_NODE) {
-          $ckey = $child->nodeName;
-          if ($remove_namespaces) {
-            $parts = explode(':',$ckey);
-            if (count($parts) > 1) $ckey = $parts[1];
-          }
-
-          if ($remove_attributes) {
-            $result[$ckey][] = $this->xml2json($child,$options);
-          }
-          else {
-            $sub = array();
-            if ($child->hasAttributes()){
-              foreach ($child->attributes as $attribute) {
-                $attr_key = $attribute->nodeName;
-                if ($remove_namespaces) {
-                  $parts = explode(':',$attr_key);
-                  if (count($parts) > 1) $attr_key = $parts[1];
-                }
-                $sub[$attr_key] = $attribute->nodeValue;
-              }
+    $result = array();
+    if (($node->nodeType == XML_ELEMENT_NODE) || ($node->nodeType == XML_DOCUMENT_NODE)) {
+      if ($node->hasChildNodes()) {
+        foreach ($node->childNodes as $child) {
+          if ($child->nodeType == XML_ELEMENT_NODE) {
+            $ckey = $child->nodeName;
+            if ($remove_namespaces) {
+              $parts = explode(':',$ckey);
+              if (count($parts) > 1) $ckey = $parts[1];
             }
-            $sub['_content_'] =  $this->xml2json($child,$options);
 
-            $result[$ckey][] = $sub;
+            if ($remove_attributes) {
+              $result[$ckey][] = $this->xml2json($child,$options);
+            }
+            else {
+              $sub = array();
+              if ($child->hasAttributes()){
+                foreach ($child->attributes as $attribute) {
+                  $attr_key = $attribute->nodeName;
+                  if ($remove_namespaces) {
+                    $parts = explode(':',$attr_key);
+                    if (count($parts) > 1) $attr_key = $parts[1];
+                  }
+                  $sub[$attr_key] = $attribute->nodeValue;
+                }
+              }
+              $sub['_content_'] =  $this->xml2json($child,$options);
+
+              $result[$ckey][] = $sub;
+            }
           }
+          else if ($child->nodeType == XML_TEXT_NODE) $result = $child->textContent;
         }
-        else if ($child->nodeType == XML_TEXT_NODE) $result = $child->textContent;
-      }
         if ($remove_arrays_one_element) {
 
-      if (array_keys($result) === range(0, count($result) - 1)) {
-        if (count($result) == 1) $result = $result[0];
-      }
-      else {
-        foreach ($result as $k=>$v) {
-          if (count($v) == 1) $result[$k] = $v[0];
+          if (array_keys($result) === range(0, count($result) - 1)) {
+            if (count($result) == 1) $result = $result[0];
+          }
+          else {
+            foreach ($result as $k=>$v) {
+              if (count($v) == 1) $result[$k] = $v[0];
+            }
+          }
         }
       }
     }
-    }
+    return $result;
   }
-  return $result;
-}
 
 
 
