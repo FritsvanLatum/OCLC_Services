@@ -371,7 +371,7 @@ class IDM_Service extends OCLC_Service{
       //store result in this object as an array
       $this->update = json_decode($result,TRUE);
 
-      return $result;
+      return TRUE;
     }
   }
 
@@ -572,7 +572,7 @@ class IDM_Service extends OCLC_Service{
       //store result in this object as an array
       $this->create = json_decode($result,TRUE);
 
-      return $result;
+      return TRUE;
 
     }
   }

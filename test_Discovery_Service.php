@@ -12,7 +12,8 @@
     $ocn = isset($_POST['ocn']) ? $_POST['ocn'] : '887933119';
     $response = isset($_POST['response']) ? $_POST['response'] : 'application/json';
     $discovery->read_headers['Accept'] = $response;
-    $discovery->read_record($ocn);
+    $discovery->wcds_read_record($ocn);
+    $discovery->wcds_db_list();
     ?>
 
     <form method="post">
@@ -42,7 +43,7 @@ application/json-->
         <input type="submit"/>
     </form>
 
-    <p>Result of Discovery request:
+    <p>Result:
       <pre>
         <?php 
           echo $discovery;

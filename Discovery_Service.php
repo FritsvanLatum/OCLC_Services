@@ -9,13 +9,13 @@ class Discovery_Service extends OCLC_Service {
 
   private $read_url = "https://beta.worldcat.org/discovery/bib/data";
   public $read_headers = ['Accept' => 'application/json'];
+  public $record_xml;
   public $record;
 
   private $search_url = "https://beta.worldcat.org/discovery/bib/search";
   public $search_params = [];
   private $search_method = 'GET';
   private $search_headers = [];
-  private $is_json = TRUE;
   public $search_result = [];
   public $list = null;
 
@@ -30,18 +30,19 @@ class Discovery_Service extends OCLC_Service {
     $json['read_url'] = $this->read_url;
     $json['read_headers'] = $this->read_headers;
     $json['record'] = $this->record;
+    $json['record_xml'] = $this->record_xml;
 
     $json['search_url'] = $this->search_url;
     $json['search_params'] = $this->search_params;
     $json['search_method'] = $this->search_method;
     $json['search_headers'] = $this->search_headers;
-    $json['is_json'] = $this->is_json;
     $json['search_result'] = $this->search_result;
 
+    $json['list'] = $this->list;
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
-  public function read_record($ocn){
+  public function wcds_read_record($ocn){
     $this->read_headers['Authorization'] = $this->get_access_token_authorization('WorldCatDiscoveryAPI');
 
     $header_array = [];
@@ -104,19 +105,16 @@ class Discovery_Service extends OCLC_Service {
           }
         }
         else if ($this->read_headers['Accept'] == 'application/rdf+xml') {
-          $result = str_replace(array("\n", "\r", "\t"), '', $result);
-          $result = trim(str_replace('"', "'", $result));
-          $this->record = $result;
-/*          $simpleXml = new SimpleXMLElement($result);
-          $this->ns = $simpleXml->getDocNamespaces(TRUE,TRUE);
-          foreach ($this->ns as $prefix => $namespace) {
-            if (strlen($prefix) == 0) $prefix = 'x';
-            $simpleXml->registerXPathNamespace($prefix,$namespace);
-          }
-          $this->record = $simpleXml;
-*/
-          return TRUE;
+          $this->record_xml = $result;
+          //$result = str_replace(array("\n", "\r", "\t"), '', $result);
+          $result = trim(str_replace('"', "'", $result));  //??
           
+          $xmlDoc = new DOMDocument();
+          $xmlDoc->preserveWhiteSpace = FALSE;
+          $xmlDoc->loadXML($result);
+          $this->record = $this->xml2json($xmlDoc,[]);
+ 
+          return TRUE;
         }
         else {
           $result = str_replace(array("\n", "\r", "\t"), '', $result);
@@ -172,7 +170,7 @@ class Discovery_Service extends OCLC_Service {
     }
     curl_close($curl);
     //file_put_contents("result.json",$result);
-    if ($this->is_json) $result = json_decode($result,TRUE);
+    $result = json_decode($result,TRUE);
     $this->search_result = $result;
 
     //debug:
@@ -181,23 +179,20 @@ class Discovery_Service extends OCLC_Service {
 
   public function wcds_db_list() {
 
-    $token_authorization = $this->get_access_token_authorization();
-    array_push($this->search_headers,$token_authorization);
+    $this->search_headers['Authorization'] = $this->get_access_token_authorization('WorldCatDiscoveryAPI');
+
+    $header_array = [];
+    foreach ($this->search_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, 'https://beta.worldcat.org/discovery/database/list');
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $this->search_headers);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-    /*
-    curl_setopt($curl, CURLOPT_VERBOSE, true);
-    $verbose = fopen('stderr.txt', 'w+');
-    */
-    //curl_setopt($curl, CURLOPT_, );
-    //curl_setopt($curl, CURLOPT_, );
-
     $result = curl_exec($curl);
-    //echo 'Result: '.$result;
+
     $error_number = curl_errno($curl);
 
     if ($error_number) {
@@ -205,8 +200,8 @@ class Discovery_Service extends OCLC_Service {
       echo "Error: $result";
     }
     curl_close($curl);
-    file_put_contents("result.json",$result);
-    if ($this->is_json) $result = json_decode($result,TRUE);
+    //file_put_contents("result.json",$result);
+    $result = json_decode($result,TRUE);
     $this->list = $result;
 
     //debug:
