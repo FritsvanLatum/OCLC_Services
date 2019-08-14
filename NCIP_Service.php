@@ -24,6 +24,10 @@ class NCIP_Service extends OCLC_Service{
   public $patron = null;
   public $request = null;
   public $cancel = null;
+  
+  public $patron_xml = null;
+  public $request_xml = null;
+  public $cancel_xml = null;
 
   public function __construct($key_file) {
     parent::__construct($key_file);
@@ -40,6 +44,10 @@ class NCIP_Service extends OCLC_Service{
     $json['ncip_headers'] = $this->ncip_headers;
     $json['ncip_method'] = $this->ncip_method;
     
+    $json['patron_xml'] = $this->patron_xml;
+    $json['request_xml'] = $this->request_xml;
+    $json['cancel_xml'] = $this->cancel_xml;
+
     $json['patron'] = $this->patron;
     $json['request'] = $this->request;
     $json['cancel'] = $this->cancel;
@@ -94,12 +102,15 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','lookup_patron_ppid',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));
+        $this->patron_xml = $result;
+        //$result = str_replace(array("\n", "\r", "\t"), '', $result);
+        $result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
         $xmlDoc->loadXML($result);
-        $this->patron = $this->xml2json($xmlDoc);
+        $options = array();
+        $this->patron = $this->xml2json($xmlDoc,$options);
         return TRUE;
       }
     }
@@ -151,14 +162,16 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','request_biblevel',"Result but still cUrl error [$error_number]: $error_msg");
         }
+        $this->request_xml = $result;
+        //$result = str_replace(array("\n", "\r", "\t"), '', $result);
+        $result = trim(str_replace('"', "'", $result));  //??
         
-        $result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));
-
         $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
         $xmlDoc->loadXML($result);
-        $this->request = $this->xml2json($xmlDoc);
-        
+        $options = array();
+        $this->request = $this->xml2json($xmlDoc,$options);
+
         return TRUE;
       }
     }
@@ -210,15 +223,15 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','cancel_request',"Result but still cUrl error [$error_number]: $error_msg");
         }
+        $this->cancel_xml = $result;
+        //$result = str_replace(array("\n", "\r", "\t"), '', $result);
+        $result = trim(str_replace('"', "'", $result));  //??
         
-        $result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));
-
         $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
         $xmlDoc->loadXML($result);
-        $this->cancel = $this->xml2json($xmlDoc);
-        
-        //TODO bewaar het RequestIdentifierValue
+        $options = array();
+        $this->cancel = $this->xml2json($xmlDoc,$options);
        
         return TRUE;
       }

@@ -18,7 +18,7 @@ class Availability_Service extends OCLC_Service {
   private $avail_headers = ['Accept' => 'text/xml'];
 
   public $avail_xml = null;
-  public $avail_simpleXml = null;
+  public $avail = null;
 
   public function __construct($key_file) {
     parent::__construct($key_file);
@@ -33,9 +33,8 @@ class Availability_Service extends OCLC_Service {
     $json['avail_url'] = $this->avail_url;
     $json['avail_headers'] = $this->avail_headers;
     $json['avail_params'] = $this->avail_params;
-    $json['avail_simpleXml'] = $this->avail_simpleXml;
-    //$json['avail_xml'] = $this->avail_xml;
-    $json['ns'] = $this->ns;
+    $json['avail'] = $this->avail;
+    $json['avail_xml'] = $this->avail_xml;
 
     return json_encode($json, JSON_PRETTY_PRINT);
   }
@@ -88,60 +87,27 @@ class Availability_Service extends OCLC_Service {
         if ($error_number) {
           $this->log_entry('Error','get_avail',"Result but still cUrl error [$error_number]: $error_msg");
         }
-
-        $result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));
         $this->avail_xml = $result;
-        $simpleXml = new SimpleXMLElement($result);
-        $this->ns = $simpleXml->getDocNamespaces(TRUE,TRUE);
-        foreach ($this->ns as $prefix => $namespace) {
-          if (strlen($prefix) == 0) $prefix = 'x';
-          $simpleXml->registerXPathNamespace($prefix,$namespace);
-        }
-        $this->avail_simpleXml = $simpleXml;
+        //$result = str_replace(array("\n", "\r", "\t"), '', $result);
+        $result = trim(str_replace('"', "'", $result));  //??
+        
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->loadXML($result);
+        $this->avail = $this->xml2json($xmlDoc,[]);
         return TRUE;
       }
     }
   }
 
-  private function get_element_value($element) {
-    $result = array();
-    if (empty($this->avail_simpleXml)) {
-      //
-    }
-    else {
-      $result = $this->avail_simpleXml->xpath('//'.$element);
-    }
-    return $result;
-  }
-
+/*
+  returns an array of holdings
+*/
   public function get_circulation_info() {
-    //$circulations = $this->get_element_value('holdings/holding/circulations');
-    $holdings = $this->get_element_value('holdings/holding');
-    $result = array();
-    if (count($holdings) > 0) {
-      foreach ($holdings as $holding) {
-        if (!empty($holding)) {
-          $holdingdata = array();
-          $holdingdata['typeOfRecord'] = $holding->xpath('//typeOfRecord')[0]->__toString();
-          $holdingdata['shelvingLocation'] = $holding->xpath('//shelvingLocation')[0]->__toString();
-          $holdingdata['callNumber'] = $holding->xpath('//callNumber')[0]->__toString();
-          $circulations = $holding->xpath('circulations');
-          foreach ($circulations as $circ) {
-            if (!empty($circ)) {
-              $circdata = array();
-              $circdata['itemId'] = $circ->xpath('//itemId')[0]->__toString();
-              $circdata['availableNow'] = $circ->xpath('//availableNow/@value')[0]->__toString();
-              $circdata['renewable'] = $circ->xpath('//renewable/@value')[0]->__toString();
-              $circdata['onHold'] = $circ->xpath('//onHold/@value')[0]->__toString();
-              $holdingdata['circulation'][] = $circdata;
-            }
-          }
-        }
-        $result[]=$holdingdata;
-      }
+    if ($this->avail !== null) {
+      return $this->avail['searchRetrieveResponse'][0]['records'][0]['record'][0]['recordData'][0]['opacRecord'][0]['holdings'];
     }
-    return $result;
+    else return array();
   }
 }
 

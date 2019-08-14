@@ -21,7 +21,7 @@
         <input type="submit"/>
     </form>
 
-    <p>Result of circulations:
+    <p>Holding:<br/>
       <pre>
         <?php echo json_encode($avail->get_circulation_info(),JSON_PRETTY_PRINT);?>
       </pre>
