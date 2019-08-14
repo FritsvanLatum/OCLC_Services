@@ -22,19 +22,37 @@
         <input type="submit"/>
     </form>
 
-    <p>Link to digital publication:
-      </pre>
+    <p>Link to digital publication:<br/>
       <?php 
          $href = $KB->getlink($ocn);
          echo '<a href="'.$href.'">'.$href."</a></br>\n";
       ?>
     </p>
-
+    <br/>
+    <p>Other links:<br/>
+      <b>alternate</b>: 
+      <?php 
+         $href = $KB->getlink($ocn,'alternate');
+         echo '<a href="'.$href.'">'.$href."</a></br>\n";
+      ?><br/>
+      <b>self</b>: 
+      <?php 
+         $href = $KB->getlink($ocn,'self');
+         echo '<a href="'.$href.'">'.$href."</a></br>\n";
+      ?><br/>
+      <b>canonical</b>: 
+      <?php 
+         $href = $KB->getlink($ocn,'canonical');
+         echo '<a href="'.$href.'">'.$href."</a></br>\n";
+      ?><br/>
+    </p>
+    <br/>
     <p>Result of KB request:
       <pre>
         <?php 
           echo $KB;
         ?>
+      </pre>
     </p>
 
 
