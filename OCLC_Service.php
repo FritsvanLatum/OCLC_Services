@@ -179,51 +179,51 @@ class OCLC_Service {
   }
 
   /*
-  parameters:
-  $node : must be a DOMNode
-
-  $options : associative array, with zero, one, two or all three of these elements:
-  [
-  'remove_namespaces' => TRUE,
-  'remove_attributes' => TRUE,
-  'remove_arrays_one_element' => FALSE,
-  ]
-  the default values are as shown
-
-  returns an associative array.
-
-  remove_arrays_one_element:
-  Please note that with the default value of remove_arrays_one_element (FALSE) all values in the resulting associative array
-  are itself arrays. This is because this is valid XML:
-  ...
-  <author>Jack</author>
-  <author>John</author>
-  ...
-  But this is not allowed in an associative array:
-  [
-  ...
-  'author' => 'Jack',
-  'author' => 'John',
-  ...
-  ]
-
-  Should be:
-  [
-  ...
-  'author' => ['Jack', 'John'],
-  ...
-  ]
-  So each element becomes an array, also when there is only one value...
-  If remove_arrays_one_element is set to TRUE: always check whether a value is an array or a string
-
-  remove_attributes:
-  If remove_attributes is set to FALSE, then for each XML element an extra layer is added. The attribute key - value pairs are added and
-  the content of the XML element is added as:
-  '_content_' => ...
-
-  remove_namespaces:
-  Set remove_namespaces to FALSE when there will be element name confusions otherwise.
-
+  * parameters:
+  * $node : must be a DOMNode
+  * 
+  * $options : associative array, with zero, one, two or all three of these elements:
+  * [
+  * 'remove_namespaces' => TRUE,
+  * 'remove_attributes' => TRUE,
+  * 'remove_arrays_one_element' => FALSE,
+  * ]
+  * the default values are as shown
+  * 
+  * returns an associative array.
+  * 
+  * remove_arrays_one_element:
+  * Please note that with the default value of remove_arrays_one_element (FALSE) all values in the resulting associative array
+  * are itself arrays. This is because this is valid XML:
+  * ...
+  * <author>Jack</author>
+  * <author>John</author>
+  * ...
+  * But this is not allowed in an associative array:
+  * [
+  * ...
+  * 'author' => 'Jack',
+  * 'author' => 'John',
+  * ...
+  * ]
+  * 
+  * Should be:
+  * [
+  * ...
+  * 'author' => ['Jack', 'John'],
+  * ...
+  * ]
+  * So each element becomes an array, also when there is only one value...
+  * If remove_arrays_one_element is set to TRUE: always check whether a value is an array or a string
+  * 
+  * remove_attributes:
+  * If remove_attributes is set to FALSE, then for each XML element an extra layer is added. The attribute key - value pairs are added and
+  * the content of the XML element is added as:
+  * '_content_' => ...
+  * 
+  * remove_namespaces:
+  * Set remove_namespaces to FALSE when there will be element name confusions otherwise.
+  * 
   */
 
   public function xml2json($node,$options) {
