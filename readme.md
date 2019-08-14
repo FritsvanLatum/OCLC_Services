@@ -3,6 +3,96 @@
 This repository contains PHP libraries for communicating with OCLC's WMS. 
 OCLC offers several API's. This repository contains a class for most of these API's.
 
+## Base class OCLC_Service
+This class, defined in OCLC_Service.php contains the knitty gritty of HMAC and token authorization. All classes 
+described below are extensions of OCLC_Service.
+
+For convenience this class contains the function `xml2json($node, $options) `
+
+### parameters:
+$node : must be a DOMNode (see PHP manual)
+
+$options : associative array, with zero, one, two or all three of these elements:
+
+Example with default values:
+```
+$options = [
+'remove_namespaces' => TRUE,
+'remove_attributes' => TRUE,
+'remove_arrays_one_element' => FALSE,
+]
+```
+
+### return value
+
+An associative array.
+
+### $options explained
+
+#### remove_arrays_one_element:
+
+With the default value of `remove_arrays_one_element` (FALSE) all values in the resulting associative array
+are itself arrays. This is because this is valid XML:
+
+```
+...
+<author>Jack</author>
+<author>John</author>
+...
+```
+
+But this is not allowed in an associative array:
+
+```
+[
+...
+'author' => 'Jack',
+'author' => 'John',
+...
+]
+```
+
+Should be:
+
+```
+[
+...
+'author' => ['Jack', 'John'],
+...
+]
+```
+
+So each element becomes an array, also when there is only one value...
+If `remove_arrays_one_element` is set to TRUE: always check whether a value is an array or a string
+
+#### remove_attributes:
+If `remove_attributes` is set to FALSE, then for each XML element an extra layer is added. The attribute key - value pairs are added and
+the content of the XML element is added as:
+`'_content_' => ...`
+
+Example:
+
+```
+  <CirculationStatus Scheme="http://worldcat.org/ncip/schemes/v2/extensions/circulationstatus.scm">On Loan</CirculationStatus>
+```
+is converted to:
+
+```
+"CirculationStatus": [
+  {
+    "Scheme": "http:\/\/worldcat.org\/ncip\/schemes\/v2\/extensions\/circulationstatus.scm",
+    "_content_": [
+      "On Loan"
+    ]
+  }
+],
+```
+
+#### remove_namespaces:
+Set remove_namespaces to FALSE when there will be element name confusions otherwise.
+
+ 
+
 ## WorldShare Identity Management API
 
 The class IDM_Service, defined in IDM_Service.php contains the following members and functions 
