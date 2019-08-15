@@ -227,12 +227,6 @@ Usage:
     // complete response in $KB->kb_record
 ```
 
-```
-    require_once './WorldCat_KB_Service.php';
-    $KB = new WorldCat_KB_Service('keys_worldcat_kb.php');
-    
-```
-
 WorldCat knowledge base API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/worldcat-knowledge-base-api.en.html). 
 
 ## WorldCat Discovery API
@@ -271,4 +265,6 @@ Add and complete search functions. Improve `wcds_db_list`.
 
 WorldCat Discovery API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/worldcat-discovery-api.en.html).
 
+
+## VIAF
 
