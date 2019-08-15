@@ -9,7 +9,7 @@
     <?php
     require_once './VIAF_Service.php';
     $viaf = new VIAF_Service();
-    $no = isset($_POST['viaf']) ? $_POST['viaf'] : '102333412';
+    $no = isset($_POST['no']) ? $_POST['no'] : '102333412';
     $viaf->viaf_get_data($no);
     file_put_contents('./output_examples/viaf_'.$no.'.json',json_encode($viaf->viaf_record,JSON_PRETTY_PRINT));
     ?>
