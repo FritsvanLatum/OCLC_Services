@@ -36,7 +36,6 @@ class Availability_Service extends OCLC_Service {
     $json['ocn'] = $this->ocn;
     $json['avail'] = $this->avail;
     $json['avail_xml'] = $this->avail_xml;
-
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 

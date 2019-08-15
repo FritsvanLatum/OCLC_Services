@@ -34,8 +34,6 @@ class WorldCat_KB_Service extends OCLC_Service{
 
     $json['ocn'] = $this->ocn;
     $json['kb_record'] = $this->kb_record;
-
-
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
