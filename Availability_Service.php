@@ -16,7 +16,7 @@ class Availability_Service extends OCLC_Service {
   'query' => '',
   'x-return-group-availability' => 0];
   private $avail_headers = ['Accept' => 'text/xml'];
-
+  private $ocn = '';
   public $avail_xml = null;
   public $avail = null;
 
@@ -33,6 +33,7 @@ class Availability_Service extends OCLC_Service {
     $json['avail_url'] = $this->avail_url;
     $json['avail_headers'] = $this->avail_headers;
     $json['avail_params'] = $this->avail_params;
+    $json['ocn'] = $this->ocn;
     $json['avail'] = $this->avail;
     $json['avail_xml'] = $this->avail_xml;
 
@@ -40,6 +41,7 @@ class Availability_Service extends OCLC_Service {
   }
 
   public function get_availabilty_of_ocn($ocn) {
+    $this->ocn = $ocn;
     return $this->get_availabilty_query('no:ocm'.$ocn);
   }
 
@@ -103,11 +105,20 @@ class Availability_Service extends OCLC_Service {
 /*
   returns an array of holdings
 */
-  public function get_circulation_info() {
-    if ($this->avail !== null) {
-      return $this->avail['searchRetrieveResponse'][0]['records'][0]['record'][0]['recordData'][0]['opacRecord'][0]['holdings'];
+  public function get_circulation_info($ocn) {
+    $holdings = array();
+    $found = FALSE;
+    if ($this->ocn == $ocn) {
+      $found = ($this->avail !== null);
+    } 
+    else {
+      $found = $this->get_availabilty_of_ocn($ocn);
     }
-    else return array();
+    if ($found) {
+      //check?
+      $holdings = $this->avail['searchRetrieveResponse'][0]['records'][0]['record'][0]['recordData'][0]['opacRecord'][0]['holdings'];
+    }
+    return $holdings;
   }
 }
 

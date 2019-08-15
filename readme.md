@@ -152,9 +152,20 @@ The class Availability_Service, defined in Availability_Service.php contains the
 |---|---|---| 
 |`get_availabilty_of_ocn($ocn)` | gets availability information based on an ocn | TRUE/FALSE | 
 |`get_availabilty_query($query)` | gets availability information based on a query | TRUE/FALSE |
-|`get_circulation_info()` | gives only the holding information from the availability information | array |
+|`get_circulation_info($ocn)` | gives only the holding information from the availability information | array |
 
 This class uses xml2json from OCLC_Service.php. The class can be used to chack "physical" availability of a publication.
+
+Usage :
+```
+   require_once './Availability_Service.php';
+   $avail = new Availability_Service('keys_availability.php');
+   $holding = $avail->get_circulation_info($ocn)
+   
+   /*
+   the complete response can be found in $avail->avail en in $avail->avail_xml
+   */
+```
 
 WMS Availability API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/wms-availability-api.en.html)
 
@@ -206,6 +217,21 @@ The default 'via' link gives the link via EZProxy. Just use:
 The 'canonical' link is the direct link to the publisher. The other two are internal links.
 
 This class can be used to check whether online access to a publication exists.
+
+Usage:
+```
+    require_once './WorldCat_KB_Service.php';
+    $KB = new WorldCat_KB_Service('keys_worldcat_kb.php');
+    $found = $KB->search_kb_record($ocn); //delete this line if only the link is needed
+    $href = $KB->getlink($ocn);
+    // complete response in $KB->kb_record
+```
+
+```
+    require_once './WorldCat_KB_Service.php';
+    $KB = new WorldCat_KB_Service('keys_worldcat_kb.php');
+    
+```
 
 WorldCat knowledge base API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/worldcat-knowledge-base-api.en.html). 
 

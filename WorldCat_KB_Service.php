@@ -101,10 +101,18 @@ class WorldCat_KB_Service extends OCLC_Service{
 
   public function getlink($ocn,$type = 'via') {
     $result = '';
-    if ($this->ocn <> $ocn) $this->search_kb_record($ocn);
-    foreach ($this->kb_record['entries'] as $entry) {
-      foreach ($entry['links'] as $link) {
-        if ($link['rel'] == $type) $result = $link['href'];
+    $found = FALSE;
+    if ($this->ocn == $ocn) {
+      $found = ($this->kb_record !== null);
+    }
+    else {
+      $found = $this->search_kb_record($ocn);
+    }
+    if ($found) {
+      foreach ($this->kb_record['entries'] as $entry) {
+        foreach ($entry['links'] as $link) {
+          if ($link['rel'] == $type) $result = $link['href'];
+        }
       }
     }
     return $result;

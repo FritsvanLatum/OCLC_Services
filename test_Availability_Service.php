@@ -23,7 +23,7 @@
 
     <p>Holding:<br/>
       <pre>
-        <?php echo json_encode($avail->get_circulation_info(),JSON_PRETTY_PRINT);?>
+        <?php echo json_encode($avail->get_circulation_info($ocn),JSON_PRETTY_PRINT);?>
       </pre>
     </p>
 
