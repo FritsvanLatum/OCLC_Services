@@ -17,7 +17,7 @@ class VIAF_Service extends OCLC_Service {
   public $viaf_no = '';
   public $viaf_record = null;
 
-  private $viaf_src_all = [
+  /* all VIAF sources
   'ALL' => 'All source data within VIAF',
   'BAV' => 'Biblioteca Apostolica Vaticana',
   'BIBSYS' => 'BIBSYS',
@@ -70,11 +70,12 @@ class VIAF_Service extends OCLC_Service {
   'VLACC' => 'Flemish Public Libraries',
   'WKP' => 'Wikidata',
   'W2Z' => 'National Library of Norway',
-  'XA xA (eXtended Authorities)',
+  'XA' => 'xA (eXtended Authorities)',
   'XR' => 'xR (eXtended Relationships)',
   'FAST' => 'FAST'
-  ];
-  private $viaf_src_usefull = [
+  */
+  
+  private $viaf_src_useful = [
   'ISNI' => 'ISNI',
   'JPG' => 'Getty Research Institute',
   'LC' => 'Library of Congress/NACO',
@@ -117,6 +118,11 @@ class VIAF_Service extends OCLC_Service {
 
     $json['viaf_no'] = $this->viaf_no;
     $json['viaf_record'] = $this->viaf_record;
+    
+    $json['wiki_useful'] = $this->wiki_useful;
+    $json['viaf_src_useful'] = $this->viaf_src_useful;
+
+
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
@@ -165,18 +171,18 @@ class VIAF_Service extends OCLC_Service {
           $this->viaf_record = array();
           
           foreach ($received as $k=>$v) {
-            if (array_key_exists($k,$this->viaf_src_usefull) ) {
+            if (array_key_exists($k,$this->viaf_src_useful) ) {
               if ($k == 'Wikipedia') {
                 foreach ($received[$k] as $wiki) {
-                  foreach ($this->wiki_useful as $usefull) {
-                    if (strpos($wiki,$usefull) !== FALSE) {
+                  foreach ($this->wiki_useful as $useful) {
+                    if (strpos($wiki,$useful) !== FALSE) {
                       $this->viaf_record['Wikipedia'][] = $wiki;
                     }
                   }
                 }
               }
               else {
-                $this->viaf_record[$this->viaf_src_usefull[$k]] = $v;
+                $this->viaf_record[$this->viaf_src_useful[$k]] = $v;
               }
             }
           }
