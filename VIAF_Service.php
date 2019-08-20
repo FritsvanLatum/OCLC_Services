@@ -8,7 +8,7 @@ class VIAF_Service extends OCLC_Service {
 
   //urls are extended in __construct
   private $get_data_url = "http://www.viaf.org/viaf";
-  public $response_format = 'justlinks.json'; //'viaf.json' ;
+  public $response_format = 'viaf.json';//'justlinks.json'; //'viaf.json' ;
   private $get_data_method = 'GET';
 
   public $search_headers = [];
@@ -74,7 +74,7 @@ class VIAF_Service extends OCLC_Service {
   'XR' => 'xR (eXtended Relationships)',
   'FAST' => 'FAST'
   */
-  
+
   private $viaf_src_useful = [
   'ISNI' => 'ISNI',
   'JPG' => 'Getty Research Institute',
@@ -89,15 +89,15 @@ class VIAF_Service extends OCLC_Service {
   "Identities" => "Identities",
   "Wikipedia" =>  "Wikipedia",
   ];
-  
+
   private $wiki_useful = [
-            "de.wikipedia.org",
-            "en.wikipedia.org",
-            "es.wikipedia.org",
-            "fr.wikipedia.org",
-            "it.wikipedia.org",
-            "nl.wikipedia.org",
-            "simple.wikipedia.org",
+  "de.wikipedia.org",
+  "en.wikipedia.org",
+  "es.wikipedia.org",
+  "fr.wikipedia.org",
+  "it.wikipedia.org",
+  "nl.wikipedia.org",
+  "simple.wikipedia.org",
   ];
 
   public function __construct() {
@@ -118,7 +118,7 @@ class VIAF_Service extends OCLC_Service {
 
     $json['viaf_no'] = $this->viaf_no;
     $json['viaf_record'] = $this->viaf_record;
-    
+
     $json['wiki_useful'] = $this->wiki_useful;
     $json['viaf_src_useful'] = $this->viaf_src_useful;
 
@@ -168,25 +168,28 @@ class VIAF_Service extends OCLC_Service {
         $json_errmsg = json_last_error_msg();
         if ($json_errno == JSON_ERROR_NONE) {
           //store result in this object as an array
-          $this->viaf_record = array();
-          
-          foreach ($received as $k=>$v) {
-            if (array_key_exists($k,$this->viaf_src_useful) ) {
-              if ($k == 'Wikipedia') {
-                foreach ($received[$k] as $wiki) {
-                  foreach ($this->wiki_useful as $useful) {
-                    if (strpos($wiki,$useful) !== FALSE) {
-                      $this->viaf_record['Wikipedia'][] = $wiki;
+          if ($this->response_format == 'justlinks.json') {
+            $this->viaf_record = array();
+            foreach ($received as $k=>$v) {
+              if (array_key_exists($k,$this->viaf_src_useful) ) {
+                if ($k == 'Wikipedia') {
+                  foreach ($received[$k] as $wiki) {
+                    foreach ($this->wiki_useful as $useful) {
+                      if (strpos($wiki,$useful) !== FALSE) {
+                        $this->viaf_record['Wikipedia'][] = $wiki;
+                      }
                     }
                   }
                 }
-              }
-              else {
-                $this->viaf_record[$this->viaf_src_useful[$k]] = $v;
+                else {
+                  $this->viaf_record[$this->viaf_src_useful[$k]] = $v;
+                }
               }
             }
           }
-          //$this->viaf_record = $received;
+          else {
+            $this->viaf_record = $received;
+          }
           return TRUE;
         }
         else {

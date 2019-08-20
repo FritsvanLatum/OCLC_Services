@@ -15,7 +15,7 @@
     
     /*
     This script collects availability and online availability for 4 ocn's
-    In production this should be done with separate ajax calls:
+    In production this should be done with separate asynchronous ajax calls:
     for each ocn a call to a script that collects physical availability (uses Availability_Service)
     and to a script that collects online availability (uses WorldCat_KB_Service)
     
@@ -32,9 +32,10 @@
       <p>Online:</p>
       <pre>
         <?php
-        $href = $KB->getlink($ocn,'canonical');
+        $href = $KB->getlink($ocn);
         echo ($href == '') ? 'NO URL': '<a href="'.$href.'">'.$href."</a></br>\n";
-      ?>      </pre>
+        ?>
+      </pre>
       <br/><hr/><br/>
       <?php
     }

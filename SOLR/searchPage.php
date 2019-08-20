@@ -1,21 +1,21 @@
 <?php
 
 class SearchPage {
-  public $userQuery = ''; //of "*.*"
+  public $userQuery = '*.*';
   private $parsedQuery = '';
   public $start = 0;
   public $numRows = 10;
 
   private $solrOptions = array (
-  'hostname' => SOLR_SERVER_HOSTNAME,
-  'login'    => SOLR_SERVER_USERNAME,
-  'password' => SOLR_SERVER_PASSWORD,
-  'port'     => SOLR_SERVER_PORT,
+  'hostname' => 'http://localhost',
+  'login'    => '', //SOLR_SERVER_USERNAME,
+  'password' => '', //SOLR_SERVER_PASSWORD,
+  'port'     => '8983',
   );
   private $facetFields = array(
 
   );
-  private $solrClient = nulll //of type SolrClient
+  private $solrClient = null; //of type SolrClient
   private $solrQuery = null; //of type SolrQuery
 
   public $searchResults = array();
@@ -42,7 +42,7 @@ class SearchPage {
     $query_response = $this->client->query($this->query);
     $query_response->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);  //??
     $this->searchResults = $query_response->getResponse();
-    $this->
+
   }
 
   public function nextPage() {
