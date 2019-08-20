@@ -1,0 +1,57 @@
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":0,
+    "params":{
+      "q":"*:*"
+    }
+  },
+  "response":{
+    "numFound":4,
+    "start":0,
+    "docs":
+    [
+      {
+        "id":"3234",
+        "ocn_s":"3234",
+        "title_txt":["De titel",
+          "Subtitel",
+        "Nog een subtitel"],
+        "year_txt":["ca. 1930"],
+        "listEntry":["\"title\":\"De titel: subtitel\",\"author\": \"Jan\""]
+      },
+      {
+        "id":"3245",
+        "ocn_s":"3245",
+        "title_txt":[
+          "De titel",
+          "Subtitel",
+          "Nog een subtitel"
+        ],
+        "year_txt":["ca. 1930"],
+        "listEntry":["\"title\":\"De titel: subtitel\",\"author\": \"Jan\",\"year\": \"ca. 1930\""]
+      },
+      {
+        "id":"3234r",
+        "ocn_s":"3234r",
+        "title_txt":["De titel",
+          "Subtitel",
+        "Nog een subtitel"],
+        "year_txt":["ca. 1930"],
+        "year_rt":[1930],
+        "listEntry":["\"title\":\"De titel: subtitel\",\"author\": \"Jan\""]
+      },
+      {
+        "id":"3245r",
+        "ocn_s":"3245r",
+        "title_txt":["De titel",
+          "Subtitel",
+        "Nog een subtitel"],
+        "year_txt":["ca. 1930"],
+        "year_rt":[1931],
+        "listEntry":["\"title\":\"De titel: subtitel\",\"author\": \"Jan\",\"year\": \"ca. 1930\""
+        ]
+      }
+    ]
+  }
+}

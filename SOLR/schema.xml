@@ -61,6 +61,7 @@
        when adding a document.
     -->
     
+    <field name="id" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="text" type="text_general" indexed="true" stored="false"/>
     <field name="listEntry" type="text_general" indexed="false" stored="true" multiValued="false"/>
     <field name="detailEntry" type="text_general" indexed="false" stored="true" multiValued="false"/>

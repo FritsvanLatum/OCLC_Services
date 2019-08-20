@@ -155,7 +155,7 @@ class Discovery_Service extends OCLC_Service {
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $this->search_url.'?'.implode('&',$urlparts));
 
-    echo '<pre>'.$this->search_url.'?'.implode('&',$urlparts).'</pre>';
+    //echo '<pre>'.$this->search_url.'?'.implode('&',$urlparts).'</pre>';
 
     curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);

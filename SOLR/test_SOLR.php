@@ -7,8 +7,8 @@
 
   <body>
     <?php
-    //require_once './searchPage.php';
-    //$search = new SearchPage();
+    require_once './searchPage.php';
+    $search = new SearchPage();
     $userQuery = isset($_POST['userQuery']) ? $_POST['userQuery'] : '*:*';
     ?>
 
@@ -21,9 +21,8 @@
     <p>Search result:
       <pre>
         <?php 
-        //http://localhost:8983/solr/ppl/select?q=*%3A*
-          $result = file_get_contents('http://localhost:8983/solr/ppl/select?q='.$userQuery);
-          echo $result;//json_encode($result,JSON_PRETTY_PRINT);
+          $search->search($userQuery);
+          echo json_encode($search,JSON_PRETTY_PRINT);
         ?>
       </pre>
     </p>
