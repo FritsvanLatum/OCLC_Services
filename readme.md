@@ -1,11 +1,20 @@
 # OCLC Services
 
-This repository contains PHP libraries for communicating with OCLC's WMS. 
-OCLC offers several API's. For several of these API's a class is provided.
+This repository contains PHP libraries for communicating with OCLC's WMS via API's. 
+For each library a test is provided in the subdirectory TEST.
+
+The subdirectories:
+* OCLC: helpers for authorization
+* SOLR: an example schema, and example PHP files for communicating with SOLR
+* TEST: test scripts for each library
+* docs: some documentation other than in this md file
+* idm_templates: TWIG templates for the IDM_Service library
+* ncip_templates: TWIG templates for the NCIP library
+* output_examples: several examples of responses of the API's
 
 ## Base class OCLC_Service
-This class, defined in OCLC_Service.php contains the knitty gritty of HMAC and token authorization. All classes 
-described below are extensions of OCLC_Service.
+This class, defined in OCLC_Service.php contains the knitty gritty of HMAC and token 
+authorization. All classes described below are extensions of OCLC_Service.
 
 
 ## WorldShare Identity Management API
@@ -182,6 +191,8 @@ WorldCat Discovery API at [OCLC Website](https://www.oclc.org/developer/develop/
 
 
 ## VIAF
+
+
 
 ## XML2JSON
 
