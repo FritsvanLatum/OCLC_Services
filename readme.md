@@ -12,6 +12,9 @@ The subdirectories:
 * ncip_templates: TWIG templates for the NCIP library
 * output_examples: several examples of responses of the API's
 
+Each library (VIAF_Service.php is the only exception) has a keys file with the 
+codes that must be used in the API calls. They are not provided in this repository. 
+
 ## Base class OCLC_Service
 This class, defined in OCLC_Service.php contains the knitty gritty of HMAC and token 
 authorization. All classes described below are extensions of OCLC_Service.
