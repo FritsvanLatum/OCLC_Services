@@ -1,6 +1,6 @@
 <?php
 
-require_once './OCLC_Service.php';
+require_once __DIR__.'/OCLC_Service.php';
 
 /**
 * A class that represents the KB Service

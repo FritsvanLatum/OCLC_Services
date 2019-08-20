@@ -1,7 +1,7 @@
 <?php
 
-require_once './OCLC_Service.php';
-require_once './vendor/autoload.php';
+require_once __DIR__.'/OCLC_Service.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 /**
 * A class that represents the NCIP Service
@@ -62,7 +62,7 @@ class NCIP_Service extends OCLC_Service{
     //authorization
     $this->ncip_headers['Authorization'] = $this->get_access_token_authorization('WMS_NCIP');
 
-    $xml = file_get_contents('./ncip_templates/lookup_template.xml');
+    $xml = file_get_contents(__DIR__.'/ncip_templates/lookup_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
@@ -120,10 +120,10 @@ class NCIP_Service extends OCLC_Service{
     //authorization
     $this->ncip_headers['Authorization'] = $this->get_access_token_authorization('WMS_NCIP');
 
-    $xml = file_get_contents('./ncip_templates/request_biblevel_template.xml');
+    $xml = file_get_contents(__DIR__.'/ncip_templates/request_biblevel_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     $xml = str_replace('{{ocn}}', $ocn , $xml);
-    file_put_contents('./output_examples/test_NCIP_request_request.xml',$xml);
+    file_put_contents(__DIR__.'/output_examples/test_NCIP_request_request.xml',$xml);
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
       $header_array[] = "$k: $v";
@@ -181,10 +181,10 @@ class NCIP_Service extends OCLC_Service{
     //authorization
     $this->ncip_headers['Authorization'] = $this->get_access_token_authorization('WMS_NCIP');
 
-    $xml = file_get_contents('./ncip_templates/cancel_request_template.xml');
+    $xml = file_get_contents(__DIR__.'/ncip_templates/cancel_request_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     $xml = str_replace('{{request_id}}', $request_id , $xml);
-    file_put_contents('./output_examples/test_NCIP_cancel_request.xml',$xml);
+    file_put_contents(__DIR__.'/output_examples/test_NCIP_cancel_request.xml',$xml);
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
       $header_array[] = "$k: $v";

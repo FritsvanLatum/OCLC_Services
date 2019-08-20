@@ -7,7 +7,7 @@
 
   <body>
     <?php
-    require_once './Availability_Service.php';
+    require_once '../Availability_Service.php';
     $avail = new Availability_Service('keys_availability.php');
     $ocn = isset($_POST['ocn']) ? $_POST['ocn'] : '887933119';
     $avail->get_availabilty_of_ocn($ocn);

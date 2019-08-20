@@ -7,7 +7,7 @@
 
   <body>
     <?php
-    require_once './WorldCat_KB_Service.php';
+    require_once '../WorldCat_KB_Service.php';
     $KB = new WorldCat_KB_Service('keys_worldcat_kb.php');
     $ocn = isset($_POST['ocn']) ? $_POST['ocn'] : '887933119';
 

@@ -23,8 +23,8 @@ create_patron: creates a patron in WMS
 */
 
 
-require_once './OCLC_Service.php';
-require_once './vendor/autoload.php';
+require_once __DIR__.'/OCLC_Service.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 /**
 * A class that represents the IDM Service

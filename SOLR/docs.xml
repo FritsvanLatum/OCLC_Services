@@ -1,0 +1,25 @@
+<doc>
+  <field name="id_s">3234r</field>
+  <field name="ocn_s">3234r</field>
+  <field name="title_txt">De titel</field>
+  <field name="title_txt">Subtitel</field>
+  <field name="title_txt">Nog een subtitel</field>
+  <field name="year_txt">ca. 1930</field>
+  <field name="year_rt">1930</field>
+  <field name="listEntry">
+    { 
+      "title":"De titel: subtitel",
+      "author": "Jan"
+    }
+  </field>
+</doc>
+<doc>
+  <field name="id_s">3245r</field>
+  <field name="ocn_s">3245r</field>
+  <field name="title_txt">De titel</field>
+  <field name="title_txt">Subtitel</field>
+  <field name="title_txt">Nog een subtitel</field>
+  <field name="year_txt">ca. 1930</field>
+  <field name="year_rt">1930</field>
+  <field name="listEntry">{"title":"De titel: subtitel","author": "Jan","year": "ca. 1930"}</field>
+</doc>

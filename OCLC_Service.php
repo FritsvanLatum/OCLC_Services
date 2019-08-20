@@ -1,7 +1,7 @@
 <?php
 
-require_once './OCLC/Auth/WSKey.php';
-require_once './OCLC/User.php';
+require_once __DIR__.'/OCLC/Auth/WSKey.php';
+require_once __DIR__.'/OCLC/User.php';
 
 /**
 * A class that represents a patron

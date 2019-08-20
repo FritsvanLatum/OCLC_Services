@@ -9,7 +9,7 @@
     <h3>read patron with ppid</h3>
     <pre>
     <?php
-    require_once './IDM_Service.php';
+    require_once '../IDM_Service.php';
     /*
     $service = new IDM_Service('keys_idm.php');
     $service->read_patron_ppid('1a4f4dbb-375a-4363-8792-3aaa95fd9bad');
@@ -33,7 +33,7 @@
     /*
     $service = new IDM_Service('keys_idm.php');
     //get input
-    $json = json_decode(file_get_contents('./idm_templates/json_example.json'),TRUE);
+    $json = json_decode(file_get_contents('../idm_templates/json_example.json'),TRUE);
     echo json_encode($json,JSON_PRETTY_PRINT);
     //create new barcode
     $barcode = $service->wms_new_barcode($json["id"]["userName"]);
@@ -51,7 +51,7 @@
     
     $service = new IDM_Service('keys_idm.php');
     //get input
-    $json = json_decode(file_get_contents('./idm_templates/json_example.json'),TRUE);
+    $json = json_decode(file_get_contents('../idm_templates/json_example.json'),TRUE);
     echo json_encode($json,JSON_PRETTY_PRINT);
 
     //update in WMS
