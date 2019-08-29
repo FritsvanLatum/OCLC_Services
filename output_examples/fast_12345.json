@@ -1,0 +1,107 @@
+{
+    "RDF": [
+        {
+            "Description": [
+                {
+                    "identifier": [
+                        "12345"
+                    ],
+                    "inScheme": [
+                        [],
+                        []
+                    ],
+                    "type": [
+                        []
+                    ],
+                    "prefLabel": [
+                        "Chaplin, Patrice"
+                    ],
+                    "name": [
+                        "Chaplin, Patrice"
+                    ],
+                    "sameAs": [
+                        {
+                            "Description": [
+                                {
+                                    "label": [
+                                        "Chaplin, Patrice"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Description": [
+                                {
+                                    "label": [
+                                        "Chaplin, Patrice"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "comment": [
+                        "This identifier is deprecated. See the rdfs:seeAlso link for the new identifier."
+                    ],
+                    "seeAlso": [
+                        []
+                    ]
+                }
+            ],
+            "Document": [
+                {
+                    "inDataset": [
+                        []
+                    ],
+                    "primaryTopic": [
+                        []
+                    ],
+                    "format": [
+                        "application\/rdf+xml"
+                    ],
+                    "created": [
+                        "2004-09-24T00:00:00.0"
+                    ],
+                    "modified": [
+                        "2012-07-06T14:07:21.0"
+                    ],
+                    "language": [
+                        []
+                    ],
+                    "changeNote": [
+                        "Cataloged by agency: OCoLC",
+                        "Transcribed by agency: OCoLC"
+                    ]
+                }
+            ],
+            "Dataset": [
+                {
+                    "title": [
+                        "FAST (Faceted Application of Subject Terminology) Data"
+                    ],
+                    "license": [
+                        {
+                            "Description": [
+                                {
+                                    "title": [
+                                        "Open Data Commons Attribution License (ODC-By) v1.0"
+                                    ],
+                                    "comment": [
+                                        "This is OCLC's 'local copy' of the ODC-By license"
+                                    ],
+                                    "seeAlso": [
+                                        []
+                                    ],
+                                    "sameAs": [
+                                        []
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
