@@ -29,8 +29,4 @@ while (er is inderdaad een $marc_record gelezen) {              //check op eof
 }  //einde while loop
 
 
-//  converteren naar SOLR XML en
-//  opslaan in database
-
-
 ?>
