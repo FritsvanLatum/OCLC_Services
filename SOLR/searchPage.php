@@ -19,7 +19,7 @@ class SearchPage {
 
   );
 
-  public $searchResults = array();
+  public $results = array();
 
 
   public function __construct() {
@@ -33,7 +33,7 @@ class SearchPage {
     'baseURL' => $this->baseURL,
     'solrParams' => $this->solrParams,
     'facetFields' => $this->facetFields,
-    'searchResults' => $this->searchResults,
+    'results' => $this->results,
     
     ];
     return json_encode($json, JSON_PRETTY_PRINT);
@@ -83,7 +83,7 @@ class SearchPage {
           //error handling
 
         }
-        $this->searchResults = json_decode($result,TRUE);
+        $this->results = json_decode($result,TRUE);
         return TRUE;
       }
     }

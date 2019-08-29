@@ -22,6 +22,7 @@
       <pre>
         <?php 
           $search->search($userQuery);
+          //echo $search->results["response"]["docs"][0]["listEntry"][0]."<br/>";
           echo json_encode($search,JSON_PRETTY_PRINT);
         ?>
       </pre>
