@@ -1,0 +1,57 @@
+<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <marc:record>
+    <marc:leader>00807caa a2200253Ki 4500</marc:leader>
+    <marc:controlfield tag="001">on1106498624</marc:controlfield>
+    <marc:controlfield tag="003">PICA</marc:controlfield>
+    <marc:controlfield tag="003">OCoLC</marc:controlfield>
+    <marc:controlfield tag="005">20190809114311.5</marc:controlfield>
+    <marc:controlfield tag="008">190701s2017    xx            000 0 eng d</marc:controlfield>
+    <marc:datafield ind1=" " ind2=" " tag="040">
+      <THIS_DATAFIELD_DATA/>
+    </marc:datafield>
+    <A_LOT_OF_OTHER_DATAFIELDS/>
+  </marc:record>
+
+  <marc:record>
+    <marc:leader>00354n   a2200121   4500</marc:leader>
+    <marc:controlfield tag="001">1120917947</marc:controlfield>
+    <marc:controlfield tag="004">on1106498624</marc:controlfield>
+    <marc:datafield ind1=" " ind2="4" tag="690">
+      <marc:subfield code="a">China</marc:subfield>
+      <marc:subfield code="9">[01]!076243028!</marc:subfield>
+    </marc:datafield>
+    <marc:datafield ind1=" " ind2="4" tag="690">
+      <marc:subfield code="a">Carriage of goods by sea</marc:subfield>
+      <marc:subfield code="9">[02]!076240479!</marc:subfield>
+    </marc:datafield>
+    <OTHER_DATAFIELDS/>
+  </marc:record>
+
+  <marc:record>
+    <marc:leader>00323ny  a2200109zn 4500</marc:leader>
+    <marc:controlfield tag="001">284814666</marc:controlfield>
+    <marc:controlfield tag="003">OCoLC</marc:controlfield>
+    <marc:controlfield tag="004">on1106498624</marc:controlfield>
+    <OTHER_CONTROL_AND_DATAFIELDS/>
+    <marc:datafield ind1="8" ind2=" " tag="852">
+      <marc:subfield code="a">NLVRD</marc:subfield>
+      <marc:subfield code="b">NLVA</marc:subfield>
+      <marc:subfield code="c">Closed Stacks (reference only)</marc:subfield>
+      <marc:subfield code="h">P 4298</marc:subfield>
+      <marc:subfield code="t">1</marc:subfield>
+      <marc:subfield code="z">Borrow? Place your hold on the right volume of the journal</marc:subfield>
+    </marc:datafield>
+  </marc:record>
+
+  <marc:record>
+    <marc:leader>00874caa a2200253Ki 4500</marc:leader>
+    <marc:controlfield tag="001">on1106500493</marc:controlfield>
+    <marc:controlfield tag="003">PICA</marc:controlfield>
+    <marc:controlfield tag="003">OCoLC</marc:controlfield>
+    <marc:controlfield tag="005">20190809114311.5</marc:controlfield>
+    <OTHER_CONTROL_AND_DATAFIELDS/>
+  </marc:record>
+
+  <OTHER_MARC_RECORDS/>
+
+</marc:collection>
