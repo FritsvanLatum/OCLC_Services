@@ -120,7 +120,7 @@ class NCIP_Service extends OCLC_Service{
 
   public function request_biblevel($ppid, $ocn) {
     //authorization
-    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization('WMS_NCIP');
+    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
 
     $xml = file_get_contents(__DIR__.'/ncip_templates/request_biblevel_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
@@ -181,7 +181,7 @@ class NCIP_Service extends OCLC_Service{
 
   public function cancel_request($ppid, $request_id) {
     //authorization
-    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization('WMS_NCIP');
+    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
 
     $xml = file_get_contents(__DIR__.'/ncip_templates/cancel_request_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
@@ -252,7 +252,7 @@ class NCIP_Service extends OCLC_Service{
       // if everything ok: 
     
     //authorization
-    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization('WMS_NCIP');
+    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
 
     //doe iets slims met het invullen van het ppid en ietmid in ./ncip_templates/renew_template.xml
     $xml = '';
