@@ -45,8 +45,12 @@ class OCLC_Service {
     $this->wskey = $config['wskey'];
     if (array_key_exists('secret',$config)) $this->secret = $config['secret'];
     if (array_key_exists('ppid',$config)) $this->ppid = $config['ppid'];
-
-    $this->ppid_namespace = $this->ppid_namespace.$this->institution;
+    if (array_key_exists('ppid_ns',$config)) {
+    	$this->ppid_namespace = $config['ppid_ns'];
+    }
+    else {
+    	$this->ppid_namespace = $this->ppid_namespace.$this->institution;
+    }
   }
 
   public function __toString(){
@@ -73,6 +77,13 @@ class OCLC_Service {
     $this->errors[] = date("Y-m-d H:i:s")." $t [$c] $m";
     $name = $this->error_log.'.'.date("Y-W").'.log';
     return file_put_contents($name, date("Y-m-d H:i:s")." $t [$c] $m\n", FILE_APPEND);
+  }
+
+  public function get_auth_header_ppid($url,$method, $ppid) {
+  	//especially for NCIP patron requests: the ppid of the user is required for authentication
+  	//there is no (staff) ppid in keys_ncip.php 
+  	$this->ppid = $ppid;
+  	return $this->get_auth_header($url,$method);
   }
 
   public function get_auth_header($url,$method) {
@@ -105,18 +116,33 @@ class OCLC_Service {
     return $authorizationHeader;
   }
 
-  public function get_access_token_authorization($scope) {
+  public function get_access_token_authorization_ppid($scope, $ppid) {
     $this->token_params['scope'] = $scope;
 
     $token_authorization = "";
-    $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method);
-
+    $authorizationHeader = $this->get_auth_header_ppid($this->token_url,$this->token_method, $ppid);
     if (strlen($authorizationHeader) > 0) {
       $this->token_headers['Authorization'] = $authorizationHeader;
     }
     else {
       $this->log_entry('Error','get_access_token_authorization','No authorization header created!');
     }
+ 		return $this->get_access_token_authorization_curl();
+  }
+  public function get_access_token_authorization($scope) {
+    $this->token_params['scope'] = $scope;
+
+    $token_authorization = "";
+    $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method);
+    if (strlen($authorizationHeader) > 0) {
+      $this->token_headers['Authorization'] = $authorizationHeader;
+    }
+    else {
+      $this->log_entry('Error','get_access_token_authorization','No authorization header created!');
+    }
+ 		return $this->get_access_token_authorization_curl();
+  }
+  private function get_access_token_authorization_curl() {
 
     $curl = curl_init();
 

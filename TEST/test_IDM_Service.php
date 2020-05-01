@@ -27,6 +27,16 @@
     */
     ?>
     </pre>
+    <h3>read all patrons</h3>
+    <pre>
+    <?php
+    
+    $service = new IDM_Service('keys_idm.php');
+    $service->read_patrons();
+    echo $service;
+    
+    ?>
+    </pre>
     <h3>create patron in ./idm_templates/json_example.json</h3>
     <pre>
     <?php
@@ -48,7 +58,7 @@
     <h3>update patron in ./idm_templates/json_example.json</h3>
     <pre>
     <?php
-    
+    /*
     $service = new IDM_Service('keys_idm.php');
     //get input
     $json = json_decode(file_get_contents('../idm_templates/json_example.json'),TRUE);
@@ -57,7 +67,7 @@
     //update in WMS
     $service->wms_update('00c66177-df54-4f2e-ab03-220b8f32b9cf', '9055062314', $json);
     echo $service;
-    
+    */
     ?>
   </body>
 
