@@ -296,17 +296,18 @@ class OCLC_Service {
           }
           else if ($child->nodeType == XML_TEXT_NODE) $result = $child->textContent;
         }
-        if ($remove_arrays_one_element) {
-
-          if (array_keys($result) === range(0, count($result) - 1)) {
-            if (count($result) == 1) $result = $result[0];
-          }
-          else {
-            foreach ($result as $k=>$v) {
-              if (count($v) == 1) $result[$k] = $v[0];
-            }
-          }
-        }
+        if (is_array($result)) {
+	        if ($remove_arrays_one_element) {
+	          if (array_keys($result) === range(0, count($result) - 1)) {
+	            if (count($result) == 1) $result = $result[0];
+	          }
+	          else {
+	            foreach ($result as $k=>$v) {
+	              if (count($v) == 1) $result[$k] = $v[0];
+	            }
+	          }
+	        }
+	      	}
       }
     }
     return $result;

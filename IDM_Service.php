@@ -102,6 +102,10 @@ class IDM_Service extends OCLC_Service{
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
+  public function patron_str(){
+    return json_encode($this->patron, JSON_PRETTY_PRINT);
+  }
+
 
   /*      public function read_patron_ppid($id)
   *
