@@ -1,5 +1,5 @@
 <?php
-require_once './vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 require_once '../../IDM_Service.php';
 require_once '../../NCIP_Service.php';
 $debug = FALSE;
@@ -79,7 +79,6 @@ if (array_key_exists('action',$_GET)) {
 	        echo $twig->render($ncip_template_file, $ncip->patron["NCIPMessage"]["LookupUserResponse"]);
 	
       	}
-      	else echo "Some error... Add &debug to the url.";
       ?>
     </div>
 	  <p>Add &debug to the url in order to see the output of the API's</p>
