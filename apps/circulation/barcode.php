@@ -42,26 +42,6 @@ if (array_key_exists('patronBarcode',$_GET)) {
   </head>
 
   <body>
-  	<p>
-  		Judith<br/>
-				Diagnos: urn:oclc:platform:57439 / 79363e42-54a3-46a5-a858-e026641fd9f0<br/>
-				Barcode: 090013445<br/>
-				Account: urn:mace:oclc:idm:peacepalace 35042283-fb4a-41d8-859e-5a3b47a81d35<br/>
-				<br/>
-				Aad<br/>
-				Diagnos: urn:oclc:platform:57439 / 9d1edb1d-d051-4fde-8431-169bfab07666<br/>
-				Barcode: 0900019407<br/>
-				Account: urn:mace:oclc:idm:peacepalace 836c32aa-801c-45e3-9584-f3382bd72421<br/>
-				<br/>
-				Frits<br/>
-				Diagnos: urn:oclc:platform:57439 / b420b91d-b3d9-4501-9ccd-99ed44984908<br/>
-				Barcode: 090037604<br/>
-				Account: urn:mace:oclc:idm:peacepalace 56bb24b2-9f56-41fa-9cdd-53adb5744904
-	  </p>
-	  <p>
-	  	1125981646 De wapens neer! : roman, Bertha von Suttner<br/>
-			1015377410 Herman Rosse : design, art, love, architecture, film, theatre, history<br/>
-	  </p>
     <div id="editor"></div>
     <div id="buttons">
       <button id='submit'>Get patron information</button>
@@ -83,7 +63,7 @@ if (array_key_exists('patronBarcode',$_GET)) {
       	else echo "Nothing found."
       ?>
     </div>
-
+	  <p>Add &debug to the url in order to see the output of the API's</p>
     <?php if ($debug) { ?>
     <div>
       Patron:
