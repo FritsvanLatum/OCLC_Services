@@ -222,20 +222,6 @@ class IDM_Service extends OCLC_Service{
     return $result;
   }
 
-  public function read_patrons() {
-    $search = '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"], '.
-              ' "filter": "External_ID eq \"0\""}';
-    $result = $this->search_patron($search);
-    if ($result) {
-      //search has an answer
-      if ($this->search["totalResults"] > 0) {
-        $this->patron = $this->search["Resources"][0];
-        $this->search["Resources"] = [];
-      }
-    }
-    return $result;
-  }
-
   /*     public function search_patron($search)
   *
   * searches patrons in WMS, the SCIM way

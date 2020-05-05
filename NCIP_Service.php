@@ -71,7 +71,7 @@ class NCIP_Service extends OCLC_Service{
 
     $xml = file_get_contents(__DIR__.'/ncip_templates/lookup_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
-    //file_put_contents('../output_examples/test_NCIP_lookup.xml',$xml);
+    //file_put_contents('test_NCIP_lookup.xml',$xml);
     
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
@@ -132,7 +132,7 @@ class NCIP_Service extends OCLC_Service{
     $xml = file_get_contents(__DIR__.'/ncip_templates/request_biblevel_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     $xml = str_replace('{{ocn}}', $ocn , $xml);
-    //file_put_contents(__DIR__.'/output_examples/test_NCIP_request_request.xml',$xml);
+    //file_put_contents('test_NCIP_request_request.xml',$xml);
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
       $header_array[] = "$k: $v";
@@ -193,7 +193,7 @@ class NCIP_Service extends OCLC_Service{
     $xml = file_get_contents(__DIR__.'/ncip_templates/cancel_request_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     $xml = str_replace('{{request_id}}', $request_id , $xml);
-    //file_put_contents(__DIR__.'/output_examples/test_NCIP_cancel_request.xml',$xml);
+    //file_put_contents('test_NCIP_cancel_request.xml',$xml);
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
       $header_array[] = "$k: $v";

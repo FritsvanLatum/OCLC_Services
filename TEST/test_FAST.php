@@ -13,7 +13,7 @@
     //$response = isset($_POST['response']) ? $_POST['response'] : 'justlinks.json';
     //$fast->response_format = $response;
     $fast->fast_get_data($no);
-    file_put_contents('../output_examples/fast_'.$no.'.json',json_encode($fast->fast_record,JSON_PRETTY_PRINT));
+    //file_put_contents('fast_'.$no.'.json',json_encode($fast->fast_record,JSON_PRETTY_PRINT));
     ?>
 
     <form method="post">

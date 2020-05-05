@@ -33,7 +33,7 @@ Diagnos: urn:oclc:platform:57439 / 9d1edb1d-d051-4fde-8431-169bfab07666
       <?php
       $service->lookup_patron_ppid($ppid);
       echo $service;
-      //file_put_contents('../output_examples/test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
+      //file_put_contents('test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
       ?>
     </pre>
     
@@ -45,7 +45,7 @@ Diagnos: urn:oclc:platform:57439 / 9d1edb1d-d051-4fde-8431-169bfab07666
       <?php
       $service->lookup_patron_ppid($ppid);
       echo $service;
-      //file_put_contents('../output_examples/test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
+      //file_put_contents('test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
       ?>
     </pre>
 
@@ -57,7 +57,7 @@ Diagnos: urn:oclc:platform:57439 / 9d1edb1d-d051-4fde-8431-169bfab07666
       <?php
       $service->lookup_patron_ppid($ppid);
       echo $service;
-      //file_put_contents('../output_examples/test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
+      //file_put_contents('test_NCIP_lookup_response'.$ppid.'_1.xml',json_encode($service->patron,JSON_PRETTY_PRINT));
       ?>
     </pre>
   </body>

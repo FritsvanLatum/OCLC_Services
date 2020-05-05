@@ -33,7 +33,7 @@ Diagnos: urn:oclc:platform:57439 / 9d1edb1d-d051-4fde-8431-169bfab07666
       $ppid = '79363e42-54a3-46a5-a858-e026641fd9f0';
       $service->request_biblevel($ppid,$ocn);
       echo $service;
-      //file_put_contents('../output_examples/test_NCIP_request_response'.$ppid.'.xml',json_encode($service->request,JSON_PRETTY_PRINT));
+      //file_put_contents('test_NCIP_request_response'.$ppid.'.xml',json_encode($service->request,JSON_PRETTY_PRINT));
       ?>
     </pre>
     <h3>Hold voor Aad</h3>
@@ -43,7 +43,7 @@ Diagnos: urn:oclc:platform:57439 / 9d1edb1d-d051-4fde-8431-169bfab07666
       $ppid = '9d1edb1d-d051-4fde-8431-169bfab07666';
       $service->request_biblevel($ppid,$ocn);
       echo $service;
-      //file_put_contents('../output_examples/test_NCIP_request_response'.$ppid.'.xml',json_encode($service->request,JSON_PRETTY_PRINT));
+      //file_put_contents('test_NCIP_request_response'.$ppid.'.xml',json_encode($service->request,JSON_PRETTY_PRINT));
       ?>
     </pre>
 

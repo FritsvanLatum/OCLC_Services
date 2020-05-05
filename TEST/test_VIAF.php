@@ -13,7 +13,7 @@
     $response = isset($_POST['response']) ? $_POST['response'] : 'justlinks.json';
     $viaf->response_format = $response;
     $viaf->viaf_get_data($no);
-    file_put_contents('../output_examples/viaf_'.$no.'.json',json_encode($viaf->viaf_record,JSON_PRETTY_PRINT));
+    //file_put_contents('viaf_'.$no.'.json',json_encode($viaf->viaf_record,JSON_PRETTY_PRINT));
     ?>
 
     <form method="post">
