@@ -7,7 +7,7 @@ The subdirectories:
 * apps: simple demo apps, at the moment only circulation (patron lookup & display, hold and cancel hold)
 * OCLC: helpers for authorization
 * SOLR: an example schema, and example PHP files for communicating with SOLR
-* TEST: test scripts for each library
+* TEST: test scripts for the libraries, TO DO: replace by simple demo apps
 * docs: some documentation other than in this md file
 * idm_templates: TWIG templates for the IDM_Service library
 * ncip_templates: TWIG templates for the NCIP library
