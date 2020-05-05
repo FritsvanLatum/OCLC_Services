@@ -4,13 +4,13 @@ This repository contains PHP libraries for communicating with OCLC's WMS via API
 For each library a test is provided in the subdirectory TEST.
 
 The subdirectories:
+* apps: simple demo apps, at the moment only circulation (patron lookup & display, hold and cancel hold)
 * OCLC: helpers for authorization
 * SOLR: an example schema, and example PHP files for communicating with SOLR
 * TEST: test scripts for each library
 * docs: some documentation other than in this md file
 * idm_templates: TWIG templates for the IDM_Service library
 * ncip_templates: TWIG templates for the NCIP library
-* output_examples: several examples of responses of the API's
 
 Each library (VIAF_Service.php is the only exception) has a keys file with the 
 codes that must be used in the API calls. They are not provided in this repository. 
@@ -224,7 +224,7 @@ An associative array.
 #### remove_arrays_one_element:
 
 With the default value of `remove_arrays_one_element` (FALSE) all values in the resulting associative array
-are itself arrays. This is because this is valid XML:
+are themselves arrays. This is because this is valid XML:
 
 ```
 ...
@@ -244,7 +244,7 @@ But this is not allowed in an associative array:
 ]
 ```
 
-Should be:
+and should be:
 
 ```
 [
@@ -281,5 +281,5 @@ is converted to:
 ```
 
 #### remove_namespaces:
-Set remove_namespaces to FALSE when there will be element name confusions otherwise.
+Set remove_namespaces to FALSE when the same element name (or names) are used in different namespaces. 
 
