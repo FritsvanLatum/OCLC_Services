@@ -6,4 +6,5 @@
 *.tgz
 *.~vsdx
 keys_*.php
+test_data.html
 vendor/
