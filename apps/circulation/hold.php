@@ -53,8 +53,9 @@ if (array_key_exists('ppid',$_GET) && array_key_exists('ocn',$_GET)) {
       <button id='empty'>Empty form</button>
     </div>
     <div id="res">
-      <?php 
+      <?php
         if ($patron->patron && (array_key_exists('id',$patron->patron))) {
+          //check error messages
           if (array_key_exists('Problem',$ncip->request['NCIPMessage'][0]['RequestItemResponse'][0])) {
             echo "Problem:<br/>";
             if (array_key_exists('ProblemType',$ncip->request['NCIPMessage'][0]['RequestItemResponse'][0]['Problem'][0])) 
@@ -67,6 +68,7 @@ if (array_key_exists('ppid',$_GET) && array_key_exists('ocn',$_GET)) {
               echo $ncip->request['NCIPMessage'][0]['RequestItemResponse'][0]['Problem'][0]['ProblemValue'][0]."<br/>";
             echo "<br/>";
           }
+          //now render with TWIG templating the output
           $loader = new Twig_Loader_Filesystem(__DIR__);
           $twig = new Twig_Environment($loader, array(
             //specify a cache directory only in a production setting
