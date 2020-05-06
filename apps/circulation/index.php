@@ -9,12 +9,11 @@
   </head>
 
   <body>
-  	<p><a href="barcode.php">Zoek patron information via barcode</a></p>
-  	<p><a href="ppid.php">Zoek patron information via ppid</a></p>
-  	<p><a href="hold.php">Hold</a></p>
-  	<p><a href="cancel.php">Cancel</a></p>
-  		
-	  
+    <p><a href="barcode.php">Zoek patron information via barcode</a></p>
+    <p><a href="ppid.php">Zoek patron information via ppid</a></p>
+    <p><a href="hold.php">Place hold</a></p>
+    <p><a href="cancel.php">Cancel holds</a></p>
+    <br/>
+    <p><a href="test_data.html" target="_blank">Data</a></p>
   </body>
-
 </html>

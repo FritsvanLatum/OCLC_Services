@@ -24,7 +24,7 @@ var editorProperties =
 var query = document.location.search;
 
 if (query.length > 0) {
-  editorProperties.startval = {patronBarcode:patronBarcode};
+  editorProperties.startval = {barcode:barcode};
 }
 
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
@@ -34,7 +34,7 @@ editor.on('ready',function() {
 
   // Hook up the submit button to log to the console
   $('#submit').on('click',function() {
-	  barcode = editor.getEditor('root.patronBarcode').getValue();
+	  barcode = editor.getEditor('root.barcode').getValue();
     if (barcode.length > 0)  {
       //empty feedback div
       $('#res').html("");
@@ -52,7 +52,7 @@ editor.on('ready',function() {
         $('#res').html(msg);
       }
       else {
-        var barcodeURL = document.location.origin + document.location.pathname+'?patronBarcode='+barcode;
+        var barcodeURL = document.location.origin + document.location.pathname+'?barcode='+barcode;
         window.location.assign(barcodeURL);
       }
     }

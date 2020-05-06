@@ -61,7 +61,7 @@ class NCIP_Service extends OCLC_Service{
   }
   
   public function ncip_message_str(){
-  	return json_encode($this->patron["NCIPMessage"]["LookupUserResponse"], JSON_PRETTY_PRINT);
+  	return json_encode($this->patron["NCIPMessage"][0]["LookupUserResponse"][0], JSON_PRETTY_PRINT);
   }
 
   public function lookup_patron_ppid($ppid) {
@@ -118,7 +118,7 @@ class NCIP_Service extends OCLC_Service{
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
         $xmlDoc->loadXML($result);
-        $options = ['remove_arrays_one_element' => TRUE];
+        $options = array();
         $this->patron = $this->xml2json($xmlDoc,$options);
         return TRUE;
       }

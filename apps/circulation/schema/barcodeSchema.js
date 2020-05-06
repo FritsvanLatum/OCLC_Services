@@ -4,7 +4,7 @@ schemaObj =
   title: "Circulation",
   type: "object",
   properties: {
-    patronBarcode: {
+    barcode: {
       type: "string",
       title: "Barcode"
     }

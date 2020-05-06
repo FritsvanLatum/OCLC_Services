@@ -2,16 +2,16 @@
 	<div class="divTable minimalistBlack">
 		<div class="divTableBody">
 			<div class="divTableRow">
-				<div class="labelC">{{UserId.UserIdentifierType}}</div>
-				<div class="valueC">{{UserId.UserIdentifierValue}}</div>
+				<div class="labelC">{{UserId[0].UserIdentifierType[0]}}</div>
+				<div class="valueC">{{UserId[0].UserIdentifierValue[0]}}</div>
 			</div>
 			<div class="divTableRow">
 				<div class="labelC">Aantallen:</div>
 				<div class="valueC">
 					{% for item in RequestedItemsCount %}
 					<div class="divTableRow">
-						<div class="valueC">{{item.CirculationStatus}}</div>
-						<div class="valueC">{{item.RequestedItemCountValue}}</div>
+						<div class="valueC">{{item.CirculationStatus[0]}}</div>
+						<div class="valueC">{{item.RequestedItemCountValue[0]}}</div>
 					</div>
 					{% endfor %}
 				</div>
@@ -22,35 +22,35 @@
 				<div class="valueC">
 					<div class="divTableRow">
 						<div class="labelC">Request ID:</div>
-						<div class="valueC">{{item.RequestId.RequestIdentifierValue}}</div>
+						<div class="valueC">{{item.RequestId[0].RequestIdentifierValue[0]}}</div>
 					</div>
 					<div class="divTableRow">
 						<div class="labelC">Type:</div>
-						<div class="valueC">{{item.RequestType}}</div>
+						<div class="valueC">{{item.RequestType[0]}}</div>
 					</div>
 					<div class="divTableRow">
 						<div class="labelC">RequestStatusType:</div>
-						<div class="valueC">{{item.RequestStatusType}}</div>
+						<div class="valueC">{{item.RequestStatusType[0]}}</div>
 					</div>
           <div class="divTableRow">
 						<div class="labelC">DatePlaced:</div>
-						<div class="valueC">{{item.DatePlaced}}</div>
+						<div class="valueC">{{item.DatePlaced[0]}}</div>
 					</div>
           <div class="divTableRow">
 						<div class="labelC">Title:</div>
-						<div class="valueC">{{item.Title}}</div>
+						<div class="valueC">{{item.Title[0]}}</div>
 					</div>
           <div class="divTableRow">
 						<div class="labelC">MediumType:</div>
-						<div class="valueC">{{item.MediumType}}</div>
+						<div class="valueC">{{item.MediumType[0]}}</div>
 					</div>
           <div class="divTableRow">
 						<div class="labelC">Author:</div>
-						<div class="valueC">{{item.Ext.BibliographicDescription.Author}}</div>
+						<div class="valueC">{{item.Ext[0].BibliographicDescription[0].Author[0]}}</div>
 					</div>
           <div class="divTableRow">
 						<div class="labelC">EarliestDateNeeded</div>
-						<div class="valueC">{{item.Ext.EarliestDateNeeded}}</div>
+						<div class="valueC">{{item.Ext[0].EarliestDateNeeded[0]}}</div>
 					</div>
 				</div>
 			</div>
