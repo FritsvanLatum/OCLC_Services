@@ -52,7 +52,7 @@ class IDM_Service extends OCLC_Service{
   public $update_headers = ['Content-Type' => 'application/scim+json'];
   public $update_method = 'PUT';
 
-
+  public $initial_patron_type = 'fromWebsite';
   public $patron = null;
   public $search = null;
   public $create = null;
@@ -337,7 +337,7 @@ class IDM_Service extends OCLC_Service{
     return array_key_exists('id',$patron->update) ? TRUE : FALSE;
   }
 
-  private function update_patron($ppid, $scim_json) {
+  public function update_patron($ppid, $scim_json) {
     //$ppid must be the value of the "id" key in scim json
 
     //authorization
@@ -497,14 +497,14 @@ class IDM_Service extends OCLC_Service{
   *
   * returns the new ppid or an empty string
   */
-  public function wms_create($barcode,$patron_type,$json) {
+  public function wms_create($barcode,$json) {
     $ppid = '';
     $json['extra'] = array(
     'barcode' => $barcode,
     'country' => $this->get_countrycode($json['address']['country']),
     'date' => date("Y-m-d"),
     'expDate' => date('Y-m-d\TH:i:s\Z'),
-    'patron_type' => $patron_type,
+    'patron_type' => $this->initial_patron_type,
     /*
      de gebruiker wordt direct actief, als dat anders moet kan wms_activate gebruikt worden
      om een gebruiker te activeren
@@ -520,9 +520,9 @@ class IDM_Service extends OCLC_Service{
     //'cache' => './compilation_cache',
     ));
     $scim_json = $twig->render('./idm_templates/scim_create_template.json', $json);
-    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
+    file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
 
-    $this->create_patron($scim_json);
+    #$this->create_patron($scim_json);
     //file_put_contents('form_response.json',json_encode($patron->create, JSON_PRETTY_PRINT));
 
     return array_key_exists('id',$this->create) ? $this->create['id'] : '';

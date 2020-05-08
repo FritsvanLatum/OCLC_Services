@@ -2,13 +2,13 @@
   "person": {
     "firstName": "Test",
     "lastName": "van TestCreate2",
-    "email": "TestCreate2@test.nl",
+    "email": "TestCreate2@TestCreate2.nl",
     "dateBirth": "1991-11-11",
     "gender": "male",
     "tel": "061a345678"
   },
   "id": {
-    "userName": "TestCreate2@test.nl",
+    "userName": "TestCreate2@TestCreate2.nl",
     "password": "Some9password",
     "confpw": "Some9password"
   },

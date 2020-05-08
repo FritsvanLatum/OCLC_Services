@@ -12,7 +12,7 @@
     require_once '../IDM_Service.php';
     /*
     $service = new IDM_Service('keys_idm.php');
-    $service->read_patron_ppid('1a4f4dbb-375a-4363-8792-3aaa95fd9bad');
+    $service->read_patron_ppid('b420b91d-b3d9-4501-9ccd-99ed44984908');
     echo $service;
     */
     ?>
@@ -30,11 +30,11 @@
     <h3>read all patrons</h3>
     <pre>
     <?php
-    
+    /*
     $service = new IDM_Service('keys_idm.php');
     $service->read_patrons();
     echo $service;
-    
+    */
     ?>
     </pre>
     <h3>create patron in ./idm_templates/json_example.json</h3>
@@ -58,8 +58,8 @@
     <h3>update patron in ./idm_templates/json_example.json</h3>
     <pre>
     <?php
-    /*
     $service = new IDM_Service('keys_idm.php');
+    /*
     //get input
     $json = json_decode(file_get_contents('../idm_templates/json_example.json'),TRUE);
     echo json_encode($json,JSON_PRETTY_PRINT);
@@ -68,7 +68,12 @@
     $service->wms_update('00c66177-df54-4f2e-ab03-220b8f32b9cf', '9055062314', $json);
     echo $service;
     */
+    //test aanvullen idp correlatie
+    $scim_json = file_get_contents('../idm_templates/scim_update_template_test.json');
+    $ppid = "b420b91d-b3d9-4501-9ccd-99ed44984908";
+    $service->update_patron($ppid, $scim_json);
+    echo $service;
     ?>
-  </body>
+ </body>
 
 </html>

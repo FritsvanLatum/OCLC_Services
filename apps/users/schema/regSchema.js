@@ -134,18 +134,9 @@ regSchemaObj =
       type: "object",
       title: "Library services",
       properties: {
-        has_card: {
-          type: "select",
-          title: "Do you have a library card?",
-          enum: ["","Yes","No"]
-        },
-        barcode: {
-          type: "string",
-          title: "If you have a library card, what is the barcode on this card?"
-        },
         wants_card: {
           type: "select",
-          title: "Do you need a library card?",
+          title: "Do you want a library card?",
           enum: ["","Yes","No"]
         },
         receiveMails:{

@@ -18,21 +18,6 @@ var editorProperties =
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
 
 //watch functions
-function watchMembership() {
-  em = editor.getEditor('root.services.has_card').getValue();
-  if (em == 'Yes') {
-    jQuery('div[data-schemapath="root.services.barcode"]').css("display","block");
-    jQuery('div[data-schemapath="root.services.wants_card"]').css("display","none");
-  }
-  else if (em == 'No') {
-    jQuery('div[data-schemapath="root.services.barcode"]').css("display","none");
-    jQuery('div[data-schemapath="root.services.wants_card"]').css("display","block");
-  }
-  else {
-    jQuery('div[data-schemapath="root.services.barcode"]').css("display","none");
-    jQuery('div[data-schemapath="root.services.wants_card"]').css("display","none");
-  }
-}
 function watchAlerts() {
   em = editor.getEditor('root.services.receiveAlerts').getValue();
   if (em == 'Yes') {
@@ -48,12 +33,9 @@ editor.on('ready',function() {
   //editor.options.show_errors = 'never';  //interaction (default), change, always, never
 
   //hide dependent fields
-  jQuery('div[data-schemapath="root.services.barcode"]').css("display","none");
-  jQuery('div[data-schemapath="root.services.wants_card"]').css("display","none");
   jQuery('div[data-schemapath="root.services.alertSubjects"]').css("display","none");
   
   //membership: display/hide dependent fields
-  editor.watch('root.services.has_card',watchMembership);
   editor.watch('root.services.receiveAlerts',watchAlerts);
 
   // Hook up the submit button to log to the console

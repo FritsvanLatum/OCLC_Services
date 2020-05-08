@@ -18,7 +18,9 @@
 
   <body>
     <h1>Register</h1>
-    <p>If you already registered using this web page, please <a href="http://web03u18b.ppl.nl/register/sign-in.php">sign in</a></p>
+    <p>If you already registered using this web page, please <a href="sign-in.php">sign in</a></p>
+    <p>If you have a library card, but did not register yet on this website, go to <a href="this page">this page</a>.</p>
+    
     <div id = "editorDiv">
       <div id="editor"></div>
       <button id="submit">Send</button>

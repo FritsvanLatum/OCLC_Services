@@ -87,7 +87,7 @@ JSONEditor.defaults.custom_validators.push(function(schema, value, path) {
   var errors = [];
 
   if(schema.id === "receiveAlerts") {
-    var checkmembership = (this.jsoneditor.getEditor("root.services.has_card").value == 'Yes');
+    var checkmembership = (this.jsoneditor.getEditor("root.services.wants_card").value == 'Yes');
     var checkreceiveMails = (this.jsoneditor.getEditor("root.services.receiveMails").value == 'Yes');
     var checkreceiveNews = (this.jsoneditor.getEditor("root.services.receiveNews").value == 'Yes');
     var checkreceiveAlerts = (this.jsoneditor.getEditor("root.services.receiveAlerts").value == 'Yes');
