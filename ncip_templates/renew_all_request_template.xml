@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:NCIPMessage xmlns="http://oclc.org/WCL/ncip/2011/extensions"
+  xmlns:ns2="http://www.niso.org/2008/ncip" xmlns:ns3="http://www.oclc.org/ncip/renewall/2014"
+  xmlns:ns4="http://www.oclc.org/ncip/usernote/2012"
+  ns2:version="http://www.niso.org/schemas/ncip/v2_02/imp1/xsd/ncip_v2_02.xsd">
+  <ns2:Ext>
+    <ns3:RenewAllItem>
+      <ns2:InitiationHeader>
+        <ns2:FromAgencyId>
+          <ns2:AgencyId ns2:Scheme="http://oclc.org/ncip/schemes/agencyid/institutionid.scm">57439</ns2:AgencyId>
+        </ns2:FromAgencyId>
+        <ns2:ToAgencyId>
+          <ns2:AgencyId ns2:Scheme="http://oclc.org/ncip/schemes/agencyid/institutionid.scm">57439</ns2:AgencyId>
+        </ns2:ToAgencyId>
+      </ns2:InitiationHeader>
+      <ns2:UserId>
+        <ns2:AgencyId ns2:Scheme="http://oclc.org/ncip/schemes/agencyid/institutionid.scm">57439</ns2:AgencyId>
+        <ns2:UserIdentifierValue>{{ppid}}</ns2:UserIdentifierValue>
+      </ns2:UserId>
+    </ns3:RenewAllItem>
+  </ns2:Ext>
+</ns2:NCIPMessage>

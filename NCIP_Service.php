@@ -60,16 +60,16 @@ class NCIP_Service extends OCLC_Service{
   	return json_encode($this->patron, JSON_PRETTY_PRINT);
   }
   
-  public function ncip_message_str(){
+/*  public function ncip_message_str(){
   	return json_encode($this->patron["NCIPMessage"][0]["LookupUserResponse"][0], JSON_PRETTY_PRINT);
   }
-
+*/
   public function lookup_patron_ppid($ppid) {
     //WMS_NCIP
     //authorization
     $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
 
-    $xml = file_get_contents(__DIR__.'/ncip_templates/lookup_template.xml');
+    $xml = file_get_contents(__DIR__.'/ncip_templates/lookup_request_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     //file_put_contents('test_NCIP_lookup.xml',$xml);
     
@@ -129,7 +129,7 @@ class NCIP_Service extends OCLC_Service{
     //authorization
     $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
 
-    $xml = file_get_contents(__DIR__.'/ncip_templates/request_biblevel_template.xml');
+    $xml = file_get_contents(__DIR__.'/ncip_templates/hold_request_biblevel_template.xml');
     $xml = str_replace('{{ppid}}', $ppid , $xml);
     $xml = str_replace('{{ocn}}', $ocn , $xml);
     //file_put_contents('test_NCIP_request_request.xml',$xml);
@@ -170,6 +170,67 @@ class NCIP_Service extends OCLC_Service{
       else {
         if ($error_number) {
           $this->log_entry('Error','request_biblevel',"Result but still cUrl error [$error_number]: $error_msg");
+        }
+        $this->request_xml = $result;
+        //$result = str_replace(array("\n", "\r", "\t"), '', $result);
+        $result = trim(str_replace('"', "'", $result));  //??
+        
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->loadXML($result);
+        $options = array();
+        $this->request = $this->xml2json($xmlDoc,$options);
+
+        return TRUE;
+      }
+    }
+  }
+
+  public function request_itemlevel($ppid, $barcode) {
+    //authorization
+    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
+
+    $xml = file_get_contents(__DIR__.'/ncip_templates/hold_request_itemlevel_template.xml');
+    $xml = str_replace('{{ppid}}', $ppid , $xml);
+    $xml = str_replace('{{barcode}}', $barcode , $xml);
+    //file_put_contents('test_NCIP_request_request.xml',$xml);
+    $header_array = [];
+    foreach ($this->ncip_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
+
+    //CURL
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $this->ncip_url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->ncip_method);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //curl_setopt($curl, CURLOPT_, );
+    //curl_setopt($curl, CURLOPT_, );
+
+    $result = curl_exec($curl);
+    $error_number = curl_errno($curl);
+    $error_msg = curl_error($curl);
+    curl_close($curl);
+
+    if ($result === FALSE) {
+      $this->log_entry('Error','request_itemlevel','No result on cUrl request!');
+      if ($error_number) $this->log_entry('Error','request_itemlevel',"No result, cUrl error [$error_number]: $error_msg");
+      return FALSE;
+    }
+    else {
+      if (strlen($result) == 0) {
+        $this->log_entry('Error','request_itemlevel','Empty result on cUrl request!');
+        if ($error_number) {
+          $this->log_entry('Error','request_itemlevel',"Empty result, cUrl error [$error_number]: $error_msg");
+        }
+        return FALSE;
+      }
+      else {
+        if ($error_number) {
+          $this->log_entry('Error','request_itemlevel',"Result but still cUrl error [$error_number]: $error_msg");
         }
         $this->request_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
@@ -249,20 +310,13 @@ class NCIP_Service extends OCLC_Service{
 
 
   public function renew_item_of_patron($ppid, $itemid) {
-    //WMS_NCIP
-    
-    //test the service with $itemid that not is lent by $ppid, with $itemid that is reserved by somebody else, etc.
-    //if the service sends back adequate answers then skip the checks below
-
-      //first check whether $itemid is lent to $ppid
-      //then check whether it is allowed to renew the item, if not: message to the user
-      // if everything ok: 
-    
     //authorization
     $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
 
-    //doe iets slims met het invullen van het ppid en ietmid in ./ncip_templates/renew_template.xml
-    $xml = '';
+    //doe iets slims met het invullen van het ppid en ietmid in ./ncip_templates/renew_request_template.xml
+    $xml = file_get_contents(__DIR__.'/ncip_templates/renew_item_request_template.xml');
+    $xml = str_replace('{{ppid}}', $ppid , $xml);
+    $xml = str_replace('{{itemid}}', $itemid , $xml);
         
     $header_array = [];
     foreach ($this->ncip_headers as $k => $v) {
@@ -309,9 +363,55 @@ class NCIP_Service extends OCLC_Service{
   }
 
   public function renew_all_items_of_patron($ppid) {
-     //see remarks in renew_item_of_patron
-    
-   
+    //authorization
+    $this->ncip_headers['Authorization'] = $this->get_access_token_authorization_ppid('WMS_NCIP',$ppid);
+
+    //doe iets slims met het invullen van het ppid en ietmid in ./ncip_templates/renew_request_template.xml
+    $xml = file_get_contents(__DIR__.'/ncip_templates/renew_all_request_template.xml');
+    $xml = str_replace('{{ppid}}', $ppid , $xml);
+
+    $header_array = [];
+    foreach ($this->ncip_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
+
+    //CURL
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $this->ncip_url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->ncip_method);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //curl_setopt($curl, CURLOPT_, );
+    //curl_setopt($curl, CURLOPT_, );
+
+    $result = curl_exec($curl);
+    $error_number = curl_errno($curl);
+    $error_msg = curl_error($curl);
+    curl_close($curl);
+
+    if ($result === FALSE) {
+      $this->log_entry('Error','renew_all_items_of_patron','No result on cUrl request!');
+      if ($error_number) $this->log_entry('Error','renew_all_items_of_patron',"No result, cUrl error [$error_number]: $error_msg");
+      return FALSE;
+    }
+    else {
+      if (strlen($result) == 0) {
+        $this->log_entry('Error','renew_all_items_of_patron','Empty result on cUrl request!');
+        if ($error_number) {
+          $this->log_entry('Error','renew_all_items_of_patron',"Empty result, cUrl error [$error_number]: $error_msg");
+        }
+        return FALSE;
+      }
+      else {
+        if ($error_number) {
+          $this->log_entry('Error','renew_all_items_of_patron',"Result but still cUrl error [$error_number]: $error_msg");
+        }
+        
+        $this->patron = $result;
+      }
+    }
   }
 
 }
