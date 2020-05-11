@@ -39,6 +39,10 @@ class Availability_Service extends OCLC_Service {
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
+  public function avail_str() {
+    return json_encode($this->avail, JSON_PRETTY_PRINT);
+  }
+
   public function get_availabilty_of_ocn($ocn) {
     $this->ocn = $ocn;
     return $this->get_availabilty_query('no:ocm'.$ocn);

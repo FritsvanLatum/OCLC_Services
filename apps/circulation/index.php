@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    <p><a href="availability.php">Zoek availability information via ocn</a></p>
     <p><a href="barcode.php">Zoek patron information via barcode</a></p>
     <p><a href="ppid.php">Zoek patron information via ppid</a></p>
     <p><a href="hold.php">Place hold</a></p>

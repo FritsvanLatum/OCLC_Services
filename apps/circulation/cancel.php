@@ -45,11 +45,11 @@ if (array_key_exists('action',$_GET)) {
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Circulation</title>
+    <title>Circulation - cancel hold</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/idcard.css">
+    <link rel="stylesheet" type="text/css" href="css/circ.css">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>

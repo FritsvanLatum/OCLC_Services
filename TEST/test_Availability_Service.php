@@ -21,12 +21,6 @@
         <input type="submit"/>
     </form>
 
-    <p>Holding:<br/>
-      <pre>
-        <?php echo json_encode($avail->get_circulation_info($ocn),JSON_PRETTY_PRINT);?>
-      </pre>
-    </p>
-
     <p>Result of availability request:
       <pre>
         <?php 
