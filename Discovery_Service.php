@@ -105,15 +105,15 @@ class Discovery_Service extends OCLC_Service {
           }
         }
         else if ($this->read_headers['Accept'] == 'application/rdf+xml') {
-          $this->record_xml = $result;
           //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-          $result = trim(str_replace('"', "'", $result));  //??
+          //$result = trim(str_replace('"', "'", $result));  //??
           
           $xmlDoc = new DOMDocument();
           $xmlDoc->preserveWhiteSpace = FALSE;
+          $xmlDoc->formatOutput = TRUE;
           $xmlDoc->loadXML($result);
+          $this->record_xml = $xmlDoc->saveXML();
           $this->record = $this->xml2json($xmlDoc,[]);
- 
           return TRUE;
         }
         else {

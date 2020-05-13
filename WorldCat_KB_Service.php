@@ -109,7 +109,7 @@ class WorldCat_KB_Service extends OCLC_Service{
     if ($found) {
       foreach ($this->kb_record['entries'] as $entry) {
         foreach ($entry['links'] as $link) {
-          if ($link['rel'] == $type) $result = $link['href'];
+          if (array_key_exists('rel',$link) &&  ($link['rel'] == $type)) $result = $link['href'];
         }
       }
     }

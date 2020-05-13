@@ -39,7 +39,15 @@ class Availability_Service extends OCLC_Service {
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
-  public function avail_str() {
+  public function avail_str($type) {
+    
+    if ($type == 'json') return $this->__toString();
+    if ($type == 'xml') return $this->avail_xml;
+    if ($type == 'html') {
+      $str = str_replace(array('<','>'), array('&lt;','&gt;'), $this->avail_xml);
+      $str = '<pre>'.$str.'</pre>';
+      return $str;
+    }
     return json_encode($this->avail, JSON_PRETTY_PRINT);
   }
 
@@ -92,13 +100,14 @@ class Availability_Service extends OCLC_Service {
         if ($error_number) {
           $this->log_entry('Error','get_avail',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $this->avail_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));  //??
+        //$result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
         $xmlDoc->loadXML($result);
+        $this->avail_xml = $xmlDoc->saveXML();
         $this->avail = $this->xml2json($xmlDoc,[]);
         return TRUE;
       }

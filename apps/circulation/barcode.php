@@ -76,11 +76,11 @@
     <div>
       Patron:
       <pre>
-        <?php if ($barcode) echo $patron->patron_str();?>
+        <?php if ($barcode) echo $patron;?>
       </pre>
       NCIP:
       <pre>
-        <?php if ($barcode) echo $ncip->ncip_message_str();?>
+        <?php if ($barcode) echo $ncip;?>
       </pre>
     </div>
     <?php } ?>

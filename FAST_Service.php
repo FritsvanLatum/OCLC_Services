@@ -78,13 +78,14 @@ class FAST_Service extends OCLC_Service {
         if ($error_number) {
           $this->log_entry('Error','fast_get_data',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $this->fast_record_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));  //??
+        //$result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
         $xmlDoc->loadXML($result);
+        $this->fast_record_xml = $xmlDoc->saveXML();
         $options = array();
         $this->fast_record = $this->xml2json($xmlDoc,$options);
         return TRUE;

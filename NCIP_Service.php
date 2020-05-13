@@ -24,10 +24,12 @@ class NCIP_Service extends OCLC_Service{
   public $patron = null;
   public $request = null;
   public $cancel = null;
+  public $renew = null;
   
   public $patron_xml = null;
   public $request_xml = null;
   public $cancel_xml = null;
+  public $renew_xml = null;
 
   public function __construct($key_file) {
     parent::__construct($key_file);
@@ -47,23 +49,29 @@ class NCIP_Service extends OCLC_Service{
     $json['patron_xml'] = $this->patron_xml;
     $json['request_xml'] = $this->request_xml;
     $json['cancel_xml'] = $this->cancel_xml;
+    $json['renew_xml'] = $this->renew_xml;
 
     $json['patron'] = $this->patron;
     $json['request'] = $this->request;
     $json['cancel'] = $this->cancel;
+    $json['renew'] = $this->renew;
 
 
     return json_encode($json, JSON_PRETTY_PRINT);
   }
 
-  public function patron_str(){
-  	return json_encode($this->patron, JSON_PRETTY_PRINT);
+  public function patron_str($type) {
+    
+    if ($type == 'json') return $this->__toString();
+    if ($type == 'xml') return $this->patron_xml;
+    if ($type == 'html') {
+      $str = str_replace(array('<','>'), array('&lt;','&gt;'), $this->patron_xml);
+      $str = '<pre>'.$str.'</pre>';
+      return $str;
+    }
+    return json_encode($this->avail, JSON_PRETTY_PRINT);
   }
   
-/*  public function ncip_message_str(){
-  	return json_encode($this->patron["NCIPMessage"][0]["LookupUserResponse"][0], JSON_PRETTY_PRINT);
-  }
-*/
   public function lookup_patron_ppid($ppid) {
     //WMS_NCIP
     //authorization
@@ -111,13 +119,14 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','lookup_patron_ppid',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $this->patron_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));  //??
+        //$result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
         $xmlDoc->loadXML($result);
+        $this->patron_xml = $xmlDoc->saveXML();
         $options = array();
         $this->patron = $this->xml2json($xmlDoc,$options);
         return TRUE;
@@ -171,13 +180,14 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','request_biblevel',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $this->request_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));  //??
+        //$result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
         $xmlDoc->loadXML($result);
+        $this->request_xml = $xmlDoc->saveXML();
         $options = array();
         $this->request = $this->xml2json($xmlDoc,$options);
 
@@ -232,13 +242,14 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','request_itemlevel',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $this->request_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));  //??
+        //$result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
         $xmlDoc->loadXML($result);
+        $this->request_xml = $xmlDoc->saveXML();
         $options = array();
         $this->request = $this->xml2json($xmlDoc,$options);
 
@@ -293,13 +304,14 @@ class NCIP_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','cancel_request',"Result but still cUrl error [$error_number]: $error_msg");
         }
-        $this->cancel_xml = $result;
         //$result = str_replace(array("\n", "\r", "\t"), '', $result);
-        $result = trim(str_replace('"', "'", $result));  //??
+        //$result = trim(str_replace('"', "'", $result));  //??
         
         $xmlDoc = new DOMDocument();
         $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
         $xmlDoc->loadXML($result);
+        $this->cancel_xml = $xmlDoc->saveXML();
         $options = array();
         $this->cancel = $this->xml2json($xmlDoc,$options);
        
@@ -357,7 +369,13 @@ class NCIP_Service extends OCLC_Service{
           $this->log_entry('Error','renew_item_of_patron',"Result but still cUrl error [$error_number]: $error_msg");
         }
         
-        $this->patron = $result;
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
+        $xmlDoc->loadXML($result);
+        $this->renew_xml = $xmlDoc->saveXML();
+        $options = array();
+        $this->renew = $this->xml2json($xmlDoc,$options);
       }
     }
   }
@@ -409,7 +427,13 @@ class NCIP_Service extends OCLC_Service{
           $this->log_entry('Error','renew_all_items_of_patron',"Result but still cUrl error [$error_number]: $error_msg");
         }
         
-        $this->patron = $result;
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->preserveWhiteSpace = FALSE;
+        $xmlDoc->formatOutput = TRUE;
+        $xmlDoc->loadXML($result);
+        $this->renew_xml = $xmlDoc->saveXML();
+        $options = array();
+        $this->renew = $this->xml2json($xmlDoc,$options);
       }
     }
   }

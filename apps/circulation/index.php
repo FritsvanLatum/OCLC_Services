@@ -10,10 +10,11 @@
 
   <body>
     <p><a href="availability.php">Zoek availability information via ocn</a></p>
-    <p><a href="barcode.php">Zoek patron information via barcode</a></p>
-    <p><a href="ppid.php">Zoek patron information via ppid</a></p>
-    <p><a href="hold.php">Place hold</a></p>
-    <p><a href="cancel.php">Cancel holds</a></p>
+    <p><a href="collman.php">Zoek collection management information via ocn</a></p>
+    <p><a href="barcode.php">Zoek patron information via barcode (NCIP)</a></p>
+    <p><a href="ppid.php">Zoek patron information via ppid (NCIP)</a></p>
+    <p><a href="hold.php">Place hold (NCIP)</a></p>
+    <p><a href="cancel.php">Cancel holds (NCIP)</a></p>
     <br/>
     <p><a href="test_data.html" target="_blank">Data</a></p>
   </body>
