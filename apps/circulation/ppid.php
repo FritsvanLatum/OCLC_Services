@@ -14,17 +14,17 @@
   $id_template_file = './templates/id_template.html';
   $ncip_template_file = './templates/ncip_template.html';
   
-  //classes for Patrons and circulation services
+  //classes for Patrons and ncip services
   $patron = new IDM_Service('keys_idm.php');
-  $circulation = new NCIP_Service('keys_ncip.php');
+  $ncip = new NCIP_Service('keys_ncip.php');
   
-  //if this script is called with an url parameter 'ppid' then check existence of patron and collect his circulation data
+  //if this script is called with an url parameter 'ppid' then check existence of patron and collect his ncip data
   $ppid = null;
   if (array_key_exists('ppid',$_GET)) {
     //get ppid
     $ppid = $_GET['ppid'];
     $patron->read_patron_ppid($ppid);
-    if ($patron->patron && (array_key_exists('id',$patron->patron))) $circulation->lookup_patron_ppid($ppid);
+    if ($patron->patron && (array_key_exists('id',$patron->patron))) $ncip->lookup_patron_ppid($ppid);
   }
 ?>
 <!DOCTYPE html>
@@ -61,14 +61,14 @@
           //'cache' => './compilation_cache',
           ));
           echo $twig->render($id_template_file, $patron->patron);
-          echo $twig->render($ncip_template_file, $circulation->patron["NCIPMessage"][0]["LookupUserResponse"][0]);
+          echo $twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
         }
       ?>
     </div>
     <p>Add &debug to the url in order to see the output of the API's</p>
     <?php 
       //show information from library classes
-      //use echo $patron; and/or echo $circulation; for even more info
+      //use echo $patron; and/or echo $ncip; for even more info
       if ($debug) { ?>
     <div>
       Patron:
@@ -77,7 +77,7 @@
       </pre>
       Circulation:
       <pre>
-        <?php if ($ppid) echo $circulation->ncip_message_str();?>
+        <?php if ($ppid) echo $ncip->response_str('json');?>
       </pre>
     </div>
     <?php } ?>

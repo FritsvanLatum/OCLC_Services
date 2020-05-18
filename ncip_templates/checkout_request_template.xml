@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<NCIPMessage 
+    xmlns="http://www.niso.org/2008/ncip" 
+    xmlns:ncip="http://www.niso.org/2008/ncip" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    ncip:version="http://www.niso.org/schemas/ncip/v2_01/ncip_v2_01.xsd" 
+    xsi:schemaLocation="http://www.niso.org/2008/ncip http://www.niso.org/schemas/ncip/v2_01/ncip_v2_01.xsd">
+    <CheckOutItem>
+        <InitiationHeader>
+            <FromAgencyId>
+                <AgencyId ncip:Scheme="http://oclc.org/ncip/schemes/agencyid.scm">57439</AgencyId>
+            </FromAgencyId>
+            <ToAgencyId>
+                <AgencyId>57439</AgencyId>
+            </ToAgencyId>
+            <ApplicationProfileType ncip:Scheme="http://oclc.org/ncip/schemes/application-profile/platform.scm">Version 2011</ApplicationProfileType>
+        </InitiationHeader>
+        <UserId>
+            <AgencyId>57439</AgencyId>
+            <UserIdentifierValue>{{user_barcode}}</UserIdentifierValue>
+        </UserId>
+        <ItemId>
+            <AgencyId>57439</AgencyId>
+            <ItemIdentifierValue>{{item_barcode}}</ItemIdentifierValue>
+        </ItemId>
+        <ItemElementType>Bibliographic Description</ItemElementType>
+        <ItemElementType>Circulation Status</ItemElementType>
+        <ItemElementType>Item Description</ItemElementType>
+        <ItemElementType>Location</ItemElementType>
+    </CheckOutItem>
+</NCIPMessage>

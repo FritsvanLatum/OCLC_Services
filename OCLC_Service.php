@@ -46,10 +46,10 @@ class OCLC_Service {
     if (array_key_exists('secret',$config)) $this->secret = $config['secret'];
     if (array_key_exists('ppid',$config)) $this->ppid = $config['ppid'];
     if (array_key_exists('ppid_ns',$config)) {
-    	$this->ppid_namespace = $config['ppid_ns'];
+      $this->ppid_namespace = $config['ppid_ns'];
     }
     else {
-    	$this->ppid_namespace = $this->ppid_namespace.$this->institution;
+      $this->ppid_namespace = $this->ppid_namespace.$this->institution;
     }
   }
 
@@ -79,14 +79,12 @@ class OCLC_Service {
     return file_put_contents($name, date("Y-m-d H:i:s")." $t [$c] $m\n", FILE_APPEND);
   }
 
-  public function get_auth_header_ppid($url,$method, $ppid) {
-  	//especially for NCIP patron requests: the ppid of the user is required for authentication
-  	//there is no (staff) ppid in keys_ncip.php 
-  	$this->ppid = $ppid;
-  	return $this->get_auth_header($url,$method);
-  }
-
-  public function get_auth_header($url,$method) {
+  public function get_auth_header($url,$method, $ppid = NULL) {
+    //use the argument $ppid when given, else $ppid in $config when given
+    if (is_null($ppid)  && (!is_null($this->ppid))) {
+        $ppid = $this->ppid;
+    }
+    
     //get an authorization header
     //  with wskey, secret and if necessary user data from $config
     //  for the $method and $url provided as parameters
@@ -94,9 +92,9 @@ class OCLC_Service {
     $authorizationHeader = '';
     if ($this->wskey && $this->secret) {
       $options = array();
-      if ($this->institution && $this->ppid && $this->ppid_namespace) {
+      if ($this->institution && $ppid && $this->ppid_namespace) {
         //uses OCLC provided programming to get an autorization header
-        $user = new User($this->institution, $this->ppid, $this->ppid_namespace);
+        $user = new User($this->institution, $ppid, $this->ppid_namespace);
         $options['user'] = $user;
       }
       //echo "Options: ".json_encode($options, JSON_PRETTY_PRINT);
@@ -116,31 +114,22 @@ class OCLC_Service {
     return $authorizationHeader;
   }
 
-  public function get_access_token_authorization_ppid($scope, $ppid) {
+  public function get_access_token_authorization($scope, $ppid = NULL) {
+    //use the argument $ppid when given, else $ppid in $config when given
+    if (is_null($ppid)  && (!is_null($this->ppid))) {
+        $ppid = $this->ppid;
+    }
     $this->token_params['scope'] = $scope;
 
     $token_authorization = "";
-    $authorizationHeader = $this->get_auth_header_ppid($this->token_url,$this->token_method, $ppid);
+    $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method, $ppid);
     if (strlen($authorizationHeader) > 0) {
       $this->token_headers['Authorization'] = $authorizationHeader;
     }
     else {
       $this->log_entry('Error','get_access_token_authorization','No authorization header created!');
     }
- 		return $this->get_access_token_authorization_curl();
-  }
-  public function get_access_token_authorization($scope) {
-    $this->token_params['scope'] = $scope;
-
-    $token_authorization = "";
-    $authorizationHeader = $this->get_auth_header($this->token_url,$this->token_method);
-    if (strlen($authorizationHeader) > 0) {
-      $this->token_headers['Authorization'] = $authorizationHeader;
-    }
-    else {
-      $this->log_entry('Error','get_access_token_authorization','No authorization header created!');
-    }
- 		return $this->get_access_token_authorization_curl();
+     return $this->get_access_token_authorization_curl();
   }
   private function get_access_token_authorization_curl() {
 
@@ -297,17 +286,17 @@ class OCLC_Service {
           else if ($child->nodeType == XML_TEXT_NODE) $result = $child->textContent;
         }
         if (is_array($result)) {
-	        if ($remove_arrays_one_element) {
-	          if (array_keys($result) === range(0, count($result) - 1)) {
-	            if (count($result) == 1) $result = $result[0];
-	          }
-	          else {
-	            foreach ($result as $k=>$v) {
-	              if (count($v) == 1) $result[$k] = $v[0];
-	            }
-	          }
-	        }
-	      	}
+          if ($remove_arrays_one_element) {
+            if (array_keys($result) === range(0, count($result) - 1)) {
+              if (count($result) == 1) $result = $result[0];
+            }
+            else {
+              foreach ($result as $k=>$v) {
+                if (count($v) == 1) $result[$k] = $v[0];
+              }
+            }
+          }
+          }
       }
     }
     return $result;

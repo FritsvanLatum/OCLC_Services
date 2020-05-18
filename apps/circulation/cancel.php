@@ -13,34 +13,10 @@ $ncip = new NCIP_Service('keys_ncip.php');
 
 $ppid = null;
 $req_id = null;
-if (array_key_exists('action',$_GET)) {
-  if ($_GET['action'] == 'patron') {
-    if (array_key_exists('ppid',$_GET)) {
-      $ppid = $_GET['ppid'];
-      $patron->read_patron_ppid($ppid);
-       if ($patron->patron && (array_key_exists('id',$patron->patron))) {
-         $ppid = $patron->patron['id'];
-         $ncip->lookup_patron_ppid($ppid);
-      }
-    }
-  }
-  
-  if ($_GET['action'] == 'cancel') {
-    if (array_key_exists('ppid',$_GET) && array_key_exists('req_id',$_GET)) {
-      //get ppid
-      $ppid = $_GET['ppid'];
-      $req_id = $_GET['req_id'];
-      $ncip->cancel_request($ppid,$req_id);
-      $patron->read_patron_ppid($ppid);
-       if ($patron->patron && (array_key_exists('id',$patron->patron))) {
-         $ppid = $patron->patron['id'];
-         $ncip->lookup_patron_ppid($ppid);
-      }
-    }
-  }
-}
-
-
+$action = null;
+if (array_key_exists('ppid',$_GET)) $ppid = $_GET['ppid'];
+if (array_key_exists('req_id',$_GET)) $req_id = $_GET['req_id'];
+if (array_key_exists('action',$_GET)) $action = $_GET['action'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,28 +46,40 @@ if (array_key_exists('action',$_GET)) {
     </div>
     <div id="res">
       <?php 
-        if ($patron->patron && (array_key_exists('id',$patron->patron))) {
           $loader = new Twig_Loader_Filesystem(__DIR__);
           $twig = new Twig_Environment($loader, array(
             //specify a cache directory only in a production setting
             //'cache' => './compilation_cache',
           ));
-          if (array_key_exists('Problem',$ncip->cancel['NCIPMessage'][0])) {
-            echo "Problem:<br/>";
-            if (array_key_exists('ProblemType',$ncip->cancel['NCIPMessage'][0]['Problem'][0])) 
-              echo $ncip->cancel['NCIPMessage'][0]['Problem'][0]['ProblemType'][0]."<br/>";
-            if (array_key_exists('ProblemElement',$ncip->cancel['NCIPMessage'][0]['Problem'][0])) 
-              echo $ncip->cancel['NCIPMessage'][0]['Problem'][0]['ProblemElement'][0]."<br/>";
-            if (array_key_exists('ProblemDetail',$ncip->cancel['NCIPMessage'][0]['Problem'][0])) 
-              echo $ncip->cancel['NCIPMessage'][0]['Problem'][0]['ProblemDetail'][0]."<br/>";
-            if (array_key_exists('ProblemValue',$ncip->cancel['NCIPMessage'][0]['Problem'][0])) 
-              echo $ncip->cancel['NCIPMessage'][0]['Problem'][0]['ProblemValue'][0]."<br/>";
-            echo "<br/>";
+
+          if ($action == 'patron') {
+            if (!is_null($ppid)) {
+              $patron->read_patron_ppid($ppid);
+              if ($patron->patron && (array_key_exists('id',$patron->patron))) {
+                $ppid = $patron->patron['id'];
+                $ncip->lookup_patron_ppid($ppid);
+                echo $twig->render($id_template_file, $patron->patron);
+                echo $twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
+              }
+            }
           }
-          echo $twig->render($id_template_file, $patron->patron);
-          echo $twig->render($ncip_template_file, $ncip->patron["NCIPMessage"][0]["LookupUserResponse"][0]);
-  
-        }
+
+          if ($action == 'cancel') {
+            if (!is_null($ppid) && !is_null($req_id)) {
+              $patron->read_patron_ppid($ppid);
+              if ($patron->patron && (array_key_exists('id',$patron->patron))) {
+                echo $twig->render($id_template_file, $patron->patron);
+                $ncip->cancel_request($ppid,$req_id);
+                if (array_key_exists('Problem',$ncip->response_json['NCIPMessage'][0])) {
+                  echo "<pre>".json_encode($ncip->response_json['NCIPMessage'][0], JSON_PRETTY_PRINT)."</pre>";
+                }
+                else {
+                  $ncip->lookup_patron_ppid($ppid);
+                  echo $twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
+                }
+              }
+            }
+          }
       ?>
     </div>
     <p>Add &debug to the url in order to see the output of the API's</p>
