@@ -10,7 +10,7 @@
 
   <body>
     <p><a href="availability.php">Zoek availability information via ocn</a></p>
-    <p><a href="collman.php">Zoek collection management information via ocn</a></p>
+    <p><a href="collman.php">Zoek collection management information via ocn of barcode</a></p>
     <br/>
     <p>Functies voor gebruikers</p>
     <p><a href="barcode.php">Zoek patron information via barcode (NCIP)</a></p>
