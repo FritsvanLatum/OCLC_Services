@@ -1,7 +1,7 @@
 body {
 	margin:10px;
 }
-#editor, #buttons {
+#editor, #buttons, #radio {
   margin:20px;
   width: 50%;
 }

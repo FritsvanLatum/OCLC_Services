@@ -20,7 +20,7 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Circulation - hold</title>
+    <title>Circulation - checkout</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">
@@ -47,7 +47,7 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
         if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_GET)) {
           //checkout
           $ncip->checkout($user_barcode, $item_barcode);
-          
+          echo $ncip->response_str('html');
           $loader = new Twig_Loader_Filesystem(__DIR__);
           $twig = new Twig_Environment($loader, array(
             //specify a cache directory only in a production setting

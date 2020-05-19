@@ -1,0 +1,207 @@
+{
+    "id": "urn:oclc:collectionmanagement\/LHR\/57439",
+    "title": "Copies",
+    "updated": "2020-05-19T05:58:39.300Z",
+    "entries": [
+        {
+            "title": "",
+            "content": {
+                "institution": "http:\/\/www.worldcat.org\/webservices\/registry\/content\/Institutions\/57439",
+                "bib": "\/bibs\/72687271",
+                "lastUpdateDate": "2018-12-08T11:35:52.500-05:00",
+                "recordType": "SERIAL",
+                "receiptStatus": "UNKNOWN",
+                "copyNumber": null,
+                "note": [
+                    {
+                        "value": "vol. 5 (1953) - vol. 25 (1973)",
+                        "type": "PUBLIC"
+                    }
+                ],
+                "holdingLocation": "NLVA",
+                "shelvingLocation": "Closed Stacks (reference only)",
+                "previousShelvingLocation": [],
+                "shelvingDesignation": {
+                    "prefix": [],
+                    "information": "P 2765",
+                    "itemPart": [],
+                    "suffix": [],
+                    "scheme": "OTHER"
+                },
+                "holding": [
+                    {
+                        "pieceDesignation": [
+                            "09000002125145"
+                        ],
+                        "note": [],
+                        "useRestriction": [],
+                        "cost": [],
+                        "temporaryLocation": [],
+                        "caption": {
+                            "description": null,
+                            "enumeration": [
+                                {
+                                    "value": "05-08",
+                                    "label": "*"
+                                }
+                            ],
+                            "chronology": [
+                                {
+                                    "value": "1953-1956",
+                                    "label": "(year)"
+                                }
+                            ],
+                            "id": 1,
+                            "sequence": 1
+                        },
+                        "category": "BASIC"
+                    },
+                    {
+                        "pieceDesignation": [
+                            "09000002125152"
+                        ],
+                        "note": [],
+                        "useRestriction": [],
+                        "cost": [],
+                        "temporaryLocation": [],
+                        "caption": {
+                            "description": null,
+                            "enumeration": [
+                                {
+                                    "value": "09-12",
+                                    "label": "*"
+                                }
+                            ],
+                            "chronology": [
+                                {
+                                    "value": "1957-1960",
+                                    "label": "(year)"
+                                }
+                            ],
+                            "id": 1,
+                            "sequence": 2
+                        },
+                        "category": "BASIC"
+                    },
+                    {
+                        "pieceDesignation": [
+                            "09000002125137"
+                        ],
+                        "note": [],
+                        "useRestriction": [],
+                        "cost": [],
+                        "temporaryLocation": [],
+                        "caption": {
+                            "description": null,
+                            "enumeration": [
+                                {
+                                    "value": "13-16",
+                                    "label": "*"
+                                }
+                            ],
+                            "chronology": [
+                                {
+                                    "value": "1961-1964",
+                                    "label": "(year)"
+                                }
+                            ],
+                            "id": 1,
+                            "sequence": 3
+                        },
+                        "category": "BASIC"
+                    },
+                    {
+                        "pieceDesignation": [
+                            "09000002125160"
+                        ],
+                        "note": [],
+                        "useRestriction": [],
+                        "cost": [],
+                        "temporaryLocation": [],
+                        "caption": {
+                            "description": null,
+                            "enumeration": [
+                                {
+                                    "value": "17-20",
+                                    "label": "*"
+                                }
+                            ],
+                            "chronology": [
+                                {
+                                    "value": "1965-1968",
+                                    "label": "(year)"
+                                }
+                            ],
+                            "id": 1,
+                            "sequence": 4
+                        },
+                        "category": "BASIC"
+                    },
+                    {
+                        "pieceDesignation": [
+                            "09000002125178"
+                        ],
+                        "note": [],
+                        "useRestriction": [],
+                        "cost": [],
+                        "temporaryLocation": [],
+                        "caption": {
+                            "description": null,
+                            "enumeration": [
+                                {
+                                    "value": "21-24",
+                                    "label": "*"
+                                }
+                            ],
+                            "chronology": [
+                                {
+                                    "value": "1969-1972",
+                                    "label": "(year)"
+                                }
+                            ],
+                            "id": 1,
+                            "sequence": 5
+                        },
+                        "category": "BASIC"
+                    }
+                ],
+                "id": "https:\/\/circ.sd00.worldcat.org\/LHR\/270549992?inst=57439"
+            },
+            "updated": "2018-12-08T16:35:52.500Z",
+            "links": [
+                {
+                    "href": "https:\/\/circ.sd00.worldcat.org\/LHR\/270549992?inst=57439"
+                }
+            ]
+        }
+    ],
+    "extensions": [
+        {
+            "name": "os:totalResults",
+            "attributes": {
+                "xmlns:os": "http:\/\/a9.com\/-\/spec\/opensearch\/1.1\/"
+            },
+            "children": [
+                "1"
+            ]
+        },
+        {
+            "name": "os:startIndex",
+            "attributes": {
+                "xmlns:os": "http:\/\/a9.com\/-\/spec\/opensearch\/1.1\/"
+            },
+            "children": [
+                "1"
+            ]
+        },
+        {
+            "name": "os:itemsPerPage",
+            "attributes": {
+                "xmlns:os": "http:\/\/a9.com\/-\/spec\/opensearch\/1.1\/"
+            },
+            "children": [
+                "10"
+            ]
+        }
+    ]
+}

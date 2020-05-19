@@ -1,0 +1,65 @@
+{
+    "entry": [
+        {
+            "institution": "http:\/\/www.worldcat.org\/webservices\/registry\/content\/Institutions\/57439",
+            "bib": "\/bibs\/1125981646",
+            "lastUpdateDate": 1572855014500,
+            "recordType": "SINGLE_PART",
+            "receiptStatus": "OTHER_RECEIPT_OR_ACQUISITIONS_STATUS",
+            "copyNumber": "1",
+            "note": [],
+            "holdingLocation": "NLVA",
+            "shelvingLocation": "Closed Stacks (for loan)",
+            "previousShelvingLocation": [],
+            "shelvingDesignation": {
+                "prefix": [],
+                "information": "528 F 19",
+                "itemPart": [],
+                "suffix": [],
+                "scheme": "OTHER"
+            },
+            "holding": [
+                {
+                    "pieceDesignation": [
+                        "09000006676853"
+                    ],
+                    "note": [],
+                    "useRestriction": [],
+                    "cost": [],
+                    "temporaryLocation": [],
+                    "caption": null,
+                    "category": "BASIC"
+                }
+            ],
+            "id": "https:\/\/circ.sd00.worldcat.org\/LHR\/292845057?inst=57439"
+        }
+    ],
+    "startIndex": 1,
+    "totalResults": 1,
+    "itemsPerPage": 10,
+    "id": "urn:oclc:collectionmanagement\/LHR\/57439",
+    "title": "Copies",
+    "links": [],
+    "updated": {
+        "offset": {
+            "id": "Z",
+            "amountSeconds": 0,
+            "secondsField": 0,
+            "hoursField": 0,
+            "minutesField": 0
+        },
+        "dayOfMonth": 19,
+        "dayOfWeek": "TUESDAY",
+        "dayOfYear": 140,
+        "chronology": {
+            "name": "ISO"
+        },
+        "monthOfYear": "MAY",
+        "hourOfDay": 6,
+        "minuteOfHour": 21,
+        "secondOfMinute": 53,
+        "nanoOfSecond": 78000000,
+        "year": 2020
+    },
+    "errors": []
+}

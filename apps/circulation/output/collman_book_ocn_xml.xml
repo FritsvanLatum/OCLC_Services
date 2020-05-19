@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:os="http://a9.com/-/spec/opensearch/1.1/">
+  <id>urn:oclc:collectionmanagement/LHR/57439</id>
+  <title type="text">Copies</title>
+  <updated>2020-05-19T06:31:03.122Z</updated>
+  <os:totalResults>1</os:totalResults>
+  <os:startIndex>1</os:startIndex>
+  <os:itemsPerPage>10</os:itemsPerPage>
+  <entry>
+    <title type="text"/>
+    <link href="https://circ.sd00.worldcat.org/LHR/292845057?inst=57439"/>
+    <updated>2019-11-04T08:10:14.500Z</updated>
+    <content type="application/xml">
+      <copy xmlns="http://worldcat.org/xmlschemas/Copy-1.0" id="https://circ.sd00.worldcat.org/LHR/292845057?inst=57439">
+        <institution>http://www.worldcat.org/webservices/registry/content/Institutions/57439</institution>
+        <bib>/bibs/1125981646</bib>
+        <lastUpdateDate>2019-11-04T03:10:14.500-05:00</lastUpdateDate>
+        <recordType>SINGLE_PART</recordType>
+        <receiptStatus>OTHER_RECEIPT_OR_ACQUISITIONS_STATUS</receiptStatus>
+        <copyNumber>1</copyNumber>
+        <holdingLocation>NLVA</holdingLocation>
+        <shelvingLocation>Closed Stacks (for loan)</shelvingLocation>
+        <shelvingDesignation scheme="OTHER">
+          <information>528 F 19</information>
+        </shelvingDesignation>
+        <holding category="BASIC">
+          <pieceDesignation>09000006676853</pieceDesignation>
+        </holding>
+      </copy>
+    </content>
+  </entry>
+</feed>

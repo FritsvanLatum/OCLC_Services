@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:os="http://a9.com/-/spec/opensearch/1.1/">
+  <id>urn:oclc:collectionmanagement/LHR/57439</id>
+  <title type="text">Copies</title>
+  <updated>2020-05-19T05:57:47.114Z</updated>
+  <os:totalResults>1</os:totalResults>
+  <os:startIndex>1</os:startIndex>
+  <os:itemsPerPage>10</os:itemsPerPage>
+  <entry>
+    <title type="text"/>
+    <link href="https://circ.sd00.worldcat.org/LHR/270549992?inst=57439"/>
+    <updated>2018-12-08T16:35:52.500Z</updated>
+    <content type="application/xml">
+      <copy xmlns="http://worldcat.org/xmlschemas/Copy-1.0" id="https://circ.sd00.worldcat.org/LHR/270549992?inst=57439">
+        <institution>http://www.worldcat.org/webservices/registry/content/Institutions/57439</institution>
+        <bib>/bibs/72687271</bib>
+        <lastUpdateDate>2018-12-08T11:35:52.500-05:00</lastUpdateDate>
+        <recordType>SERIAL</recordType>
+        <receiptStatus>UNKNOWN</receiptStatus>
+        <note type="PUBLIC">vol. 5 (1953) - vol. 25 (1973)</note>
+        <holdingLocation>NLVA</holdingLocation>
+        <shelvingLocation>Closed Stacks (reference only)</shelvingLocation>
+        <shelvingDesignation scheme="OTHER">
+          <information>P 2765</information>
+        </shelvingDesignation>
+        <holding category="BASIC">
+          <pieceDesignation>09000002125145</pieceDesignation>
+          <caption id="1" sequence="1">
+            <enumeration label="*">05-08</enumeration>
+            <chronology label="(year)">1953-1956</chronology>
+          </caption>
+        </holding>
+        <holding category="BASIC">
+          <pieceDesignation>09000002125152</pieceDesignation>
+          <caption id="1" sequence="2">
+            <enumeration label="*">09-12</enumeration>
+            <chronology label="(year)">1957-1960</chronology>
+          </caption>
+        </holding>
+        <holding category="BASIC">
+          <pieceDesignation>09000002125137</pieceDesignation>
+          <caption id="1" sequence="3">
+            <enumeration label="*">13-16</enumeration>
+            <chronology label="(year)">1961-1964</chronology>
+          </caption>
+        </holding>
+        <holding category="BASIC">
+          <pieceDesignation>09000002125160</pieceDesignation>
+          <caption id="1" sequence="4">
+            <enumeration label="*">17-20</enumeration>
+            <chronology label="(year)">1965-1968</chronology>
+          </caption>
+        </holding>
+        <holding category="BASIC">
+          <pieceDesignation>09000002125178</pieceDesignation>
+          <caption id="1" sequence="5">
+            <enumeration label="*">21-24</enumeration>
+            <chronology label="(year)">1969-1972</chronology>
+          </caption>
+        </holding>
+      </copy>
+    </content>
+  </entry>
+</feed>

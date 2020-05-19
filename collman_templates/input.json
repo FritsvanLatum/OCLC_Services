@@ -1,0 +1,142 @@
+{
+    "entry": [
+        {
+            "institution": "http:\/\/www.worldcat.org\/webservices\/registry\/content\/Institutions\/57439",
+            "bib": "\/bibs\/975369365",
+            "lastUpdateDate": 1588929449700,
+            "recordType": "SINGLE_PART",
+            "receiptStatus": "RECEIVED_AND_COMPLETE_OR_CEASED",
+            "copyNumber": "1",
+            "note": [],
+            "holdingLocation": "NLVA",
+            "shelvingLocation": "Closed Stacks (for loan)",
+            "previousShelvingLocation": [],
+            "shelvingDesignation": {
+                "prefix": [],
+                "information": "551 E 27",
+                "itemPart": [],
+                "suffix": [],
+                "scheme": "OTHER"
+            },
+            "holding": [
+                {
+                    "pieceDesignation": [
+                        "09000006742580"
+                    ],
+                    "note": [],
+                    "useRestriction": [],
+                    "cost": [
+                        {
+                            "currency": "EUR",
+                            "amount": 10300,
+                            "qualifier": null
+                        }
+                    ],
+                    "temporaryLocation": [],
+                    "caption": null,
+                    "category": "BASIC"
+                }
+            ],
+            "id": "https:\/\/circ.sd00.worldcat.org\/LHR\/320076920?inst=57439"
+        }
+    ],
+    "startIndex": 1,
+    "totalResults": 1,
+    "itemsPerPage": 10,
+    "id": "urn:oclc:collectionmanagement\/LHR\/57439",
+    "title": "Copies",
+    "links": [],
+    "updated": {
+        "offset": {
+            "id": "Z",
+            "amountSeconds": 0,
+            "secondsField": 0,
+            "hoursField": 0,
+            "minutesField": 0
+        },
+        "dayOfMonth": 19,
+        "dayOfWeek": "TUESDAY",
+        "dayOfYear": 140,
+        "chronology": {
+            "name": "ISO"
+        },
+        "monthOfYear": "MAY",
+        "hourOfDay": 6,
+        "minuteOfHour": 50,
+        "secondOfMinute": 30,
+        "nanoOfSecond": 6000000,
+        "year": 2020
+    },
+    "errors": []
+}
+{
+    "entry": [
+        {
+            "institution": "http:\/\/www.worldcat.org\/webservices\/registry\/content\/Institutions\/57439",
+            "bib": "\/bibs\/1120020194",
+            "lastUpdateDate": 1588938564400,
+            "recordType": "SINGLE_PART",
+            "receiptStatus": "RECEIVED_AND_COMPLETE_OR_CEASED",
+            "copyNumber": "1",
+            "note": [],
+            "holdingLocation": "NLVA",
+            "shelvingLocation": "Closed Stacks (for loan)",
+            "previousShelvingLocation": [],
+            "shelvingDesignation": {
+                "prefix": [],
+                "information": "546 C 30",
+                "itemPart": [],
+                "suffix": [],
+                "scheme": "OTHER"
+            },
+            "holding": [
+                {
+                    "pieceDesignation": [
+                        "09000006742952"
+                    ],
+                    "note": [],
+                    "useRestriction": [],
+                    "cost": [
+                        {
+                            "currency": "EUR",
+                            "amount": 8900,
+                            "qualifier": null
+                        }
+                    ],
+                    "temporaryLocation": [],
+                    "caption": null,
+                    "category": "BASIC"
+                }
+            ],
+            "id": "https:\/\/circ.sd00.worldcat.org\/LHR\/320079340?inst=57439"
+        }
+    ],
+    "startIndex": 1,
+    "totalResults": 1,
+    "itemsPerPage": 10,
+    "id": "urn:oclc:collectionmanagement\/LHR\/57439",
+    "title": "Copies",
+    "links": [],
+    "updated": {
+        "offset": {
+            "id": "Z",
+            "amountSeconds": 0,
+            "secondsField": 0,
+            "hoursField": 0,
+            "minutesField": 0
+        },
+        "dayOfMonth": 19,
+        "dayOfWeek": "TUESDAY",
+        "dayOfYear": 140,
+        "chronology": {
+            "name": "ISO"
+        },
+        "monthOfYear": "MAY",
+        "hourOfDay": 6,
+        "minuteOfHour": 49,
+        "secondOfMinute": 52,
+        "nanoOfSecond": 0,
+        "year": 2020
+    },
+    "errors": []
+}
