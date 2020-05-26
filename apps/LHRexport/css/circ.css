@@ -1,0 +1,57 @@
+body {
+	margin:10px;
+}
+#editor, #buttons, #radio {
+  margin:20px;
+  width: 50%;
+}
+
+#res {
+  margin:20px;
+}
+
+img { 
+	border-style:none; 
+	margin:0px 
+}
+label {
+	width:25%;
+	min-width:200px;
+	vertical-align:top;
+	margin:10px,0,0,0;
+}
+.controls {
+	display:inline-block;
+	width:60%;
+}
+
+.help-inline {
+	display:block;
+	padding-left: 0px;
+}
+
+div.minimalistBlack {
+  border: 3px solid #000000;
+  width: 60%;
+  text-align: left;
+  border-collapse: collapse;
+}
+.divTable.minimalistBlack .labelC, .divTable.minimalistBlack .valueC {
+  border: 1px solid #000000;
+  padding: 5px 10px;
+}
+.divTable.minimalistBlack .divTableBody .divTableCell {
+  font-size: 13px;
+}
+.minimalistBlack .tableFootStyle {
+  font-size: 14px;
+}
+
+.labelC {width:20%;}
+.valueC {width:80%;}
+
+/* DivTable.com */
+.divTable{ display: table; }
+.divTableRow { display: table-row; }
+.labelC, .valueC { display: table-cell;}
+.divTableBody { display: table-row-group;}
