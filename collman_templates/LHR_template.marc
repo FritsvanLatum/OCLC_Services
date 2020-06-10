@@ -1,9 +1,10 @@
-=LDR  00304nx  a2200121zi 4500 ==> de leader is vast...
+=LDR  {{leader}}
 =001  {{lhr_id}}
 =003  OCoLC
 =004  ocn{{ocn_id}}
 =007  zu
-=008  {{yymmdd}}{{acq_status}}u\\\\8\\\4001uuund0200508 ==> vanaf de eerste u: vaste waarde 
+=008  {{f008}}
 =035  \\$a(OCoLC){{lhr_id}}
-=852  $aNLVRD$b{{holdingLocation}}$c{{shelvingLocation}}$h{{shelvingDesignation.information}}$t{{copyNumber}}
-=876  \\$c[[moet de prijs ook naar Syndeo?]]$d{{yyyymmdd}}$p{{holding[0].pieceDesignation[0]}}
+=852  $aNLVRD$b{{holdingLocation}}$c{{shelvingLocation}}$h{{shelvingDesignation.information}}{% if copyNumber is defined %}$t{{copyNumber}}
+{% endif %}
+=876  \\$d{{yyyymmdd}}$p{{holding[0].pieceDesignation[0]}}

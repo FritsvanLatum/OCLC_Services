@@ -68,14 +68,14 @@ else {
       if ($code) {
         if ($action == 'ocn') $collman->get_lhrs_of_ocn($code);
         if ($action == 'barcode') $collman->get_lhrs_of_barcode($code);
-        $marc = $collman->json2marc('marc');
+        $marc = $collman->json2marc('mrk');
         if ($marc) {
           file_put_contents ('LHRs.marc', $marc, FILE_APPEND);
           echo "<h5>MARC format</h5>";
           echo "<pre>$marc</pre>";
         }
         
-        $marc = $collman->json2marc('xml');
+        $marc = $collman->json2marc('marcxml');
         if ($marc) {
           file_put_contents ('LHRs.xml', $marc, FILE_APPEND);
           $marc = str_replace(array('<','>'), array('&lt;','&gt;'), $marc);

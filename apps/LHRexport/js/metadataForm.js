@@ -23,9 +23,11 @@ var editorProperties =
 // Initialize the editor
 var query = document.location.search;
 
-if (query.length > 0) {
+/* hier geen ocn opnieuw invullen
+if (query.includes('ocn=')) {
   editorProperties.startval = {ocn:ocn};
 }
+*/
 
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
 
@@ -62,6 +64,12 @@ editor.on('ready',function() {
   // Hook up the Empty button
   $('#empty').on('click',function() {
     var emptyURL = document.location.origin + document.location.pathname;
+    window.location.assign(emptyURL);
+  });
+
+  // Hook up the send button
+  $('#send').on('click',function() {
+    var emptyURL = document.location.origin + document.location.pathname+'?action=send';
     window.location.assign(emptyURL);
   });
 

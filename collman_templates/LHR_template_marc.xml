@@ -1,10 +1,10 @@
 <marc:record>
-  <marc:leader>00304nx a2200121zi 4500 ==> de leader is vast...</marc:leader>
+  <marc:leader>{{leader}}</marc:leader>
   <marc:controlfield tag="001">{{lhr_id}}</marc:controlfield>
   <marc:controlfield tag="003">OCoLC</marc:controlfield>
   <marc:controlfield tag="004">ocn{{ocn_id}}</marc:controlfield>
   <marc:controlfield tag="007">zu</marc:controlfield>
-  <marc:controlfield tag="008">{{yymmdd}}{{acq_status}}u 8 4001uuund0200508 ==> vanaf de eerste u: vaste waarde </marc:controlfield>
+  <marc:controlfield tag="008">{{f008}}</marc:controlfield>
   <marc:datafield tag="035" ind2=" " ind1=" ">
     <marc:subfield code="a">(OCoLC){{ocn_id}}</marc:subfield>
   </marc:datafield>
@@ -13,10 +13,10 @@
     <marc:subfield code="b">{{holdingLocation}}</marc:subfield>
     <marc:subfield code="c">{{shelvingLocation}}</marc:subfield>
     <marc:subfield code="h">{{shelvingDesignation.information}}</marc:subfield>
-    <marc:subfield code="t">{{copyNumber}}</marc:subfield>
+{% if copyNumber is defined %}    <marc:subfield code="t">{{copyNumber}}</marc:subfield>
+{% endif %}
   </marc:datafield>
   <marc:datafield tag="876" ind2=" " ind1=" ">
-    <marc:subfield code="c">moet de prijs ook naar Syndeo?</marc:subfield>
     <marc:subfield code="d">{{yyyymmdd}}</marc:subfield>
     <marc:subfield code="p">{{holding[0].pieceDesignation[0]}}</marc:subfield>
   </marc:datafield>

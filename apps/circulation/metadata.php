@@ -21,7 +21,7 @@ else {
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Circulation - collection management of publication</title>
+    <title>Circulation - metadata of publication</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">

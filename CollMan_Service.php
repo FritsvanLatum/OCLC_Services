@@ -55,6 +55,7 @@ class Collection_Management_Service extends OCLC_Service {
 
   public function collman_str($type) {
     if (strpos($this->collman_headers['Accept'],'json')) {
+      //header is application/atom+json or application/json
       if ($type == 'json') return json_encode($this->collman, JSON_PRETTY_PRINT);
       if ($type == 'xml') return '';
       if ($type == 'html') {
@@ -64,6 +65,7 @@ class Collection_Management_Service extends OCLC_Service {
       return $this->__toString();
     }
     else {
+      //header is application/atom+xml or application/xml
       if ($type == 'json') return json_encode($this->collman, JSON_PRETTY_PRINT);
       if ($type == 'xml') return $this->collman_xml;
       if ($type == 'html') {
@@ -140,7 +142,8 @@ class Collection_Management_Service extends OCLC_Service {
         //$result = trim(str_replace('"', "'", $result));  //??
         
         if (strpos($this->collman_headers['Accept'],'json')) {
-           $received = json_decode($result,TRUE);
+          //header is application/atom+json or application/json
+          $received = json_decode($result,TRUE);
           $json_errno = json_last_error();
           $json_errmsg = json_last_error_msg();
           if ($json_errno == JSON_ERROR_NONE) {
@@ -155,6 +158,7 @@ class Collection_Management_Service extends OCLC_Service {
           }
         }
         else {
+          //header is application/atom+xml or application/xml
           $xmlDoc = new DOMDocument();
           $xmlDoc->preserveWhiteSpace = FALSE;
           $xmlDoc->formatOutput = TRUE;
@@ -167,7 +171,7 @@ class Collection_Management_Service extends OCLC_Service {
     }
   }
 
-  public function json2marc($type = 'marc') {
+  public function json2marc($type = 'mrk') {
     $result = FALSE;
     if (strpos($this->collman_headers['Accept'],'atom+json') > 0) {
       if (array_key_exists("entries",$this->collman)) {
@@ -195,32 +199,68 @@ class Collection_Management_Service extends OCLC_Service {
               $json["yyyymmdd"] = implode('',$parts);
               $json["yymmdd"]=substr($json["yyyymmdd"], 2);
               
-              //"receiptStatus": "RECEIVED_AND_COMPLETE_OR_CEASED",
-              if (array_key_exists(strtolower($json["receiptStatus"]), $this->acq_status)) $json["acq_status"] = $this->acq_status[strtolower($json["receiptStatus"])];
               
-              /*"holding": [
-                    {
-                        "pieceDesignation": [
-                            "09000006742580"
-                        ],
-                        "note": [],
-                        "useRestriction": [],
-                        "cost": [
-                            {
-                                "currency": "EUR",
-                                "amount": 10300,
-                                "qualifier": null*/
+              //leader
+              $json['leader'] = "00000nx  a2200121zi 4500";
+              
+              //008 00-05
+              $json["f008"] = $json["yymmdd"];
+              
+              //008 06
+              //"receiptStatus": "RECEIVED_AND_COMPLETE_OR_CEASED",
+              if (array_key_exists(strtolower($json["receiptStatus"]), $this->acq_status)) { 
+                $json["f008"] .= $this->acq_status[strtolower($json["receiptStatus"])];
+              }
+              else {
+                $json["f008"] .= 'u';
+              }
+              
+              //008 07
+              $json["f008"] .= 'u';
+              
+              //008 08-11
+              $json["f008"] .= '    ';
+              
+              //008 12
+              $json["f008"] .= '8';
+              
+              //008 13-15
+              $json["f008"] .= '   ';
+
+              //008 16
+              $json["f008"] .= '4';
+              
+              //008 17-19
+              $json["f008"] .= '001';
+              
+              //008 20
+              $json["f008"] .= 'u';
+              
+              //008 21
+              $json["f008"] .= 'u';
+              
+              //008 22-24
+              $json["f008"] .= 'und';
+
+              //008 25
+              $json["f008"] .= '0';
+              
+              //008 26-31
+              $json["f008"] .= $json["yymmdd"];
               
               $loader = new Twig_Loader_Filesystem(__DIR__);
               $twig = new Twig_Environment($loader, array(
               //specify a cache directory only in a production setting
               //'cache' => './compilation_cache',
               ));
-              if ($type == 'marc') {
+              if ($type == 'mrk') {
                 $result = $twig->render($this->marc_template_file, $json);
               }
-              else if ($type == 'xml') {
+              else if ($type == 'marcxml') {
                 $result = $twig->render($this->marcxml_template_file, $json);
+              }
+              else {
+                $result = "No valid type, choose mrk or marcxml.";
               }
               //debug:
               //$this->collman["entries"][0]["content"] = $json;

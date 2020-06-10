@@ -1,7 +1,7 @@
 
 schemaObj =
 {
-  title: "Collection management information API",
+  title: "Metadata API",
   type: "object",
   properties: {
     ocn: {

@@ -14,13 +14,36 @@ class Metadata_Service extends OCLC_Service {
   private $metadata_method = 'GET';
   private $metadata_params = [];
 
-    /*application/atom+xml
-    application/atom+json*/
+  /*this API has 2 Accept types:
+    application/atom+xml (default)
+    application/atom+json
+  */
   public $metadata_headers = ['Accept' => 'application/atom+xml'];
+
   private $ocn = '';
-  public $metadata_xml = null;
-  public $metadata = null;
+
+  /*
+  <?xml version="1.0" encoding="UTF-8"?>
+  <entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+      <response xmlns="http://worldcat.org/rb" mimeType="application/vnd.oclc.marc21+xml">
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+        ...
+        </record>
+      </response>
+    </content>
+    <id>http://worldcat.org/oclc/975369365</id>
+    <link href="http://worldcat.org/oclc/975369365"/>
+  </entry>
   
+  $only_marc_record = TRUE means only the <record> subelement is returned
+  $only_marc_record = FALSE means the compley xml is returned (<entry> element)
+  */
+  private $only_marc_record = TRUE;
+  public $metadata_xml = null;
+  public $metadata_json = null;
+  public $metadata = null;
+
   private $marc_template_file = './metadata_templates/LHR_template.marc';
   private $marcxml_template_file = './metadata_templates/LHR_template_marc.xml';
 
@@ -53,6 +76,7 @@ class Metadata_Service extends OCLC_Service {
       return $this->__toString();
     }
     else {
+      //XML:
       if ($type == 'json') return json_encode($this->metadata, JSON_PRETTY_PRINT);
       if ($type == 'xml') return $this->metadata_xml;
       if ($type == 'html') {
@@ -60,11 +84,31 @@ class Metadata_Service extends OCLC_Service {
         $str = '<pre>'.$str.'</pre>';
         return $str;
       }
+      if ($type == 'marcxml') return $this->marcxml2namespace();
+      if ($type == 'marchtml') {
+        $str = str_replace(array('<','>'), array('&lt;','&gt;'), $this->marcxml2namespace());
+        $str = '<pre>'.$str.'</pre>';
+        return $str;
+      }
       return $this->__toString();
     }
   }
 
-
+  private function marcxml2namespace() {
+    /*
+    <record xmlns="http://www.loc.gov/MARC21/slim"> => <marc:record>
+    </record> => </marc:record>
+    leader => marc:leader
+    controlfield => marc:controlfield
+    datafield => marc:datafield
+    subfield => marc:subfield
+    */
+    return str_replace(
+      array('<?xml version="1.0"?>', '<record xmlns="http://www.loc.gov/MARC21/slim">', '</record>', 'leader','controlfield','datafield','subfield'),
+      array('', '<marc:record>', '</marc:record>', 'marc:leader','marc:controlfield','marc:datafield','marc:subfield'),
+      $this->metadata_xml);
+  }
+  
   public function get_bib_ocn($ocn) {
     $av_url = $this->metadata_url.$ocn;
     $av_url_auth = $this->metadata_url_auth.$ocn;
@@ -117,7 +161,7 @@ class Metadata_Service extends OCLC_Service {
         //$result = trim(str_replace('"', "'", $result));  //??
         
         if (strpos($this->metadata_headers['Accept'],'json')) {
-           $received = json_decode($result,TRUE);
+          $received = json_decode($result,TRUE);
           $json_errno = json_last_error();
           $json_errmsg = json_last_error_msg();
           if ($json_errno == JSON_ERROR_NONE) {
@@ -127,7 +171,7 @@ class Metadata_Service extends OCLC_Service {
             return TRUE;
           }
           else {
-            $this->log_entry('Error','read_patron_ppid',"json_decode error [$json_errno]: $json_errmsg");
+            $this->log_entry('Error','get_bib_ocn',"json_decode error [$json_errno]: $json_errmsg");
             return FALSE;
           }
         }
@@ -136,8 +180,23 @@ class Metadata_Service extends OCLC_Service {
           $xmlDoc->preserveWhiteSpace = FALSE;
           $xmlDoc->formatOutput = TRUE;
           $xmlDoc->loadXML($result);
-          $this->metadata_xml = $xmlDoc->saveXML();
           $this->metadata = $this->xml2json($xmlDoc,[]);
+
+          $xml_rec = new DOMDocument();
+          $xml_rec->preserveWhiteSpace = FALSE;
+          $xml_rec->formatOutput = TRUE;
+          $nodes = $xmlDoc->getElementsByTagName('record');
+          if ($nodes->length > 0) {
+            $node = $nodes->item(0);
+            $xml_rec->appendChild($xml_rec->importNode($node, true));
+          }
+          if ($this->only_marc_record) {
+            $this->metadata_xml = $xml_rec->saveXML();
+            $this->metadata_json = $this->xml2json($xml_rec,[]);
+          }
+          else {
+            $this->metadata_xml = $xmlDoc->saveXML();
+          }
           return TRUE;
         }
       }
