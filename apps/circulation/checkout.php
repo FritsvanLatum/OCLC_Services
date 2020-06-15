@@ -2,7 +2,7 @@
 require_once '../../vendor/autoload.php';
 require_once '../../IDM_Service.php';
 require_once '../../NCIP_Service.php';
-$debug = TRUE;
+$debug = FALSE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
 $ncip_template_file = './templates/ncip_template.html';
@@ -67,7 +67,6 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
         }
       ?>
     </div>
-    <p>Add &debug to the url in order to see the output of the API's</p>
     <?php if ($debug) { ?>
     <div>
       Patron:

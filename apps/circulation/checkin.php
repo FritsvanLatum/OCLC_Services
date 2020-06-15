@@ -6,7 +6,7 @@
   //for lookups, holds, cancel holds and renewal in WMS
   require_once '../../NCIP_Service.php';
 
-  $debug = TRUE;
+  $debug = FALSE;
   //add &debug to the url for getting output from library classes that use API's:
   if (array_key_exists('debug',$_GET)) $debug = TRUE;
   
@@ -26,9 +26,9 @@
   <head>
     <title>Circulation - checkin</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/circ.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" id="theme_stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/all.css" id="icon_stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/circ.css">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
@@ -63,7 +63,6 @@
         }
       ?>
     </div>
-    <p>Add &debug to the url in order to see the output of the API's</p>
     <?php
       //show information from library classes
       //use echo $patron; and/or echo $circulation; for even more info

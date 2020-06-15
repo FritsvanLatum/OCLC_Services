@@ -1,12 +1,18 @@
 
 schemaObj =
 {
-  title: "Circulation",
+  title: "Check in",
   type: "object",
   properties: {
     item_barcode: {
-      type: "string",
-      title: "Barcode item"
+      type: "array",
+      format: "table",
+      title: "Barcode item",
+      items: {
+        type: "string",
+        title: "Item"
+      },
+      default: [""]
     }
   }
 }
