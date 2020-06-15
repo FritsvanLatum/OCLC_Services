@@ -2,10 +2,32 @@ var debug = true;
 //var schemaFile = "schema/schema.json";
 
 //JSONEditor defaults
-JSONEditor.defaults.theme = 'bootstrap2'; //'barebones';
+
+/*   // theme
+    const themeMap = {
+      barebones: '',
+      bootstrap3: 'https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
+      bootstrap4: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+      html: '',
+      spectre: 'https://unpkg.com/spectre.css/dist/spectre.min.css',
+      tailwind: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css'
+    }
+    themeLink.href = themeMap[data.options.theme]
+    themeSelect.value = data.options.theme
+
+    // iconlLib
+    const iconLibMap = {
+      fontawesome3: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.css',
+      fontawesome4: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css',
+      fontawesome5: 'https://use.fontawesome.com/releases/v5.6.1/css/all.css',
+      jqueryui: 'https://code.jquery.com/ui/1.10.3/themes/south-street/jquery-ui.css',
+      spectre: 'https://unpkg.com/spectre.css/dist/spectre-icons.min.css'
+    }
+*/
+JSONEditor.defaults.theme = 'bootstrap3'; //'barebones';
 JSONEditor.defaults.iconlib = 'fontawesome3'; //'';
-JSONEditor.defaults.options.keep_oneof_values = false;
-JSONEditor.plugins.selectize.enable = true;
+
+//JSONEditor.plugins.selectize.enable = true;
 
 var editorProperties =
 {
@@ -14,7 +36,9 @@ var editorProperties =
   schema: schemaObj,
   //remove_empty_properties:true,
   required_by_default: true,
+  keep_oneof_values: false,
   no_additional_properties: true,
+  disable_array_reorder: true,
   disable_edit_json: true,
   disable_properties: true,
   disable_collapse: true
@@ -63,5 +87,7 @@ editor.on('ready',function() {
     var emptyURL = document.location.origin + document.location.pathname;
     window.location.assign(emptyURL);
   });
+  
 
 });
+

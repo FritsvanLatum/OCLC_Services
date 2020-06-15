@@ -26,16 +26,16 @@
   <head>
     <title>Circulation - checkin</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" id="theme_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/all.css" id="icon_stylesheet">
-    <link rel="stylesheet" type="text/css" href="./css/circ.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.css">
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
     <script type="text/javascript" src="schema/checkinSchema.js"></script>
     <script>
       <?php if ($item_barcode) echo "item_barcode = '$item_barcode';" ?>
     </script>
+    <link rel="stylesheet" href="./css/circ.css">
   </head>
 
   <body>

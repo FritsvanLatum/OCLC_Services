@@ -6,8 +6,7 @@ schemaObj =
   properties: {
     item_barcode: {
       type: "array",
-      format: "table",
-      title: "Barcode item",
+      title: "Barcodes",
       items: {
         type: "string",
         title: "Item"
