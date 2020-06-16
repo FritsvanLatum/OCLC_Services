@@ -14,8 +14,8 @@ $ncip = new NCIP_Service('keys_ncip.php');
 $ppid = null;
 $req_id = null;
 $action = null;
-if (array_key_exists('ppid',$_GET)) $ppid = $_GET['ppid'];
-if (array_key_exists('req_id',$_GET)) $req_id = $_GET['req_id'];
+if (array_key_exists('ppid',$_GET)) $ppid = trim($_GET['ppid']);
+if (array_key_exists('req_id',$_GET)) $req_id = trim($_GET['req_id']);
 if (array_key_exists('action',$_GET)) $action = $_GET['action'];
 ?>
 <!DOCTYPE html>
@@ -23,11 +23,11 @@ if (array_key_exists('action',$_GET)) $action = $_GET['action'];
   <head>
     <title>Circulation - cancel hold</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="css/circ.css">
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
     <script type="text/javascript" src="schema/cancelSchema.js"></script>
     <script>

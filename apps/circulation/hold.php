@@ -2,7 +2,8 @@
 require_once '../../vendor/autoload.php';
 require_once '../../IDM_Service.php';
 require_once '../../NCIP_Service.php';
-$debug = FALSE;
+
+$debug = TRUE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
 $id_template_file = './templates/id_template.html';
@@ -15,8 +16,8 @@ $ppid = null;
 $ocn = null;
 if (array_key_exists('ppid',$_GET) && array_key_exists('ocn',$_GET)) {
   //get ppid
-  $ppid = $_GET['ppid'];
-  $ocn = $_GET['ocn'];
+  $ppid = trim($_GET['ppid']);
+  $ocn = trim($_GET['ocn']);
 }
 ?>
 <!DOCTYPE html>
@@ -24,11 +25,11 @@ if (array_key_exists('ppid',$_GET) && array_key_exists('ocn',$_GET)) {
   <head>
     <title>Circulation - hold</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="css/circ.css">
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
     <script type="text/javascript" src="schema/holdSchema.js"></script>
     <script>

@@ -1,11 +1,6 @@
-var debug = true;
-//var schemaFile = "schema/schema.json";
-
 //JSONEditor defaults
-JSONEditor.defaults.theme = 'bootstrap2'; //'barebones';
+JSONEditor.defaults.theme = 'bootstrap3'; //'barebones';
 JSONEditor.defaults.iconlib = 'fontawesome3'; //'';
-JSONEditor.defaults.options.keep_oneof_values = false;
-JSONEditor.plugins.selectize.enable = true;
 
 var editorProperties =
 {
@@ -14,7 +9,9 @@ var editorProperties =
   schema: schemaObj,
   //remove_empty_properties:true,
   required_by_default: true,
+  keep_oneof_values: false,
   no_additional_properties: true,
+  disable_array_reorder: true,
   disable_edit_json: true,
   disable_properties: true,
   disable_collapse: true

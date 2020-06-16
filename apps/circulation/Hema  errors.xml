@@ -1,0 +1,49 @@
+
+1. Place Hold: no problem
+
+2. Check out:
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:NCIPMessage xmlns:ns1="http://www.niso.org/2008/ncip" xmlns="http://oclc.org/WCL/ncip/2011/extensions" xmlns:ns3="http://www.oclc.org/ncip/renewall/2014" xmlns:ns4="http://www.oclc.org/ncip/relatedsystemrequestid/2018" xmlns:ns5="http://www.oclc.org/ncip/usernote/2012" ns1:version="http://www.niso.org/schemas/ncip/v2_0/imp1/xsd/ncip_v2_01.xsd">
+  <ns1:CheckOutItemResponse>
+    <ns1:Problem>
+      <ns1:ProblemType ns1:Scheme="http://www.niso.org/ncip/v1_0/schemes/processingerrortype/generalprocessingerror.scm">Unsupported Service</ns1:ProblemType>
+      <ns1:ProblemElement>CheckOutItem</ns1:ProblemElement>
+    </ns1:Problem>
+  </ns1:CheckOutItemResponse>
+</ns1:NCIPMessage>
+
+3. Check in after check out in WMS:
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:ncipmessage xmlns:ns1="http://www.niso.org/2008/ncip" xmlns="http://oclc.org/WCL/ncip/2011/extensions" xmlns:ns3="http://www.oclc.org/ncip/renewall/2014" xmlns:ns4="http://www.oclc.org/ncip/relatedsystemrequestid/2018" xmlns:ns5="http://www.oclc.org/ncip/usernote/2012" ns1:version="http://www.niso.org/schemas/ncip/v2_0/imp1/xsd/ncip_v2_01.xsd">
+  <ns1:checkinitemresponse>
+    <ns1:problem>
+      <ns1:problemtype ns1:scheme="http://www.niso.org/ncip/v1_0/schemes/processingerrortype/generalprocessingerror.scm">Unsupported Service</ns1:ProblemType>
+      <ns1:problemelement>CheckInItem</ns1:ProblemElement>
+    </ns1:Problem>
+  </ns1:CheckInItemResponse>
+</ns1:NCIPMessage>
+
+
+
+51157992 09000000996638
+Title:     International maritime and admiralty law /
+Author:    Tetley, William
+Material:  BOOK
+Location:  Peace Palace
+Expires:   23-6-2020 23:59
+
+64829253 09000000839408 en 09000000839390
+Title:     De wapens neer! : een levensgeschiedenis /
+Author:    Suttner, Bertha von
+Material:  BOOK
+Location:  Peace Palace
+Expires:   23-6-2020 23:59
+
+975369365 09000006742580
+Title:     The press clause and digital technology's fourth wave : media law and the symbiotic web /
+Author:    Schroeder, Jared
+Material:  BOOK
+Location:  Peace Palace
+Expires:   23-6-2020 23:59

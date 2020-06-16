@@ -23,11 +23,11 @@ else {
   <head>
     <title>Circulation - metadata of publication</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css" id="theme_stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" id="icon_stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="css/circ.css">
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
     <script type="text/javascript" src="schema/metadataSchema.js"></script>
     <script>

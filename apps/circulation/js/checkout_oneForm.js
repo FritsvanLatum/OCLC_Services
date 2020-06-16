@@ -1,3 +1,5 @@
+var debug = true;
+
 //JSONEditor defaults
 JSONEditor.defaults.theme = 'bootstrap3'; //'barebones';
 JSONEditor.defaults.iconlib = 'fontawesome3'; //'';
@@ -21,8 +23,11 @@ var editorProperties =
 var query = document.location.search;
 
 editorProperties.startval = {};
-if (query.includes('ppid=')) {
-  editorProperties.startval.ppid = ppid;
+if (query.includes('item_barcode=')) {
+  editorProperties.startval.item_barcode = item_barcode;
+}
+if (query.includes('user_barcode=')) {
+  editorProperties.startval.user_barcode = user_barcode;
 }
 
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
@@ -32,8 +37,9 @@ editor.on('ready',function() {
 
   // Hook up the submit button to log to the console
   $('#submit').on('click',function() {
-	  ppid = editor.getEditor('root.ppid').getValue();
-    if (ppid.length > 0)  {
+	  user_barcode = editor.getEditor('root.user_barcode').getValue();
+	  item_barcode = editor.getEditor('root.item_barcode').getValue();
+    if ((user_barcode.length > 0) && (item_barcode.length > 0))  {
       //empty feedback div
       $('#res').html("");
 
@@ -50,7 +56,7 @@ editor.on('ready',function() {
         $('#res').html(msg);
       }
       else {
-        var barcodeURL = document.location.origin + document.location.pathname+'?ppid='+ppid;
+        var barcodeURL = document.location.origin + document.location.pathname+'?user_barcode='+user_barcode+'&item_barcode='+item_barcode;
         window.location.assign(barcodeURL);
       }
     }
