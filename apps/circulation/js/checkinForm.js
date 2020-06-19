@@ -22,19 +22,36 @@ var editorProperties =
 // Initialize the editor
 var query = document.location.search;
 
+/*
 if (query.includes('item_barcode=')) {
   editorProperties.startval = {item_barcode:item_barcode};
 }
+*/
 
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
 
+
 editor.on('ready',function() {
+  bc_list = new Array();
+  $("[name = 'root[item_barcode]']").focus();
+
+  editor.watch('root.item_barcode', function() {
+    // Do something
+    val = editor.getEditor('root.item_barcode').getValue();
+    if (val.length > 0) {
+      $('#list').append(val + '<br/>');
+      bc_list.push(val);
+    }
+    editor.setValue({item_barcode: ""});
+    $("[name = 'root[item_barcode]']").focus();
+  });
 
 
   // Hook up the submit button to log to the console
   $('#submit').on('click',function() {
-	  item_barcode = editor.getEditor('root.item_barcode').getValue();
-    if (item_barcode.length > 0)  {
+    
+    item_barcode = editor.getEditor('root.item_barcode').getValue();
+    if (bc_list.length > 0)  {
       //empty feedback div
       $('#res').html("");
 
@@ -51,7 +68,7 @@ editor.on('ready',function() {
         $('#res').html(msg);
       }
       else {
-        var barcodeURL = document.location.origin + document.location.pathname+'?item_barcode='+item_barcode;
+        var barcodeURL = document.location.origin + document.location.pathname+'?bc_list='+bc_list;
         window.location.assign(barcodeURL);
       }
     }
@@ -62,7 +79,7 @@ editor.on('ready',function() {
     var emptyURL = document.location.origin + document.location.pathname;
     window.location.assign(emptyURL);
   });
-  
+
 
 });
 

@@ -7,7 +7,7 @@ body {
   width: 50%;
 }
 
-#res {
+#res, #list {
   margin:20px;
 }
 
