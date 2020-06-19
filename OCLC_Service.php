@@ -60,6 +60,7 @@ class OCLC_Service {
 
     'institution' => $this->institution,
     'defaultBranch' => $this->defaultBranch,
+    'ppid' => $this->ppid,
 
     'ppid_namespace' => $this->ppid_namespace,
     'authorizationHeader' => $this->authorizationHeader,

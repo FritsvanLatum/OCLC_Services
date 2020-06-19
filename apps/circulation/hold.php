@@ -1,7 +1,7 @@
 <?php
 require_once '../../vendor/autoload.php';
 require_once '../../IDM_Service.php';
-require_once '../../NCIP_Service.php';
+require_once '../../NCIP_Patron_Service.php';
 
 $debug = TRUE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
@@ -10,7 +10,7 @@ $id_template_file = './templates/id_template.html';
 $ncip_template_file = './templates/ncip_template.html';
 
 $patron = new IDM_Service('keys_idm.php');
-$ncip = new NCIP_Service('keys_ncip.php');
+$ncip = new NCIP_Patron_Service('keys_ncip.php');
 
 $ppid = null;
 $ocn = null;

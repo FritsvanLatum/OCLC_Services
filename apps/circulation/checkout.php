@@ -1,13 +1,13 @@
 <?php
 require_once '../../vendor/autoload.php';
 require_once '../../IDM_Service.php';
-require_once '../../NCIP_Service.php';
+require_once '../../NCIP_Staff_Service.php';
 $debug = FALSE;
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
 $ncip_template_file = './templates/ncip_template.html';
 
-$ncip = new NCIP_Service('keys_ncip.php');
+$ncip = new NCIP_Staff_Service('keys_ncip.php');
 
 $user_barcode = null;
 $item_barcode = null;

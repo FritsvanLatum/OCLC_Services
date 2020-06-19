@@ -4,17 +4,14 @@ require_once '../../vendor/autoload.php';
 //for lookups in patron admin of WMS
 require_once '../../IDM_Service.php';
 //for lookups, holds, cancel holds and renewal in WMS
-require_once '../../NCIP_Service.php';
+require_once '../../NCIP_Staff_Service.php';
 
-$debug = TRUE;
+$debug = FALSE;
 //add &debug to the url for getting output from library classes that use API's:
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
-//TWIG templates:
-$ncip_template_file = './templates/ncip_template.html';
-
 //classes for Patrons and circulation services
-$ncip = new NCIP_Service('keys_ncip.php');
+$ncip = new NCIP_Staff_Service('keys_ncip.php');
 
 $user_barcode = null;
 $item_barcode = null;
@@ -56,27 +53,13 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
         //checkout_one
         $ncip->checkout($user_barcode, $item_barcode);
         echo $ncip->response_str('html');
-
-        /*
-        $loader = new Twig_Loader_Filesystem(__DIR__);
-        $twig = new Twig_Environment($loader, array(
-        //specify a cache directory only in a production setting
-        //'cache' => './compilation_cache',
-        ));
-
-
-        $ncip->checkout($user_barcode,$item_barcode);
-        if (array_key_exists('Problem',$ncip->response_json['NCIPMessage'][0]['RequestItemResponse'][0])) {
-        echo "<pre>".json_encode($ncip->response_json['NCIPMessage'][0]['RequestItemResponse'][0], JSON_PRETTY_PRINT)."</pre>";
-        }
-        else {
-        $ncip->lookup_patron_ppid($user_barcode);
-        echo $twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
-        }*/
       }
       ?>
     </div>
-    <?php if ($debug) { ?>
+    <?php
+    //show information from library classes
+    //use echo $patron; and/or echo $circulation; for even more info
+    if ($debug) { ?>
     <div>
       Patron:
       NCIP:
@@ -88,5 +71,4 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
 
     <script type="text/javascript" src="js/checkout_oneForm.js"></script>
   </body>
-
 </html>

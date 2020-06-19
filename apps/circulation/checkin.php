@@ -4,7 +4,7 @@
   //for lookups in patron admin of WMS
   require_once '../../IDM_Service.php';
   //for lookups, holds, cancel holds and renewal in WMS
-  require_once '../../NCIP_Service.php';
+  require_once '../../NCIP_Staff_Service.php';
 
   $debug = FALSE;
   //add &debug to the url for getting output from library classes that use API's:
@@ -14,7 +14,7 @@
   $ncip_template_file = './templates/ncip_template.html';
   
   //classes for Patrons and circulation services
-  $ncip = new NCIP_Service('keys_ncip.php');
+  $ncip = new NCIP_Staff_Service('keys_ncip.php');
   
   //if this script is called with an url parameter 'item_barcode' 
   $item_barcode = null;

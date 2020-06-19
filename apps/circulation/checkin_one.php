@@ -4,17 +4,14 @@ require_once '../../vendor/autoload.php';
 //for lookups in patron admin of WMS
 require_once '../../IDM_Service.php';
 //for lookups, holds, cancel holds and renewal in WMS
-require_once '../../NCIP_Service.php';
+require_once '../../NCIP_Staff_Service.php';
 
-$debug = TRUE;
+$debug = FALSE;
 //add &debug to the url for getting output from library classes that use API's:
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
-//TWIG templates:
-$ncip_template_file = './templates/ncip_template.html';
-
 //classes for Patrons and circulation services
-$ncip = new NCIP_Service('keys_ncip.php');
+$ncip = new NCIP_Staff_Service('keys_ncip.php');
 
 //if this script is called with an url parameter 'item_barcode'
 $item_barcode = null;
@@ -40,8 +37,8 @@ if (array_key_exists('item_barcode',$_GET)) {
     <script>
       <?php if ($item_barcode) echo "item_barcode = '$item_barcode';" ?>
     </script>
-    <link rel="stylesheet" href="./css/circ.css">
   </head>
+
 
   <body>
     <a href="index.php">Back to menu</a>
@@ -52,19 +49,10 @@ if (array_key_exists('item_barcode',$_GET)) {
     </div>
     <div id="res">
       <?php
-      if (!is_null($item_barcode)) {
-        $loader = new Twig_Loader_Filesystem(__DIR__);
-        $twig = new Twig_Environment($loader, array(
-        //specify a cache directory only in a production setting
-        //'cache' => './compilation_cache',
-        ));
+      if (array_key_exists('item_barcode',$_GET)) {
+        //check in one
         $ncip->checkin_barcode($item_barcode);
-        if (array_key_exists('Problem',$ncip->response_json['NCIPMessage'][0]['CheckInItemResponse'][0])) {
-          echo "<pre>".json_encode($ncip->response_json['NCIPMessage'][0]['CheckInItemResponse'][0], JSON_PRETTY_PRINT)."</pre>";
-        }
-
-        //echo $twig->render($id_template_file, $patron->patron);
-        //echo $twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
+        echo $ncip->response_str('html');
       }
       ?>
     </div>
@@ -72,15 +60,14 @@ if (array_key_exists('item_barcode',$_GET)) {
     //show information from library classes
     //use echo $patron; and/or echo $circulation; for even more info
     if ($debug) { ?>
-      <div>
-        NCIP:
-        <pre>
-          <?php echo $ncip;?>
-        </pre>
-      </div>
-      <?php } ?>
+    <div>
+      NCIP:
+      <pre>
+        <?php echo $ncip;?>
+      </pre>
+    </div>
+    <?php } ?>
 
-      <script type="text/javascript" src="js/checkin_oneForm.js"></script>
-    </body>
-
-  </html>
+    <script type="text/javascript" src="js/checkin_oneForm.js"></script>
+  </body>
+</html>
