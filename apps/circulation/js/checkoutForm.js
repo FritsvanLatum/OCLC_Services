@@ -23,9 +23,11 @@ var editorProperties =
 var query = document.location.search;
 
 editorProperties.startval ={};
+/*
 if (query.includes('item_barcode=')) {
   editorProperties.startval.item_barcode = item_barcode;
 }
+*/
 if (query.includes('user_barcode=')) {
   editorProperties.startval.user_barcode = user_barcode;
 }
@@ -34,12 +36,26 @@ var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
 
 editor.on('ready',function() {
 
+  bc_list = new Array();
+  $("[name = 'root[item_barcode]']").focus();
+
+  editor.watch('root.item_barcode', function() {
+    // Do something
+    val = editor.getEditor('root.item_barcode').getValue();
+    if (val.length > 0) {
+      $('#list').append(val + '<br/>');
+      bc_list.push(val);
+    }
+    editor.setValue({item_barcode: ""});
+    $("[name = 'root[item_barcode]']").focus();
+  });
+
 
   // Hook up the submit button to log to the console
   $('#submit').on('click',function() {
 	  user_barcode = editor.getEditor('root.user_barcode').getValue();
 	  item_barcode = editor.getEditor('root.item_barcode').getValue();
-    if ((user_barcode.length > 0) && (item_barcode.length > 0))  {
+    if ((user_barcode.length > 0) && (bc_list.length > 0))  {
       //empty feedback div
       $('#res').html("");
 
@@ -56,7 +72,7 @@ editor.on('ready',function() {
         $('#res').html(msg);
       }
       else {
-        var barcodeURL = document.location.origin + document.location.pathname+'?user_barcode='+user_barcode+'&item_barcode='+item_barcode;
+        var barcodeURL = document.location.origin + document.location.pathname+'?user_barcode='+user_barcode+'&bc_list='+bc_list;
         window.location.assign(barcodeURL);
       }
     }

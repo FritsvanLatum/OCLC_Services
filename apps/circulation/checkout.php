@@ -10,11 +10,11 @@ $ncip_template_file = './templates/ncip_template.html';
 $ncip = new NCIP_Staff_Service('keys_ncip.php');
 
 $user_barcode = null;
-$item_barcode = null;
-if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_GET)) {
+$bc_list = null;
+if (array_key_exists('user_barcode',$_GET) && array_key_exists('bc_list',$_GET)) {
   //get user_barcode
   $user_barcode = $_GET['user_barcode'];
-  $item_barcode = $_GET['item_barcode'];
+  $bc_list = $_GET['bc_list'];
 }
 ?>
 <!DOCTYPE html>
@@ -31,39 +31,27 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
     <script type="text/javascript" src="schema/checkoutSchema.js"></script>
     <script>
       <?php if ($user_barcode) echo "user_barcode = '$user_barcode';" ?>
-      <?php if ($item_barcode) echo "item_barcode = '$item_barcode';" ?>
     </script>
   </head>
 
   <body>
     <a href="index.php">Back to menu</a>
     <div id="editor"></div>
+    <div id="list"></div>
+
     <div id="buttons">
       <button id='submit'>Check out</button>
       <button id='empty'>Empty form</button>
     </div>
     <div id="res">
       <?php
-        if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_GET)) {
+        if (array_key_exists('user_barcode',$_GET) && array_key_exists('bc_list',$_GET)) {
           //checkout
-          $ncip->checkout($user_barcode, $item_barcode);
-          echo $ncip->response_str('html');
-          $loader = new Twig_Loader_Filesystem(__DIR__);
-          $twig = new Twig_Environment($loader, array(
-            //specify a cache directory only in a production setting
-            //'cache' => './compilation_cache',
-          ));
-          
-          
-/*
-          $ncip->checkout($user_barcode,$item_barcode);
-          if (array_key_exists('Problem',$ncip->response_json['NCIPMessage'][0]['RequestItemResponse'][0])) {
-            echo "<pre>".json_encode($ncip->response_json['NCIPMessage'][0]['RequestItemResponse'][0], JSON_PRETTY_PRINT)."</pre>";
+          $barcodes = explode(',',$bc_list);
+          foreach ($barcodes as $c) { 
+            $ncip->checkout($user_barcode, $item_barcode);
+            echo $ncip->response_str('html');
           }
-          else {
-            $ncip->lookup_patron_ppid($user_barcode);
-            echo $twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
-          }*/
         }
       ?>
     </div>

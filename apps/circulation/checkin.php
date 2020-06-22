@@ -30,9 +30,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
     <script type="text/javascript" src="schema/checkinSchema.js"></script>
-    <script>
-      <?php //if ($bc_list) echo "bc_list = '$bc_list';" ?>
-    </script>
     <link rel="stylesheet" href="./css/circ.css">
   </head>
 
