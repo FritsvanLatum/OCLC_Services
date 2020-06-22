@@ -2,41 +2,34 @@
 * Processing of the registration form. Uses the JSON schema 'regSchemaObj' defined in regSchema.js
 *
 */
+var debug = true; 
+
+//JSONEditor defaults
+JSONEditor.defaults.theme = 'bootstrap3'; //'barebones';
+JSONEditor.defaults.iconlib = 'fontawesome3'; //'';
 
 // Initialize the editor
 var editorProperties =
 {
-  schema: regSchemaObj,
+  //  show_errors: 'change',  //interaction (default), change, always, never
+  //  ajax:true,
+  schema: schemaObj,
+  //remove_empty_properties:true,
   required_by_default: true,
+  keep_oneof_values: false,
   no_additional_properties: true,
+  disable_array_reorder: true,
   disable_edit_json: true,
   disable_properties: true,
-  disable_collapse: true,
-  //show_errors: 'never'
-  //remove_empty_properties:true,
+  disable_collapse: true
 };
+
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
 
-//watch functions
-function watchAlerts() {
-  em = editor.getEditor('root.services.receiveAlerts').getValue();
-  if (em == 'Yes') {
-    jQuery('div[data-schemapath="root.services.alertSubjects"]').css("display","block");
-  }
-  else {
-    jQuery('div[data-schemapath="root.services.alertSubjects"]').css("display","none");
-  }
-}
 
 //further initialization after the form is generated
 editor.on('ready',function() {
   //editor.options.show_errors = 'never';  //interaction (default), change, always, never
-
-  //hide dependent fields
-  jQuery('div[data-schemapath="root.services.alertSubjects"]').css("display","none");
-  
-  //membership: display/hide dependent fields
-  editor.watch('root.services.receiveAlerts',watchAlerts);
 
   // Hook up the submit button to log to the console
   jQuery('#submit').on('click',function() {
@@ -52,10 +45,6 @@ editor.on('ready',function() {
       msg = '<p>Your request has NOT been sent. Correct the following fields:<br/>';
       errors.forEach(function(err) {
         var fname = editor.getEditor(err.path).schema.title;
-        var parts = err.path.split('.');
-        if ((parts.length > 2) && (parts[1] == 'services')) {
-          fname = 'Services';
-        }
         msg += '- ' + fname + ': ' + err.message + '<br/>';
       });
       msg += '</p>'
@@ -70,14 +59,14 @@ editor.on('ready',function() {
       values = editor.getValue();
       if (debug) console.log(values);
 
-      request = jQuery.post(registerUrl,values);
+      request = jQuery.post('php/register.php',values);
 
       request.done( function(data, textStatus, jqXHR) {
         if (debug) console.log("Data: "+data+' - textStatus: ' + textStatus);
         if (data.indexOf('already registered') == -1) {
           if (!debug) editor.disable();
           if (!debug) jQuery('#submit').attr("disabled", true);
-          msg = '<p>Thank you for registering. You will receive an email with a confirmation link.</p>';
+          msg = '<p>ppid of this user: '+data+'</p>';
           jQuery('#res').html(msg);
         }
         else {

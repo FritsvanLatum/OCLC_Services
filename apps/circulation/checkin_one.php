@@ -41,7 +41,7 @@ if (array_key_exists('item_barcode',$_GET)) {
 
 
   <body>
-    <a href="index.php">Back to menu</a>
+    <a href="index.html">Back to menu</a>
     <div id="editor"></div>
     <div id="buttons">
       <button id='submit'>Check In</button>

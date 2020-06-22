@@ -39,7 +39,7 @@ if (array_key_exists('ppid',$_GET) && array_key_exists('ocn',$_GET)) {
   </head>
 
   <body>
-    <a href="index.php">Back to menu</a>
+    <a href="index.html">Back to menu</a>
     <div id="editor"></div>
     <div id="buttons">
       <button id='submit'>Place Hold</button>

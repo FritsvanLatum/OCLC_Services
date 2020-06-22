@@ -66,41 +66,5 @@ JSONEditor.defaults.custom_validators.push(function(schema, value, path) {
   return errors;
 });
 
-JSONEditor.defaults.custom_validators.push(function(schema, value, path) {
-  var errors = [];
-
-  if(schema.id === "confpw") {
-    var newPass = this.jsoneditor.getEditor("root.id.password").value;
-
-    if(newPass !== value) {
-      errors.push({
-        path: path,
-        property: 'confpw',
-        message: 'Passwords must be the same.'
-      });
-    }
-  }
-  return errors;
-});
-
-JSONEditor.defaults.custom_validators.push(function(schema, value, path) {
-  var errors = [];
-
-  if(schema.id === "receiveAlerts") {
-    var checkmembership = (this.jsoneditor.getEditor("root.services.wants_card").value == 'Yes');
-    var checkreceiveMails = (this.jsoneditor.getEditor("root.services.receiveMails").value == 'Yes');
-    var checkreceiveNews = (this.jsoneditor.getEditor("root.services.receiveNews").value == 'Yes');
-    var checkreceiveAlerts = (this.jsoneditor.getEditor("root.services.receiveAlerts").value == 'Yes');
-
-    if(!(checkmembership || checkreceiveMails || checkreceiveNews || checkreceiveAlerts)) {
-      errors.push({
-        path: path,
-        property: 'services',
-        message: 'You have to choose one of our services.'
-      });
-    }
-  }
-  return errors;
-});
 
 

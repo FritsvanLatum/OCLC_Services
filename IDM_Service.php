@@ -4,21 +4,20 @@
 The class IDM_Service contains the following functions 
 
 read_patron_ppid: gets patron data with a given ppid
-get_barcode: gets the barcode from a patron that is already read from WMS
-
+search_patron: search a patron in WMS using a SCIM search string, used by read_patron_barcode and barcode_exists
 read_patron_barcode: gets patron data with a given barcode
-search_patron: search a patron in WMS using a SCIM search string, used by read_patron_barcode and wms_barcode_exists
+barcode_exists: checks whether a barcode already is used in WMS
 
-wms_update: generates SCIM json with changed user data, calls update_patron
-wms_activate: generates SCIM json in order to activate a user, calls update_patron
-update_patron: updates a patron in WMS
+generate_barcode: generates a 10 digit barcode
+new_barcode: generates a new and not already existing barcode in WMS, uses generate_barcode and barcode_exists
 
-wms_new_barcode: generates a new and not already existing barcode in WMS, uses new_barcode and wms_barcode_exists
-new_barcode: generates a 10 digit barcode
-wms_barcode_exists: checks whether a barcode already is used in WMS
 
-wms_create: generates SCIM json with new user data, calls create_patron
+json2scim_new: generates SCIM json with new user data, calls create_patron
 create_patron: creates a patron in WMS
+
+json2scim_update: generates SCIM json with changed user data, calls update_patron
+json2scim_activate: generates SCIM json in order to activate a user, calls update_patron
+update_patron: updates a patron in WMS
 
 */
 
@@ -180,48 +179,6 @@ class IDM_Service extends OCLC_Service{
     }
   }
 
-  /*     public function get_barcode()
-  *
-  * een simpele getter voor de barcode
-  * returns a barcode als een patron al is ingelezen, m.b.v. function read_patron_ppid($id)
-  * anders een empty string
-  *
-  */
-  public function get_barcode() {
-    $barcode = '';
-    if ($this->patron && array_key_exists('externalId', $this->patron)) {
-      $barcode = $this->patron['externalId'];
-    }
-    return $barcode;
-  }
-
-  /*      public function public function read_patron_barcode($barcode)
-  *
-  * parameter: $barcode
-  *
-  * gets from WMS the user data in scim json format of the patron
-  * with the barcode of the patron given in the parameter
-  * uses public function search_patron($search)
-  *
-  * returns TRUE when the patron data is found, in that case, the data are stored in $this->patron,
-  * returns FALSE otherwise
-  *
-  * TODO: should be called wmw_get_patron_barcode($barcode)
-  */
-  public function read_patron_barcode($barcode) {
-    $search = '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"], '.
-              ' "filter": "External_ID eq \"'.$barcode.'\""}';
-    $result = $this->search_patron($search);
-    if ($result) {
-      //search has an answer
-      if ($this->search["totalResults"] > 0) {
-        $this->patron = $this->search["Resources"][0];
-        $this->search["Resources"] = [];
-      }
-    }
-    return $result;
-  }
-
   /*     public function search_patron($search)
   *
   * searches patrons in WMS, the SCIM way
@@ -270,115 +227,32 @@ class IDM_Service extends OCLC_Service{
     }
   }
 
-
-  /*
-  * updates a customer in WMS
-  * 
-  * parameters:
-  *   $ppid: a valid ppid of an existing patron
-  *   $barcode: the barcode of the patron
-  *   $json: the patron data, see function wms_create($barcode,$json) for an example
+  /*      public function public function read_patron_barcode($barcode)
   *
-  * this functions uses TWIG to transform the simple $json in the complicated $scim_json
-  * which is used by function update_patron 
-  
-  * returns TRUE or FALSE
-  */
-  public function wms_update($ppid, $barcode, $json) {
-    $json['extra'] = array(
-    'country' => $this->get_countrycode($json['address']['country']),
-    'date' => date("Y-m-d")
-    );
-    //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
-
-    $loader = new Twig_Loader_Filesystem(__DIR__);
-    $twig = new Twig_Environment($loader, array(
-    //specify a cache directory only in a production setting
-    //'cache' => './compilation_cache',
-    ));
-    $scim_json = $twig->render('./idm_templates/scim_update_template.json', $json);
-    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
-
-    $this->update_patron($ppid,$scim_json);
-    //file_put_contents('form_response.json',json_encode($patron->update, JSON_PRETTY_PRINT));
-
-    return array_key_exists('id',$this->update) ? TRUE : FALSE;
-  }
-
-  /*
-  * activates a new customer in WMS
-  * meaning that blocked is set to FALSE and verified to TRUE
+  * parameter: $barcode
   *
-  * returns TRUE or FALSE
+  * gets from WMS the user data in scim json format of the patron
+  * with the barcode of the patron given in the parameter
+  * uses public function search_patron($search)
+  *
+  * returns TRUE when the patron data is found, in that case, the data are stored in $this->patron,
+  * returns FALSE otherwise
+  *
+  * TODO: should be called wmw_get_patron_barcode($barcode)
   */
-  public function wms_activate($ppid, $barcode, $json){
-    //calculate expiry date
-    $expDate = ($json['services']['membershipPeriod'] == "week") ? date('Y-m-d\TH:i:s\Z', strtotime("+9 days")) : date('Y-m-d\TH:i:s\Z', strtotime("+1 year"));
-    $json['extra'] = array(
-    'barcode' => $barcode,
-    'date' => date("Y-m-d"),
-    'expDate' => $expDate,
-    'blocked' => 'false',
-    'verified' => 'true'
-    );
-    //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
-
-    $loader = new Twig_Loader_Filesystem(__DIR__);
-    $twig = new Twig_Environment($loader, array(
-    //specify a cache directory only in a production setting
-    //'cache' => './compilation_cache',
-    ));
-    $scim_json = $twig->render('./idm_templates/scim_activate_template.json', $json);
-    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
-
-    $this->update_patron($ppid,$scim_json);
-    //file_put_contents('form_response.json',json_encode($patron->update, JSON_PRETTY_PRINT));
-
-    return array_key_exists('id',$patron->update) ? TRUE : FALSE;
+  public function read_patron_barcode($barcode) {
+    $search = '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"], '.
+              ' "filter": "External_ID eq \"'.$barcode.'\""}';
+    $result = $this->search_patron($search);
+    if ($result) {
+      //search has an answer
+      if ($this->search["totalResults"] > 0) {
+        $this->patron = $this->search["Resources"][0];
+        $this->search["Resources"] = [];
+      }
+    }
+    return $result;
   }
-
-  public function update_patron($ppid, $scim_json) {
-    //$ppid must be the value of the "id" key in scim json
-
-    //authorization
-    $this->update_headers['Authorization'] = $this->get_access_token_authorization('SCIM');
-
-    $header_array = [];
-    foreach ($this->update_headers as $k => $v) {
-      $header_array[] = "$k: $v";
-    }
-
-    //CURL
-    $curl = curl_init();
-
-    curl_setopt($curl, CURLOPT_URL, $this->update_url.'/'.$ppid);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
-    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->update_method);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $scim_json);
-
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    //curl_setopt($curl, CURLOPT_, );
-    //curl_setopt($curl, CURLOPT_, );
-
-    $result = curl_exec($curl);
-    $error_number = curl_errno($curl);
-    curl_close($curl);
-
-
-    if ($error_number) {
-      //return info in json format
-      $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
-      $this->errors['curl'] = json_decode($result,TRUE);
-      return false;
-    }
-    else {
-      //store result in this object as an array
-      $this->update = json_decode($result,TRUE);
-
-      return TRUE;
-    }
-  }
-
 
   /*
   * generates a barcode
@@ -386,7 +260,7 @@ class IDM_Service extends OCLC_Service{
   * all barcodes start with 90
   *
   */
-  private function new_barcode($userName) {
+  private function generate_barcode($userName) {
     $hash = substr(hash('sha256',$userName.time()), 0, 20);
     $chars = str_split($hash);
     $newhash = '';
@@ -415,7 +289,7 @@ class IDM_Service extends OCLC_Service{
   *
   * returns TRUE or FALSE
   */
-  private function wms_barcode_exists($barcode){
+  private function barcode_exists($barcode){
     $search = '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:SearchRequest"], '.
     '"filter": "External_ID eq \"'.$barcode.'\""}';
     $this->search_patron($search);
@@ -423,28 +297,28 @@ class IDM_Service extends OCLC_Service{
   }
 
   /*
-  * generates a new barcode (with function new_barcode)
-  * checks whether it already exists (with function wms_barcode_exists)
+  * generates a new barcode (with function generate_barcode)
+  * checks whether it already exists (with function barcode_exists)
   *
   * if not returns the barcode as a unique new barcode
   */
-  public function wms_new_barcode($userName) {
-    $barcode = $this->new_barcode($userName);
+  public function new_barcode($userName) {
+    $barcode = $this->generate_barcode($userName);
     //check max 20 times in WMS whether the barcode already exists
     $max_repeats = 20;
     $repeat = 0;
-    while ($this->wms_barcode_exists($barcode) && ($repeat < $max_repeats)) {
+    while ($this->barcode_exists($barcode) && ($repeat < $max_repeats)) {
       $repeat++;
-      $barcode = $this->new_barcode($json['id']['userName']);
+      $barcode = $this->generate_barcode($json['id']['userName']);
     }
     if ($repeat >= $max_repeats) $barcode = '';
     return $barcode;
   }
 
-  /*   function wms_create($barcode,$json) {
+  /*   function json2scim_new($barcode,$json) {
   *
   * creates a new customer in WMS
-  * blocked is set to TRUE and verified to FALSE, see function wms_activate
+  * blocked is set to TRUE and verified to FALSE, see function json2scim_activate
   * patron type is set to "website",
 
   * parameters:
@@ -497,7 +371,7 @@ class IDM_Service extends OCLC_Service{
   *
   * returns the new ppid or an empty string
   */
-  public function wms_create($barcode,$json) {
+  public function json2scim_new($barcode,$json) {
     $ppid = '';
     $json['extra'] = array(
     'barcode' => $barcode,
@@ -506,7 +380,7 @@ class IDM_Service extends OCLC_Service{
     'expDate' => date('Y-m-d\TH:i:s\Z'),
     'patron_type' => $this->initial_patron_type,
     /*
-     de gebruiker wordt direct actief, als dat anders moet kan wms_activate gebruikt worden
+     de gebruiker wordt direct actief, als dat anders moet kan json2scim_activate gebruikt worden
      om een gebruiker te activeren
     */
     'blocked' => 'false',
@@ -520,12 +394,9 @@ class IDM_Service extends OCLC_Service{
     //'cache' => './compilation_cache',
     ));
     $scim_json = $twig->render('./idm_templates/scim_create_template.json', $json);
-    file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
-
-    #$this->create_patron($scim_json);
-    //file_put_contents('form_response.json',json_encode($patron->create, JSON_PRETTY_PRINT));
-
-    return array_key_exists('id',$this->create) ? $this->create['id'] : '';
+    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
+    
+    return $scim_json
   }
 
   /*
@@ -581,13 +452,116 @@ class IDM_Service extends OCLC_Service{
     }
   }
 
+
+
+  /*
+  * updates a customer in WMS
+  * 
+  * parameters:
+  *   $ppid: a valid ppid of an existing patron
+  *   $barcode: the barcode of the patron
+  *   $json: the patron data, see function json2scim_new($barcode,$json) for an example
+  *
+  * this functions uses TWIG to transform the simple $json in the complicated $scim_json
+  * which is used by function update_patron 
+  
+  * returns TRUE or FALSE
+  */
+  public function json2scim_update($ppid, $barcode, $json) {
+    $json['extra'] = array(
+    'country' => $this->get_countrycode($json['address']['country']),
+    'date' => date("Y-m-d")
+    );
+    //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
+
+    $loader = new Twig_Loader_Filesystem(__DIR__);
+    $twig = new Twig_Environment($loader, array(
+    //specify a cache directory only in a production setting
+    //'cache' => './compilation_cache',
+    ));
+    $scim_json = $twig->render('./idm_templates/scim_update_template.json', $json);
+    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
+
+    return $scim_json;
+  }
+
+  /*
+  * activates a new customer in WMS
+  * meaning that blocked is set to FALSE and verified to TRUE
+  *
+  * returns TRUE or FALSE
+  */
+  public function json2scim_activate($ppid, $barcode, $json){
+    //calculate expiry date
+    $expDate = ($json['services']['membershipPeriod'] == "week") ? date('Y-m-d\TH:i:s\Z', strtotime("+9 days")) : date('Y-m-d\TH:i:s\Z', strtotime("+1 year"));
+    $json['extra'] = array(
+    'barcode' => $barcode,
+    'date' => date("Y-m-d"),
+    'expDate' => $expDate,
+    'blocked' => 'false',
+    'verified' => 'true'
+    );
+    //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
+
+    $loader = new Twig_Loader_Filesystem(__DIR__);
+    $twig = new Twig_Environment($loader, array(
+    //specify a cache directory only in a production setting
+    //'cache' => './compilation_cache',
+    ));
+    $scim_json = $twig->render('./idm_templates/scim_activate_template.json', $json);
+    //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
+    return $scim_json;
+  }
+
+  public function update_patron($ppid, $scim_json) {
+    //$ppid must be the value of the "id" key in scim json
+
+    //authorization
+    $this->update_headers['Authorization'] = $this->get_access_token_authorization('SCIM');
+
+    $header_array = [];
+    foreach ($this->update_headers as $k => $v) {
+      $header_array[] = "$k: $v";
+    }
+
+    //CURL
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $this->update_url.'/'.$ppid);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header_array);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->update_method);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $scim_json);
+
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //curl_setopt($curl, CURLOPT_, );
+    //curl_setopt($curl, CURLOPT_, );
+
+    $result = curl_exec($curl);
+    $error_number = curl_errno($curl);
+    curl_close($curl);
+
+
+    if ($error_number) {
+      //return info in json format
+      $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
+      $this->errors['curl'] = json_decode($result,TRUE);
+      return false;
+    }
+    else {
+      //store result in this object as an array
+      $this->update = json_decode($result,TRUE);
+
+      return TRUE;
+    }
+  }
+
   /*
   * gets a 2 letter country code according to ISO 3166-1 alpha-2
   * WMS requires this code instead of the name of the country
   * codes are in a separate file country2code.php
   */
   private function get_countrycode($country) {
-    require(__DIR__.'/country2code.php');
+    require_once(__DIR__.'/country2code.php');
     return array_key_exists($country,$codeOfCountry) ? $codeOfCountry[$country] : '';
   }
 

@@ -1,23 +1,19 @@
 <?php
-  //for TWIG templating:
-  require_once '../../vendor/autoload.php';
-  //for lookups in patron admin of WMS
-  require_once '../../IDM_Service.php';
-  //for lookups, holds, cancel holds and renewal in WMS
-  require_once '../../NCIP_Patron_Service.php';
-  
-  $debug = FALSE;
-  //add &debug to the url for getting output from library classes that use API's:
-  if (array_key_exists('debug',$_GET)) $debug = TRUE;
-  
-  //TWIG templates:
-  $id_template_file = './templates/id_template.html';
-  $ncip_template_file = './templates/ncip_template.html';
-  
-  //classes for Patrons and ncip services
-  $patron = new IDM_Service('keys_idm.php');
-  $ncip = new NCIP_Patron_Service('keys_ncip.php');
-  
+//for TWIG templating:
+require_once '../../vendor/autoload.php';
+//for lookups in patron admin of WMS
+require_once '../../IDM_Service.php';
+
+$debug = FALSE;
+//add &debug to the url for getting output from library classes that use API's:
+if (array_key_exists('debug',$_GET)) $debug = TRUE;
+
+//TWIG templates:
+$id_template_file = './templates/id_template.html';
+
+//class for Patrons
+$patron = new IDM_Service('keys_idm.php');
+
 $code = null;
 if (array_key_exists('code',$_GET)) {
   $code = trim($_GET['code']);
@@ -26,12 +22,11 @@ $action = null;
 if (array_key_exists('action',$_GET)) {
   $action = trim($_GET['action']);
 }
-  //if this script is called with an url parameter 'code' then check existence of patron and collect his ncip data
-  $code = null;
-  if (array_key_exists('code',$_GET)) {
-    //get code
-    $code = $_GET['code'];
-  }
+$code = null;
+if (array_key_exists('code',$_GET)) {
+  //get code
+  $code = $_GET['code'];
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,14 +59,9 @@ if (array_key_exists('action',$_GET)) {
       if ($code) {
         if ($action == 'ppid') {
           $patron->read_patron_ppid($code);
-          $ncip->lookup_patron_ppid($code);
         }
         if ($action == 'barcode') {
           $patron->read_patron_barcode($code);
-          if ($patron->patron && (array_key_exists('id',$patron->patron))) {
-            $ppid = $patron->patron['id'];
-            $ncip->lookup_patron_ppid($ppid);
-          }
         }
 
 
@@ -83,31 +73,25 @@ if (array_key_exists('action',$_GET)) {
           //'cache' => './compilation_cache',
           ));
           echo '<h4>From IDM API:</h4>'.$twig->render($id_template_file, $patron->patron);
-          echo '<h4>From NCIP API:</h4>'.$twig->render($ncip_template_file, $ncip->response_json["NCIPMessage"][0]["LookupUserResponse"][0]);
         }
       }
       ?>
       <br/>
-      <?php if ($code) echo '<h4>XML from NCIP API:</h4>'.$ncip->response_str('html'); ?>
     </div>
     <p>Add &debug to the url in order to see the output of the API's</p>
-    <?php 
-      //show information from library classes
-      //use echo $patron; and/or echo $ncip; for even more info
-      if ($debug) { ?>
-    <div>
-      Patron:
-      <pre>
-        <?php if ($ppid) echo $patron->patron_str();?>
-      </pre>
-      Circulation:
-      <pre>
-        <?php if ($ppid) echo $ncip->response_str('json');?>
-      </pre>
-    </div>
-    <?php } ?>
-    <!-- this script adds processing of the little form, button clicks and shows this page again with url parameters -->
-    <script type="text/javascript" src="js/patronForm.js"></script>
-  </body>
+    <?php
+    //show information from library classes
+    //use echo $patron; and/or echo $ncip; for even more info
+    if ($debug) { ?>
+      <div>
+        Patron:
+        <pre>
+          <?php if ($ppid) echo $patron->patron_str();?>
+        </pre>
+      </div>
+      <?php } ?>
+      <!-- this script adds processing of the little form, button clicks and shows this page again with url parameters -->
+      <script type="text/javascript" src="js/patronForm.js"></script>
+    </body>
 
-</html>
+  </html>

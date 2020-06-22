@@ -42,7 +42,7 @@ else {
   </head>
 
   <body>
-    <a href="index.php">Back to menu</a>
+    <a href="index.html">Back to menu</a>
     <div id="editor"></div>
     <div id="buttons">
       <button id='submitOCN'>Get LHR by OCN</button>

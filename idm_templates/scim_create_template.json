@@ -9,29 +9,29 @@
   "urn:mace:oclc.org:eidm:schema:persona:messages:20180305"
   ],
 
-  {% if person.firstName|length > 0 %}  
+  {% if firstName|length > 0 %}  
   "name": {
-    "familyName": "{{person.lastName}}",
-    "givenName": "{{person.firstName}}"
+    "familyName": "{{lastName}}",
+    "givenName": "{{firstName}}"
   },
   {% else %}
   "name": {
-    "familyName": "{{person.lastName}}"
+    "familyName": "{{lastName}}"
   },
   {% endif %}
 
   "emails": [
   {
-    "value": "{{person.email}}",
+    "value": "{{email}}",
     "type": "work",
     "primary": true
   }
   ],
   
-  {% if person.tel|length > 0 %}  
+  {% if tel|length > 0 %}  
   "phoneNumbers": [
   {
-    "value": "{{person.tel}}",
+    "value": "{{tel}}",
     "type": "home",
     "primary": true
   }
@@ -40,12 +40,12 @@
   
   "addresses": [
   {
-    "streetAddress": "{{address.address1}}",
-    "locality": "{{address.city}}",
-    {% if address.state|length > 0 %}
-    "region": "{{address.state}}",
+    "streetAddress": "{{address1}}",
+    "locality": "{{city}}",
+    {% if state|length > 0 %}
+    "region": "{{state}}",
     {% endif %}
-    "postalCode": "{{address.postcode}}",
+    "postalCode": "{{postcode}}",
     {% if extra.country|length > 0 %}
     "country": "{{extra.country}}",
     {% endif %}
@@ -54,28 +54,28 @@
   }
   ],
   
-  {% if (inst.instType|length > 0) or (inst.instName|length > 0) or (inst.research|length > 0) or (inst.to_be_defined|length > 0) %}    
+  {% if (instType|length > 0) or (instName|length > 0) or (research|length > 0) or (to_be_defined|length > 0) %}    
   "urn:mace:oclc.org:eidm:schema:persona:additionalinfo:20180501": {
     "oclcKeyValuePairs": [
     {
       "businessContext": "Circulation_Info",
       "key": "customdata1",
-      "value": {% if inst.instType|length > 0 %} "{{inst.instType}}" {% else %} "unknown" {% endif %}
-    }{% if inst.instName|length > 0 %},
+      "value": {% if instType|length > 0 %} "{{instType}}" {% else %} "unknown" {% endif %}
+    }{% if instName|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata2",
-      "value": "{{inst.instName}}"
-    }{% endif %}{% if inst.research|length > 0 %},
+      "value": "{{instName}}"
+    }{% endif %}{% if research|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata3",
-      "value": "{{inst.research}}"
-    }{% endif %}{% if inst.to_be_defined|length > 0 %},
+      "value": "{{research}}"
+    }{% endif %}{% if to_be_defined|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata4",
-      "value": "{{inst.to_be_defined}}"
+      "value": "{{to_be_defined}}"
     }{% endif %}
     ]
   },
@@ -84,11 +84,11 @@
   "urn:mace:oclc.org:eidm:schema:persona:persona:20180305": {
     "institutionId": "57439",
     "oclcNamespace": "urn:oclc:platform:57439",
-    "oclcUsername": "{{id.userName}}",
-    "oclcPassword": "{{id.password}}",
-    "oclcExpirationDate": "{{extra.expDate}}"{% if person.dateBirth|length > 0 %},
-    "dateOfBirth": "{{person.dateBirth}}"{% endif %}{% if person.gender|length > 0 %},
-    "gender": {% if person.gender == "male" %} "MALE" {% elseif person.gender == 'female' %} "FEMALE" {% else %} "UNKNOWN" {% endif %}{% endif %}
+    "oclcUsername": "{{userName}}",
+    "oclcPassword": "{{password}}",
+    "oclcExpirationDate": "{{extra.expDate}}"{% if dateBirth|length > 0 %},
+    "dateOfBirth": "{{dateBirth}}"{% endif %}{% if gender|length > 0 %},
+    "gender": {% if gender == "male" %} "MALE" {% elseif gender == 'female' %} "FEMALE" {% else %} "UNKNOWN" {% endif %}{% endif %}
   },
   "urn:mace:oclc.org:eidm:schema:persona:wmscircpatroninfo:20180101": {
     "circulationInfo": {
