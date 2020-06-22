@@ -86,7 +86,7 @@ if (array_key_exists('code',$_GET)) {
       <div>
         Patron:
         <pre>
-          <?php if ($ppid) echo $patron->patron_str();?>
+          <?php if ($code) echo $patron->patron_str();?>
         </pre>
       </div>
       <?php } ?>
