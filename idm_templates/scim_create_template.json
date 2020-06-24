@@ -54,7 +54,7 @@
   }
   ],
   
-  {% if (instType|length > 0) or (instName|length > 0) or (research|length > 0) or (to_be_defined|length > 0) %}    
+  {% if (instType|length > 0) or (instName|length > 0) or (instAbbrev|length > 0) or (role|length > 0) %}    
   "urn:mace:oclc.org:eidm:schema:persona:additionalinfo:20180501": {
     "oclcKeyValuePairs": [
     {
@@ -66,16 +66,16 @@
       "businessContext": "Circulation_Info",
       "key": "customdata2",
       "value": "{{instName}}"
-    }{% endif %}{% if research|length > 0 %},
+    }{% endif %}{% if instAbbrev|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata3",
-      "value": "{{research}}"
-    }{% endif %}{% if to_be_defined|length > 0 %},
+      "value": "{{instAbbrev}}"
+    }{% endif %}{% if role|length > 0 %},
     {
       "businessContext": "Circulation_Info",
       "key": "customdata4",
-      "value": "{{to_be_defined}}"
+      "value": "{{role}}"
     }{% endif %}
     ]
   },

@@ -162,6 +162,15 @@ class IDM_Service extends OCLC_Service{
         if ($error_number) {
           $this->log_entry('Error','read_patron_ppid',"Result but still cUrl error [$error_number]: $error_msg");
         }
+          /*replace long keys*/
+          $result = str_replace([
+              "urn:mace:oclc.org:eidm:schema:persona:additionalinfo:20180501",
+              "urn:mace:oclc.org:eidm:schema:persona:correlationinfo:20180101",
+              "urn:mace:oclc.org:eidm:schema:persona:persona:20180305",
+              "urn:mace:oclc.org:eidm:schema:persona:wsillinfo:20180101",
+              "urn:mace:oclc.org:eidm:schema:persona:wmscircpatroninfo:20180101",
+              "urn:mace:oclc.org:eidm:schema:persona:messages:20180305"],
+              ['additionalinfo','correlationinfo','persona','wsillinfo','wmscircpatroninfo','messages'],$result);
         $patron_received = json_decode($result,TRUE);
         $json_errno = json_last_error();
         $json_errmsg = json_last_error_msg();
@@ -310,10 +319,14 @@ class IDM_Service extends OCLC_Service{
     $repeat = 0;
     while ($this->barcode_exists($barcode) && ($repeat < $max_repeats)) {
       $repeat++;
-      $barcode = $this->generate_barcode($json['id']['userName']);
+      $barcode = $this->generate_barcode($userName);
     }
-    if ($repeat >= $max_repeats) $barcode = '';
-    return $barcode;
+    if ($repeat >= $max_repeats) {
+      return FALSE;
+    }
+    else {
+      return $barcode;
+    }
   }
 
 
@@ -348,14 +361,22 @@ class IDM_Service extends OCLC_Service{
       //return info in json format
       $result = '{"Curl_errno": "'.$error_number.'", "Curl_error": "'.curl_error($curl).'"}';
       $this->errors['curl'] = json_decode($result,TRUE);
-      return false;
+      //for debugging:
+      //file_put_contents('testError.json',json_encode($this,JSON_PRETTY_PRINT));
+      return FALSE;
     }
     else {
       //store result in this object as an array
       $this->create = json_decode($result,TRUE);
+      //for debugging: especially because a valid response might have valid error messages
+      //file_put_contents('testOk.json',json_encode($this,JSON_PRETTY_PRINT));
 
-      return TRUE;
-
+      if (array_key_exists('id',$this->create)) {
+        return $this->create['id'];
+      }
+      else {
+        return FALSE;
+      }
     }
   }
 

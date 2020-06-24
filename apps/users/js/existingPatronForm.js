@@ -21,7 +21,8 @@ var editorProperties =
   disable_array_reorder: true,
   disable_edit_json: true,
   disable_properties: true,
-  disable_collapse: true
+  disable_collapse: true,
+  startval: vals
 };
 
 var editor = new JSONEditor(document.getElementById('editor'),editorProperties);
@@ -57,9 +58,10 @@ editor.on('ready',function() {
 
       // Get the values from the editor
       values = editor.getValue();
+      values.ppid = ppid;
       if (debug) console.log(values);
 
-      request = jQuery.post('php/register.php',values);
+      request = jQuery.post('php/update_patron_wms.php',values);
 
       request.done( function(data, textStatus, jqXHR) {
         if (debug) console.log("Data: "+data+' - textStatus: ' + textStatus);

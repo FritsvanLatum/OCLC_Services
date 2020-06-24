@@ -1,8 +1,18 @@
 <?php
 
 function scim2json($scim_json) {
-  
-  
+  $loader = new Twig_Loader_Filesystem(__DIR__);
+  $twig = new Twig_Environment($loader, array(
+  //specify a cache directory only in a production setting
+  //'cache' => './compilation_cache',
+  ));
+  $json = $twig->render('./idm_templates/scim2json_template.json', $scim_json);
+  //file_put_contents('form.json',json_encode($scim_json, JSON_PRETTY_PRINT));
+  $json = preg_replace('/\s+/', ' ', $json);
+  $jsonarr = json_decode($json,TRUE);
+  if (array_key_exists('country',$jsonarr))  $jsonarr['country'] = get_countrycode($jsonarr['country'],'name');
+  if (array_key_exists('gender',$jsonarr))  $jsonarr['gender'] = strtolower($jsonarr['gender']);
+  return json_encode($jsonarr);
 }
 
 /*   function json2scim_new($barcode,$json, $patron_type = null, $activate = FALSE) {
@@ -11,7 +21,7 @@ function scim2json($scim_json) {
 
 * parameters:
 *    $barcode: a new barcode in WMS
-*    $json: an associated array containg the data of a person, i.e.
+*    $json: an associative array containg the data of a person, i.e.
 *    $activate:
 if FALSE (default): blocked is set to TRUE and verified to FALSE,
 if TRUE: blocked is set to FALSE and verified to TRUE, see function json2scim_activate
@@ -24,10 +34,10 @@ function json2scim_new($barcode, $json, $patron_type = null, $activate = FALSE) 
   $ppid = '';
   $json['extra'] = array(
   'barcode' => $barcode,
-  'country' => get_countrycode($json['address']['country']),
+  'country' => get_countrycode($json['country']),
   'date' => date("Y-m-d"),
   'expDate' => date('Y-m-d\TH:i:s\Z'),
-  'patron_type' => 'fromWebsite',
+  'patron_type' => 'Website',
   /*
   de gebruiker wordt direct actief, als dat anders moet kan json2scim_activate gebruikt worden
   om een gebruiker te activeren
@@ -51,7 +61,7 @@ function json2scim_new($barcode, $json, $patron_type = null, $activate = FALSE) 
   ));
   $scim_json = $twig->render('./idm_templates/scim_create_template.json', $json);
   //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
-
+  
   return $scim_json;
 }
 
@@ -68,9 +78,9 @@ function json2scim_new($barcode, $json, $patron_type = null, $activate = FALSE) 
 
 * returns TRUE or FALSE
 */
-function json2scim_update($ppid, $barcode, $json) {
+function json2scim_update($ppid, $json) {
   $json['extra'] = array(
-  'country' => get_countrycode($json['address']['country']),
+  'country' => get_countrycode($json['country']),
   'date' => date("Y-m-d")
   );
   //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
@@ -95,11 +105,11 @@ function json2scim_update($ppid, $barcode, $json) {
 */
 function json2scim_activate($ppid, $barcode, $json){
   //calculate expiry date
-  $expDate = ($json['services']['membershipPeriod'] == "week") ? date('Y-m-d\TH:i:s\Z', strtotime("+9 days")) : date('Y-m-d\TH:i:s\Z', strtotime("+1 year"));
+  //$expDate = ($json['services']['membershipPeriod'] == "week") ? date('Y-m-d\TH:i:s\Z', strtotime("+9 days")) : date('Y-m-d\TH:i:s\Z', strtotime("+1 year"));
   $json['extra'] = array(
   'barcode' => $barcode,
   'date' => date("Y-m-d"),
-  'expDate' => $expDate,
+  //'expDate' => $expDate,
   'blocked' => 'false',
   'verified' => 'true'
   );
@@ -120,7 +130,7 @@ function json2scim_activate($ppid, $barcode, $json){
 * WMS requires this code instead of the name of the country
 * codes are in a separate file country2code.php
 */
-function get_countrycode($country) {
+function get_countrycode($c,$t = 'code') {
   $codeOfCountry = array(
   "Afghanistan" => "AF",
   "Åland Islands" => "AX",
@@ -373,5 +383,12 @@ function get_countrycode($country) {
   "Zimbabwe" => "ZW",
   );
 
-  return array_key_exists($country,$codeOfCountry) ? $codeOfCountry[$country] : '';
+  if ($t == 'code') {
+    return array_key_exists($c,$codeOfCountry) ? $codeOfCountry[$c] : '';
+  }
+  else {
+    $key = array_search ($c,$codeOfCountry);
+    return $key ? $key : '';
+  }
 }
+

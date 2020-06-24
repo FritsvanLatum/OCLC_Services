@@ -1,0 +1,110 @@
+{
+        "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User",
+            "additionalinfo",
+            "correlationinfo",
+            "persona",
+            "wmscircpatroninfo",
+            "messages"
+        ],
+        "id": "710af73e-0357-4c8b-b154-3df8c590c91e",
+        "externalId": "9006133054",
+        "userName": "NOT SUPPORTED",
+        "name": {
+            "familyName": "van Test2",
+            "givenName": "Test2"
+        },
+        "emails": [
+            {
+                "value": "test321@test.nl",
+                "type": "work",
+                "primary": true
+            }
+        ],
+        "phoneNumbers": [
+            {
+                "value": "0123456789",
+                "type": "home",
+                "primary": true
+            }
+        ],
+        "addresses": [
+            {
+                "streetAddress": "Teststraat 2",
+                "locality": "Testhuizen",
+                "region": "Groningen",
+                "postalCode": "1234 AB",
+                "country": "NL",
+                "type": "home",
+                "primary": true
+            }
+        ],
+        "additionalinfo": {
+            "oclcKeyValuePairs": [
+                {
+                    "businessContext": "Circulation_Info",
+                    "key": "customdata2",
+                    "value": "Test University"
+                },
+                {
+                    "businessContext": "Circulation_Info",
+                    "key": "customdata1",
+                    "value": "Academic"
+                },
+                {
+                    "businessContext": "Circulation_Info",
+                    "key": "customdata4",
+                    "value": "Tester"
+                },
+                {
+                    "businessContext": "Circulation_Info",
+                    "key": "customdata3",
+                    "value": "TSTU"
+                }
+            ]
+        },
+        "correlationinfo": {
+            "correlationInfo": [
+                {
+                    "sourceSystem": "urn:mace:oclc:idm:peacepalace",
+                    "idAtSource": "e2afc407-9c33-4bd9-a9b0-8f574962471c"
+                }
+            ]
+        },
+        "persona": {
+            "oclcPPID": "710af73e-0357-4c8b-b154-3df8c590c91e",
+            "institutionId": "57439",
+            "oclcNamespace": "urn:oclc:platform:57439",
+            "oclcUsername": "test321@test.nl",
+            "oclcExpirationDate": "2020-06-23T00:00:00Z",
+            "dateOfBirth": "2020-01-01",
+            "gender": "MALE",
+            "nameInfoCanSelfEdit": false
+        },
+        "wmscircpatroninfo": {
+            "circulationInfo": {
+                "barcode": "9006133054",
+                "borrowerCategory": "Website",
+                "homeBranch": "262638",
+                "circRegistrationDate": "2020-06-23",
+                "isCircBlocked": false,
+                "isCollectionExempt": false,
+                "isFineExempt": false,
+                "isVerified": true,
+                "storeCheckoutHistory": false
+            }
+        },
+        "messages": {
+            "messages": [
+                {
+                    "value": "The country Netherlands was mapped to country code NL."
+                }
+            ]
+        },
+        "meta": {
+            "resourceType": "User",
+            "created": "2020-06-23T07:38:55Z",
+            "location": "https:\/\/57439.share.worldcat.org\/idaas\/scim\/v2\/Users\/710af73e-0357-4c8b-b154-3df8c590c91e",
+            "version": "\"be230c73a019efa1e31047d12117bfa9\""
+        }
+    },

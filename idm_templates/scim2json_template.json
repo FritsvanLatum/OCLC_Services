@@ -1,0 +1,17 @@
+{
+  "firstName": "{{name.givenName}}",
+  "lastName": "{{name.familyName}}",
+  "dateBirth": "{{persona.dateOfBirth}}",
+  "gender": "{{persona.gender}}",
+  "address1": "{{addresses[0].streetAddress}}",
+  "postcode": "{{addresses[0].postalCode}}",
+  "city": "{{addresses[0].locality}}",
+  "state": "{{addresses[0].region}}",
+  "country": "{{addresses[0].country}}",
+  "tel": "{{phoneNumbers[0].value}}",
+  "email": "{{emails[0].value}}"{% for kv in additionalinfo.oclcKeyValuePairs %}{% if kv.key == 'customdata1' %},
+  "instType": "{{kv.value}}"{% endif %}{% if kv.key == 'customdata2' %},
+  "instName": "{{kv.value}}"{% endif %}{% if kv.key == 'customdata3' %},
+  "instAbbrev": "{{kv.value}}"{% endif %}{% if kv.key == 'customdata4' %},
+  "role":"{{kv.value}}"{% endif %}{% endfor %}
+}

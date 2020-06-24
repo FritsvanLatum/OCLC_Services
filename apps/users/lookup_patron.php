@@ -4,7 +4,7 @@ require_once '../../vendor/autoload.php';
 //for lookups in patron admin of WMS
 require_once '../../IDM_Service.php';
 
-$debug = FALSE;
+$debug = TRUE;
 //add &debug to the url for getting output from library classes that use API's:
 if (array_key_exists('debug',$_GET)) $debug = TRUE;
 
@@ -39,7 +39,7 @@ if (array_key_exists('code',$_GET)) {
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
-    <script type="text/javascript" src="schema/patronSchema.js"></script>
+    <script type="text/javascript" src="schema/lookupPatronSchema.js"></script>
     <script>
       <?php if ($code) echo "code = '$code';" ?>
       <?php if ($action) echo "action = '$action';" ?>
@@ -63,16 +63,17 @@ if (array_key_exists('code',$_GET)) {
         if ($action == 'barcode') {
           $patron->read_patron_barcode($code);
         }
-
-
         //now render with TWIG templating the output
         if ($patron->patron && (array_key_exists('id',$patron->patron))) {
+          $ppid = $patron->patron['id'];
+          echo '<p><a href="./existing_patron.php?ppid='.$ppid.'" target="_blank">Edit user data</a>.</p>';
+          
           $loader = new Twig_Loader_Filesystem(__DIR__);
           $twig = new Twig_Environment($loader, array(
           //specify a cache directory only in a production setting
           //'cache' => './compilation_cache',
           ));
-          echo '<h4>From IDM API:</h4>'.$twig->render($id_template_file, $patron->patron);
+          echo $twig->render($id_template_file, $patron->patron);
         }
       }
       ?>
@@ -86,12 +87,12 @@ if (array_key_exists('code',$_GET)) {
       <div>
         Patron:
         <pre>
-          <?php if ($code) echo $patron->patron_str();?>
+          <?php if ($code) echo $patron;?>
         </pre>
       </div>
       <?php } ?>
       <!-- this script adds processing of the little form, button clicks and shows this page again with url parameters -->
-      <script type="text/javascript" src="js/patronForm.js"></script>
+      <script type="text/javascript" src="js/lookupPatronForm.js"></script>
     </body>
 
   </html>
