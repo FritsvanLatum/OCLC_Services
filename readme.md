@@ -23,8 +23,7 @@ The libraries:
 * `WorldCat_KB_Service.php`: access to OCLC's knowledge base
 
 
-Each library (VIAF_Service.php is the only exception) has a keys file with the 
-codes that must be used in the API calls. They are not provided in this repository. 
+Most libraries are using a keys file with authorization data. They are not provided in this repository. 
 
 ## Base class OCLC_Service
 This class, defined in OCLC_Service.php contains the knitty gritty of HMAC and token 
@@ -46,21 +45,26 @@ The class IDM_Service, defined in IDM_Service.php contains the following members
 | function |  description | returns | 
 |---|---|---| 
 |`read_patron_ppid($id)` | gets patron data from WMS with a given ppid | TRUE/FALSE | 
-|`get_barcode()` |  gets the barcode from a patron that is already read from WMS | barcode | 
-| | 
+|`search_patron($search)` |  search a patron in WMS using a SCIM search string, used by `read_patron_barcode` | TRUE/FALSE | 
 |`read_patron_barcode($barcode)` |  gets patron data with a given barcode, uses `search_patron` |  TRUE/FALSE | 
-|`search_patron($search)` |  search a patron in WMS using a SCIM search string, used by `read_patron_barcode` and `wms_barcode_exists` | TRUE/FALSE | 
-| | 
-|`wms_update($ppid, $barcode, $json` |  generates SCIM json with changed user data, calls `update_patron` |  ppid | 
-|`wms_activate($ppid, $barcode, $json)` |  generates SCIM json only to activate a user, calls `update_patron` |  ppid | 
+|`new_barcode($userName)` |  generates a new and not already existing barcode in WMS | barcode | 
+|`create_patron($barcode,$patron_type,$json)` |  generates SCIM json with new user data, calls `create_patron` | ppid |
 |`update_patron($ppid, $scim_json)` |  updates a patron in WMS |  TRUE/FALSE | 
-| | 
-|`wms_new_barcode($userName)` |  generates a new and not already existing barcode in WMS, uses `new_barcode` and `wms_barcode_exists` | barcode | 
-|`new_barcode($userName)` |  generates a 10 digit barcode | barcode |
-|`wms_barcode_exists($barcode)` |  checks whether a barcode already is used in WMS, uses `search_patron` |  TRUE/FALSE |  
-| | 
-|`wms_create($barcode,$patron_type,$json)` |  generates SCIM json with new user data, calls `create_patron` | ppid |
-|`create_patron($scim_json)` |  creates a patron in WMS |  TRUE/FALSE | 
+
+The IDM API is based on SCIM, a json standard for identity management data. Most applications will use a much simpler data structure, for example in forms. 
+A set of functions is provided in `SCIM_JSON.php` for converting to and from SCIM. 
+Each application will have to reprogram these functions in accordance to their own user data structure.
+
+The json schema's for the conversions in this `SCIM_JSON.php` can be found in `./apps/users/schema`.
+
+| function |  description | returns | 
+|---|---|---| 
+| `scim2json($scim_json)` | converts scim format to much simpler json | simple json as a string |
+| `json2scim_new($barcode, $json, $patron_type = null, $activate = FALSE)` | converts a simple json format to scim for adding a new patron to WMS | scim json as a string |
+| `json2scim_update($ppid, $json)` | converts a simple json format to scim for updating patron data to WMS | scim json as a string |
+| `get_countrycode($c,$t = 'code')` | a helper function to convert countries to country codes and reverse | string |
+
+
 
 This class can be used to add and change user data in WMS.
 
