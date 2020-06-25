@@ -75,8 +75,7 @@
   "urn:mace:oclc.org:eidm:schema:persona:persona:20180305": {
     "institutionId": "57439",
     "oclcNamespace": "urn:oclc:platform:57439",
-    "oclcUsername": "{{userName}}",
-    "oclcPassword": "{{password}}"{% if dateBirth|length > 0 %},
+    "oclcUsername": "{{userName}}"{% if dateBirth|length > 0 %},
     "dateOfBirth": "{{dateBirth}}"{% endif %}{% if gender|length > 0 %},
     "gender": {% if gender == "male" %} "MALE" {% elseif gender == 'female' %} "FEMALE" {% else %} "UNKNOWN" {% endif %}{% endif %}
   }

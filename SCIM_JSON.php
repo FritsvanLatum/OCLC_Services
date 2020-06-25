@@ -97,33 +97,6 @@ function json2scim_update($ppid, $json) {
 }
 
 
-/*
-* activates a new customer in WMS
-* meaning that blocked is set to FALSE and verified to TRUE
-*
-* returns TRUE or FALSE
-*/
-function json2scim_activate($ppid, $barcode, $json){
-  //calculate expiry date
-  //$expDate = ($json['services']['membershipPeriod'] == "week") ? date('Y-m-d\TH:i:s\Z', strtotime("+9 days")) : date('Y-m-d\TH:i:s\Z', strtotime("+1 year"));
-  $json['extra'] = array(
-  'barcode' => $barcode,
-  'date' => date("Y-m-d"),
-  //'expDate' => $expDate,
-  'blocked' => 'false',
-  'verified' => 'true'
-  );
-  //file_put_contents('form.json',json_encode($json, JSON_PRETTY_PRINT));
-
-  $loader = new Twig_Loader_Filesystem(__DIR__);
-  $twig = new Twig_Environment($loader, array(
-  //specify a cache directory only in a production setting
-  //'cache' => './compilation_cache',
-  ));
-  $scim_json = $twig->render('./idm_templates/scim_activate_template.json', $json);
-  //file_put_contents('form_scim.json',json_encode($scim_json, JSON_PRETTY_PRINT));
-  return $scim_json;
-}
 
 /*
 * gets a 2 letter country code according to ISO 3166-1 alpha-2

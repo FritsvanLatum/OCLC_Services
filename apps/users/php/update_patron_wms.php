@@ -10,16 +10,14 @@ $json = $_POST;
 //TO DO: check on $json
 
 $scim_json = json2scim_update($json['ppid'], $json);
-//file_put_contents("test.json",json_encode(json_decode($scim_json),JSON_PRETTY_PRINT));
-
 
 if ($idm->update_patron($json['ppid'], $scim_json)) {
-  echo $idm;
+  echo $json['ppid'];
+  exit(0)
 }
 else {
   header('HTTP/1.1 500 Internal Server Error');
   exit("Update failed.");
 }
-
 
 ?>

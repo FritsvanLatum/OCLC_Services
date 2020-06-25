@@ -1,40 +1,51 @@
 <div id="patronData">
-	<div class="divTable minimalistBlack">
-		<div class="divTableBody">
-			<div class="divTableRow">
-				<div class="labelC">Last name:</div>
-				<div class="valueC">{{name.familyName}}</div>
-			</div>
-			<div class="divTableRow">
-				<div class="labelC">First name:</div>
-				<div class="valueC">{{name.givenName}}</div>
-			</div>
-			<div class="divTableRow">
-				<div class="labelC">Barcode:</div>
-				<div class="valueC">{{externalId}}</div>
-			</div>
-			<div class="divTableRow">
-				<div class="labelC">Id:</div>
-				<div class="valueC">{{id}}</div>
-			</div>
-			<div class="divTableRow">
-				<div class="labelC">EIDM:</div>
-				<div class="valueC">{{oclcPPID}}</div>
-			</div>
-			<div class="divTableRow">
-				<div class="labelC">Email:</div>
-				<div class="valueC">{{emails[0].value}}</div>
-			</div>
-			<div class="divTableRow">
-				<div class="labelC">Adress</div>
-				<div class="valueC">
-					{{addresses[0].streetAddress}}<br/>
-					{{addresses[0].locality}}<br/>
-					{{addresses[0].region}}<br/>
-					{{addresses[0].postalCode}}<br/>
-					{{addresses[0].country}}
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="divTable minimalistBlack">
+    <div class="divTableBody">
+      <div class="divTableRow">
+        <div class="labelC">Last name:</div>
+        <div class="valueC">{{name.familyName}}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">First name:</div>
+        <div class="valueC">{{name.givenName}}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">Barcode:</div>
+        <div class="valueC">{{externalId}}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">Id:</div>
+        <div class="valueC">{{persona.oclcNamespace}}&nbsp;&nbsp;&nbsp;&nbsp;{{persona.oclcPPID}}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">Blocked:</div>
+        <div class="valueC">{% if wmscircpatroninfo.circulationInfo.isCircBlocked %}TRUE{% else %}FALSE{%endif%}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">Verified:</div>
+        <div class="valueC">{% if wmscircpatroninfo.circulationInfo.isVerified %}TRUE{% else %}FALSE{%endif%}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">Email:</div>
+        <div class="valueC">{{emails[0].value}}</div>
+      </div>
+      <div class="divTableRow">
+        <div class="labelC">Adress</div>
+        <div class="valueC">
+          {{addresses[0].streetAddress}}<br/>
+          {{addresses[0].locality}}<br/>
+          {{addresses[0].region}}<br/>
+          {{addresses[0].postalCode}}<br/>
+          {{addresses[0].country}}
+        </div>
+      </div>{% for kv in correlationinfo.correlationInfo %}
+      <div class="divTableRow">
+        <div class="labelC">Other IDM</div>
+        <div class="valueC">{{kv.sourceSystem}}&nbsp;&nbsp;&nbsp;&nbsp;{{kv.idAtSource}}</div>
+      </div>{% endfor %}
+
+
+
+    </div>
+  </div>
 </div>
