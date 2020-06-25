@@ -1,16 +1,27 @@
 # OCLC Services
 
 This repository contains PHP libraries for communicating with OCLC's WMS via API's. 
-For each library a test is provided in the subdirectory TEST.
 
 The subdirectories:
-* apps: simple demo apps, at the moment only circulation (patron lookup & display, hold and cancel hold)
+* apps: simple demo apps (circulation, self service checkin and checkout, user admin) and tests (availability online or physical; Knowledge Base; VIAF; FAST)
 * OCLC: helpers for authorization
-* SOLR: an example schema, and example PHP files for communicating with SOLR
-* TEST: test scripts for the libraries, TO DO: replace by simple demo apps
-* docs: some documentation other than in this md file
+* collman_templates: TWIG templates for the CollMan_Service library (collection management)
 * idm_templates: TWIG templates for the IDM_Service library
 * ncip_templates: TWIG templates for the NCIP library
+
+The libraries:
+* `OCLC_Service.php`: base class for the other libraries, mainly authorization
+* `Availability_Service.php`: availabiblity of collection items
+* `CollMan_Service.php`: collection management (LHR's)
+* `Discovery_Service.php`: access to WorldCat Discovery Services on institution level
+* `FAST_Service.php`: access to FAST 
+* `IDM_Service.php`: identity management functions (adding and updating patrons), uses `SCIM_JSON.php` 
+* `Metadata_Service.php`: access to BIB level metadata
+* `NCIP_Patron_Service.php`: circulation functions by patrons (status and holds)
+* `NCIP_Staff_Service.php`: circulation functions by staff members (mainly checkin and checkout)
+* `VIAF_Service.php`: access to VIAF 
+* `WorldCat_KB_Service.php`: access to OCLC's knowledge base
+
 
 Each library (VIAF_Service.php is the only exception) has a keys file with the 
 codes that must be used in the API calls. They are not provided in this repository. 
