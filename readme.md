@@ -30,6 +30,81 @@ This class, defined in OCLC_Service.php contains the knitty gritty of HMAC and t
 authorization. All classes described below are extensions of OCLC_Service.
 
 
+## WMS Availability API
+
+The class Availability_Service, defined in Availability_Service.php contains the following members and functions 
+
+| member |  description | 
+|---|---| 
+| `avail_xml` | holds the xml response of a get availability request |
+| `avail` | holds the json representation of the response of a get availability request  |
+
+| function |  description | returns | 
+|---|---|---| 
+|`avail_str($type)` | returns the availability information in a format, defined by $type (can be: json, xml or html) | string | 
+|`get_availabilty_of_ocn($ocn)` | gets availability information based on an ocn | TRUE/FALSE | 
+|`get_availabilty_query($query)` | gets availability information based on a query | TRUE/FALSE |
+|`get_circulation_info($ocn)` | gives only the holding information from the availability information | array |
+
+This class uses xml2json from OCLC_Service.php. The class can be used to chack "physical" availability of a publication.
+
+Usage :
+```
+   require_once './Availability_Service.php';
+   $avail = new Availability_Service('keys_availability.php');
+   $holding = $avail->get_circulation_info($ocn)
+   
+   /*
+   the complete response can be found in $avail->avail en in $avail->avail_xml
+   */
+```
+
+WMS Availability API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/wms-availability-api.en.html)
+
+## WMS Collection management API
+
+
+## WorldCat Discovery API
+ 
+The class Dicovery_Service, defined in Dicovery_Service.php contains the following members and functions.
+
+| member |  description | 
+|---|---| 
+| `read_headers` | holds an associative array with headers |
+| `record_xml` | holds the xml response of a read record request |
+| `record` | holds the json representation of the response of a read record request  |
+
+| function |  description | returns | 
+|---|---|---| 
+|`wcds_read_record($ocn)` | gets the record with the given ocn | TRUE/FALSE | 
+|`wcds_db_list()` | gets a list of database numbers and descriptions on which the institution is permitted to search | 
+
+This API supports several Accept headers.
+
+* application/rdf+xml
+* text/plain
+* text/turtle
+* application/ld+json
+* application/json (default in this class)
+
+To change the response format:
+
+```
+$discovery = new Discovery_Service('some_keys.php');
+$discovery->read_headers['Accept'] = 'text/turtle';
+$discovery->wcds_read_record($ocn);
+
+```
+### TODO
+Add and complete search functions. Improve `wcds_db_list`.
+
+WorldCat Discovery API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/worldcat-discovery-api.en.html).
+
+
+## FAST API
+ 
+
+
 ## WorldShare Identity Management API
 
 The class IDM_Service, defined in IDM_Service.php contains the following members and functions 
@@ -81,53 +156,26 @@ add function wms_delete (not a real delete but a change of data like "isCircBloc
 
 WorldShare Identity Management API at [OCLC website](https://www.oclc.org/developer/develop/web-services/worldshare-identity-management-api.en.html)
 
-## WMS Availability API
 
-The class Availability_Service, defined in Availability_Service.php contains the following members and functions 
+## WorldCat Metadata API
 
-| member |  description | 
-|---|---| 
-| `avail_xml` | holds the xml response of a get availability request |
-| `avail` | holds the json representation of the response of a get availability request  |
 
-| function |  description | returns | 
-|---|---|---| 
-|`get_availabilty_of_ocn($ocn)` | gets availability information based on an ocn | TRUE/FALSE | 
-|`get_availabilty_query($query)` | gets availability information based on a query | TRUE/FALSE |
-|`get_circulation_info($ocn)` | gives only the holding information from the availability information | array |
 
-This class uses xml2json from OCLC_Service.php. The class can be used to chack "physical" availability of a publication.
+## WMS NCIP Patron Service 
 
-Usage :
-```
-   require_once './Availability_Service.php';
-   $avail = new Availability_Service('keys_availability.php');
-   $holding = $avail->get_circulation_info($ocn)
-   
-   /*
-   the complete response can be found in $avail->avail en in $avail->avail_xml
-   */
-```
-
-WMS Availability API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/wms-availability-api.en.html)
-
-## WMS NCIP Service 
-
-The class NCIP_Service, defined in NCIP_Service.php contains the following members and functions.
+The class NCIP_Patron_Service, defined in NCIP_Patron_Service.php contains the following members and functions.
 
 | member |  description | 
 |---|---| 
-| `patron_xml` | holds the xml response of a lookup patron request |
-| `patron` | holds the json representation of the response of a lookup patron request  |
-| `request_xml` | holds the xml response of a request request (place hold request)|
-| `request` | holds the json representation of the response of a request request (place hold request) |
-| `cancel_xml` | holds the xml response of a cancel request request |
-| `cancel` | holds the json representation of the response of a cancel request request |
+| `response_xml` | holds the xml response of a request |
+| `response_json` | holds the json representation of the response of a request  |
 
 | function |  description | returns | 
 |---|---|---| 
+|`response_str($type = '')` | returns the response in a format, defined by $type (can be: json, xml or html) | string | 
 |`lookup_patron_ppid($ppid)` | gets the circulation information of a patron, uses the ppid of the patron | TRUE/FALSE | 
-|`request_biblevel($ppid, $ocn)` | adds a hold to WMS of the patron on the publication with the ocn provided | TRUE/FALSE | 
+|`request_biblevel($ppid, $ocn)` | sends a hold request to WMS of the patron on the publication with the ocn provided | TRUE/FALSE | 
+|`request_itemlevel($ppid, $ocn)` | sends a hold request to WMS of the patron on the publication item with the ocn provided | TRUE/FALSE | 
 |`cancel_request($ppid, $request_id` | cancels the request with the given requestId | TRUE/FALSE | 
 |`renew_item_of_patron($ppid, $itemid)` |  | TRUE/FALSE | 
 |`renew_all_items_of_patron($ppid)` |  | TRUE/FALSE | 
@@ -137,6 +185,29 @@ If a library uses automatic renewal, then the renew_ functions are not of much u
 The class can be used to check the circulation status of a user and to place and cancel hold requests.
 
 WMS NCIP Service at [OCLC Website](https://www.oclc.org/developer/develop/web-services/wms-ncip-service.en.html). 
+
+# WMS NCIP Staff Service 
+
+The class NCIP_Staff_Service, defined in NCIP_Staff_Service.php contains the following members and functions.
+
+| member |  description | 
+|---|---| 
+| `response_xml` | holds the xml response of a request |
+| `response_json` | holds the json representation of the response of a request  |
+
+| function |  description | returns | 
+|---|---|---| 
+|`response_str($type = '')` | returns the response in a format, defined by $type (can be: json, xml or html) | string | 
+|`checkout_barcode($user_barcode, $item_barcode)` | checks out a library collection item | TRUE/FALSE | 
+|`checkin_barcode($barcode)` | checks in a library collection item | TRUE/FALSE | 
+
+
+The class can be used in a self scan setup.
+
+WMS NCIP Service at [OCLC Website](https://www.oclc.org/developer/develop/web-services/wms-ncip-service.en.html). 
+
+
+## VIAF API 
 
 
 ## WorldCat knowledge base API
@@ -170,46 +241,6 @@ Usage:
 ```
 
 WorldCat knowledge base API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/worldcat-knowledge-base-api.en.html). 
-
-## WorldCat Discovery API
- 
-The class Dicovery_Service, defined in Dicovery_Service.php contains the following members and functions.
-
-| member |  description | 
-|---|---| 
-| `read_headers` | holds an associative array with headers |
-| `record_xml` | holds the xml response of a read record request |
-| `record` | holds the json representation of the response of a read record request  |
-
-| function |  description | returns | 
-|---|---|---| 
-|`wcds_read_record($ocn)` | gets the record with the given ocn | TRUE/FALSE | 
-|`wcds_db_list()` | gets a list of database numbers and descriptions on which the institution is permitted to search | 
-
-This API supports several Accept headers.
-
-* application/rdf+xml
-* text/plain
-* text/turtle
-* application/ld+json
-* application/json (default in this class)
-
-To change the response format:
-
-```
-$discovery = new Discovery_Service('some_keys.php');
-$discovery->read_headers['Accept'] = 'text/turtle';
-$discovery->wcds_read_record($ocn);
-
-```
-### TODO
-Add and complete search functions. Improve `wcds_db_list`.
-
-WorldCat Discovery API at [OCLC Website](https://www.oclc.org/developer/develop/web-services/worldcat-discovery-api.en.html).
-
-
-## VIAF
-
 
 
 ## XML2JSON

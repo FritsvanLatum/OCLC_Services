@@ -49,7 +49,7 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('bc_list',$_GET))
           //checkout
           $barcodes = explode(',',$bc_list);
           foreach ($barcodes as $c) { 
-            $ncip->checkout($user_barcode, $item_barcode);
+            $ncip->checkout_barcode($user_barcode, $item_barcode);
             echo $ncip->response_str('html');
           }
         }

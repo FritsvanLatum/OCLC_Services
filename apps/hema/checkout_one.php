@@ -51,7 +51,7 @@ if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_
       <?php
       if (array_key_exists('user_barcode',$_GET) && array_key_exists('item_barcode',$_GET)) {
         //checkout_one
-        $ncip->checkout($user_barcode, $item_barcode);
+        $ncip->checkout_barcode($user_barcode, $item_barcode);
         echo $ncip->response_str('html');
       }
       ?>

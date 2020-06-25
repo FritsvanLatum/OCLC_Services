@@ -111,7 +111,7 @@ class NCIP_Staff_Service extends OCLC_Service {
     }
   }
 
-  public function checkout($user_barcode, $item_barcode) {
+  public function checkout_barcode($user_barcode, $item_barcode) {
     //WMS_NCIP
     $xml = file_get_contents(__DIR__.'/ncip_templates/checkout_request_template.xml');
     $xml = str_replace('{{user_barcode}}', $user_barcode , $xml);
