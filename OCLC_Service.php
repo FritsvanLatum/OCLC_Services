@@ -16,8 +16,8 @@ class OCLC_Service {
   private $secret = null;
   private $ppid = null;
 
-  private $authorizationHeader = '';
   private $token_authorization = '';
+  private $authorizationHeader = '';
 
   public $institution = "57439";
   public $defaultBranch = "262638";

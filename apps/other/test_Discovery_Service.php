@@ -7,7 +7,7 @@
 
   <body>
     <?php
-    require_once '../Discovery_Service.php';
+    require_once '../../Discovery_Service.php';
     $discovery = new Discovery_Service('keys_discovery.php');
     $ocn = isset($_POST['ocn']) ? $_POST['ocn'] : '887933119';
     $response = isset($_POST['response']) ? $_POST['response'] : 'application/json';

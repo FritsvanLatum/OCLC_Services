@@ -7,7 +7,7 @@
 
   <body>
     <?php
-    require_once '../FAST_Service.php';
+    require_once '../../FAST_Service.php';
     $fast = new FAST_Service();
     $no = isset($_POST['no']) ? $_POST['no'] : '12345';
     //$response = isset($_POST['response']) ? $_POST['response'] : 'justlinks.json';

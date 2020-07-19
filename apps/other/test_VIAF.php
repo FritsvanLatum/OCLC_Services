@@ -7,7 +7,7 @@
 
   <body>
     <?php
-    require_once '../VIAF_Service.php';
+    require_once '../../VIAF_Service.php';
     $viaf = new VIAF_Service();
     $no = isset($_POST['no']) ? $_POST['no'] : '102333412';
     $response = isset($_POST['response']) ? $_POST['response'] : 'justlinks.json';

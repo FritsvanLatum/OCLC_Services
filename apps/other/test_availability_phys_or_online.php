@@ -8,9 +8,9 @@
 
   <body>
     <?php
-    require_once '../Availability_Service.php';
+    require_once '../../Availability_Service.php';
     $avail = new Availability_Service('keys_availability.php');
-    require_once '../WorldCat_KB_Service.php';
+    require_once '../../WorldCat_KB_Service.php';
     $KB = new WorldCat_KB_Service('keys_worldcat_kb.php');
     
     /*
@@ -20,7 +20,7 @@
     and to a script that collects online availability (uses WorldCat_KB_Service)
     
     */
-    $ocns = ['887933119','402543568','887933119','1019254132'];
+    $ocns = ['1046977818'];
 
     foreach ($ocns as $ocn) {
       ?>
